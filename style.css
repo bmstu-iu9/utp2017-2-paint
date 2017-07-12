@@ -6,17 +6,17 @@ padding: 1em;
 font: 1em Arial, Helvetica, sans-serif;
 }
 
-#navigation, #nav {
+#tools, #nav {
 width: 200px;
 }
 
-#navigation ul, #nav ul {
+#tools ul, #nav ul {
 list-style: none;
 margin: 0;
 padding: 0;
 }
 
-#navigation li button:hover {
+#tools li button:hover {
 background-color: #FF4040;
 color: #FFFFFF;
 }
@@ -27,7 +27,7 @@ color: #FFFFFF;
 }
 
 
-#navigation li button {
+#tools li button {
 font-size: 90%;
 display: block;
 padding: 0.4em 0.4em 0.4em 0.4em;
