@@ -1,0 +1,57 @@
+body {
+background-color: #FFFFFF;
+color: #000000;
+margin: 0;
+padding: 1em;
+font: 1em Arial, Helvetica, sans-serif;
+}
+
+#navigation, #nav {
+width: 200px;
+}
+
+#navigation ul, #nav ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+
+#navigation li button:hover {
+background-color: #FF4040;
+color: #FFFFFF;
+}
+
+#nav li button:hover {
+background-color: #35C0CD;
+color: #FFFFFF;
+}
+
+
+#navigation li button {
+font-size: 90%;
+display: block;
+padding: 0.4em 0.4em 0.4em 0.4em;
+border-left: 12px solid #711515;
+border-right: 12px solid #711515;
+background-color: #B51032;
+color: #FFFFFF;
+text-decoration: none;
+cursor: pointer;
+}
+
+#nav li button {
+font-size: 90%;
+display: block;
+padding: 0.4em 0.4em 0.4em 0.4em;
+border-left: 12px solid #0772A1;
+border-right: 12px solid #0772A1;
+background-color: #3C9DD0;
+color: #FFFFFF;
+text-decoration: none;
+cursor: pointer;
+}
+
+canvas {
+   max-width: 100%;
+   height: auto;
+}
