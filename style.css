@@ -1,5 +1,5 @@
 body {
-background-color: #FFFFFF;
+background: linear-gradient(to top, #808080, #000);
 color: #000000;
 margin: 0;
 padding: 1em;
@@ -17,12 +17,12 @@ padding: 0;
 }
 
 #tools li button:hover {
-background-color: #FF4040;
+background: #FF4040;
 color: #FFFFFF;
 }
 
 #nav li button:hover {
-background-color: #35C0CD;
+background: #35C0CD;
 color: #FFFFFF;
 }
 
@@ -33,10 +33,13 @@ display: block;
 padding: 0.4em 0.4em 0.4em 0.4em;
 border-left: 12px solid #711515;
 border-right: 12px solid #711515;
-background-color: #B51032;
+background-color: #C0C0C0;
+background: linear-gradient(to bottom right, #C0C0C0, #A9A9A9);
 color: #FFFFFF;
 text-decoration: none;
 cursor: pointer;
+border: 1px solid #333; 
+border-radius: 3px; 
 }
 
 #nav li button {
@@ -45,10 +48,13 @@ display: block;
 padding: 0.4em 0.4em 0.4em 0.4em;
 border-left: 12px solid #0772A1;
 border-right: 12px solid #0772A1;
-background-color: #3C9DD0;
+background-color: #C0C0C0;
+background: linear-gradient(to bottom right, #DCDCDC, #D3D3D3);
 color: #FFFFFF;
 text-decoration: none;
 cursor: pointer;
+border: 1px solid #333; 
+border-radius: 3px; 
 }
 
 canvas {
