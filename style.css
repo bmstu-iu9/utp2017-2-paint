@@ -17,7 +17,7 @@ padding: 0;
 }
 
 #tools li button:hover {
-background: #FF4040;
+background: #87CEEB;
 color: #FFFFFF;
 }
 
@@ -26,8 +26,33 @@ background: #35C0CD;
 color: #FFFFFF;
 }
 
+ul.submenu {
+    display: none;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 16px;
+    top: 486px;
+    background-color: #000;
+    font-size: 90%;
+}
 
-#tools li button {
+ul.submenu > li {
+    display: block;
+}
+
+ul.submenu > li > button {
+    display: block;
+    padding: 10px;
+    color: #000;
+    background-color: #DCDCDC;
+}
+
+ul.menu > li:hover > ul.submenu {
+    display: block;
+}
+
+ul.menu li button {
 font-size: 90%;
 display: block;
 padding: 0.4em 0.4em 0.4em 0.4em;
