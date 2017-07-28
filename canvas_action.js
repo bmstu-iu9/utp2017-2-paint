@@ -64,7 +64,7 @@ c.onmouseleave = function( event ) { endDrawing( event ) };
 /// Когда появятся другие элементы(круг и тд) должно быть изменено
 function startDrawing( event ) {
     curObject = new Line( pos.x, pos.y, pos.x, pos.y );
-    curDrawing = setInterval( changeAndDraw, 50 );
+    curDrawing = setInterval( changeAndDraw, 1 );
 }
 
 
