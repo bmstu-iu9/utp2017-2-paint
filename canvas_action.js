@@ -75,7 +75,7 @@ c.onmouseup = endDrawing;
 document.onmousemove = trackPosition;
 /// Необходимо, тк были проблемы с выходом курсора с canvas
 c.onmouseleave = function( event ) { endDrawing( event ) };
-
+c.onmouseenter = function( event ) { window.getSelection().removeAllRanges(); };
 
 /// Когда появятся другие элементы(круг и тд) должно быть изменено
 function startDrawing( event ) {
