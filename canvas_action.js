@@ -52,14 +52,21 @@ function trackPosition( event ) {
 
 
 var curDrawing;
-var curObject;
+var curObject = null;
+var objects = [];
+var curPos = 0;
+
+localStorage.setItem( "objects", objects );
+localStorage.setItem( "curPos", curPos );
 
 c.onmousedown = startDrawing;
 c.onmouseup = endDrawing;
 c.onmousemove = trackPosition;
 /// Необходимо, тк были проблемы с выходом курсора с canvas
-c.onmouseleave = function( event ) { endDrawing( event ) };
+c.onmouseleave = function( event ) { endDrawing( event ); console.log( "shit" ); };
 c.onmouseenter = function( event ) { window.getSelection().removeAllRanges(); };
+
+
 
 /// Когда появятся другие элементы(круг и тд) должно быть изменено
 function startDrawing( event ) {
@@ -76,8 +83,22 @@ function changeAndDraw() {
 
 /// Переносит результат на bottomCanvas
 function endDrawing( event ) {
-    curObject.drawBottom();
-    clearInterval( curDrawing );
+    if ( curObject ) {
+        curObject.drawBottom();
+        ctx.clearRect( 0, 0, c.width, c.height );
+        curPos = curPos > 0 ? curPos : 0;
+        objects = objects.slice( 0, curPos );
+        console.log( objects );
+        objects.push( curObject );
+        clearInterval( curDrawing );
+
+        curPos = objects.length;
+        curObject = null;
+        curDrawing = null;
+
+        localStorage.setItem( "objects", objects );
+        localStorage.setItem( "curPos", curPos );
+    }
 }
 
 
