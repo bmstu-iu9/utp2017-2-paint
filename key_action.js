@@ -8,10 +8,8 @@ var bottom_ctx = bottomCanvas.getContext( "2d" );
 
 
 function handleKeyDown( evt ) {
-    console.log( evt.keyCode );
     if ( evt.keyCode === 90 && evt.ctrlKey ) {
         undo();
-        console.log( "why" );
     }
 
     if (evt.keyCode === 89 && evt.ctrlKey ) {
