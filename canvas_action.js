@@ -118,3 +118,7 @@ function getPos( event ) {
         y : event.clientY - rect.top
     };
 }
+
+function save(){
+    window.open(bottomCanvas.toDataURL('image/png'), 'new_window');
+}
