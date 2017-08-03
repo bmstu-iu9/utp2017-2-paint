@@ -46,6 +46,17 @@ var pos;
 
 function trackPosition( event ) {
     pos = getPos( event );
+//отображение координат на канвасе
+    var coords_on_move = document.getElementById('mouse_coords_on_move');
+    if ( pos.x <= c.width && pos.y <= c.height &&
+        pos.x >= 0 && pos.y >= 0) {
+        coords_on_move.style.display = 'block';
+        coords_on_move.innerHTML =
+        'X: ' + pos.x +  
+        ', Y: ' + pos.y + ', px';
+    } else {
+        coords_on_move.style.display = 'none';
+    }
 }
 
 
@@ -61,12 +72,10 @@ localStorage.setItem( "curPos", curPos );
 
 c.onmousedown = startDrawing;
 c.onmouseup = endDrawing;
-c.onmousemove = trackPosition;
+document.onmousemove = trackPosition;
 /// Необходимо, тк были проблемы с выходом курсора с canvas
-c.onmouseleave = function( event ) { endDrawing( event ); };
+c.onmouseleave = function( event ) { endDrawing( event ) };
 c.onmouseenter = function( event ) { window.getSelection().removeAllRanges(); };
-
-
 
 /// Когда появятся другие элементы(круг и тд) должно быть изменено
 function startDrawing( event ) {
