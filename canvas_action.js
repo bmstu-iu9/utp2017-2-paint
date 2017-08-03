@@ -1,16 +1,11 @@
 "use strict";
 
 
-//var c = document.getElementById( "topCanvas" );
-//var ctx = c.getContext( "2d" );
-
-//var bottomCanvas = document.getElementById( "bottomCanvas" );
-//var bottom_ctx = bottomCanvas.getContext( "2d" );
 var c = document.getElementById( "topCanvas" );
-var bottom_ctx = c.getContext( "2d" );
+var ctx = c.getContext( "2d" );
 
 var bottomCanvas = document.getElementById( "bottomCanvas" );
-var ctx = bottomCanvas.getContext( "2d" );
+var bottom_ctx = bottomCanvas.getContext( "2d" );
 
 /// Изначально пытался запихнать Line в отделтный файл objects.js,
 /// но не получилось импортировать класс от туда.
@@ -25,7 +20,6 @@ class Line {
     }
 
     drawTop() {
-        console.log('drawtop');
         ctx.beginPath();
         ctx.moveTo( this.pos1x, this.pos1y );
         ctx.lineTo( this.pos2x, this.pos2y );
@@ -34,7 +28,6 @@ class Line {
     }
 
     drawBottom() {
-        console.log('drawbot');
         bottom_ctx.beginPath();
         bottom_ctx.moveTo( this.pos1x, this.pos1y );
         bottom_ctx.lineTo( this.pos2x, this.pos2y );
@@ -68,7 +61,14 @@ function trackPosition( event ) {
 
 
 var curDrawing;
-var curObject;
+var curObject = null;
+var objects = [];
+var curPos = 0;
+
+/// Изначально было задуманно для передачи данных межу файлами, но вроде
+/// и без этого работает
+localStorage.setItem( "objects", objects );
+localStorage.setItem( "curPos", curPos );
 
 c.onmousedown = startDrawing;
 c.onmouseup = endDrawing;
@@ -79,14 +79,12 @@ c.onmouseenter = function( event ) { window.getSelection().removeAllRanges(); };
 
 /// Когда появятся другие элементы(круг и тд) должно быть изменено
 function startDrawing( event ) {
-    console.log('start');
     curObject = new Line( pos.x, pos.y, pos.x, pos.y );
     curDrawing = setInterval( changeAndDraw, 1 );
 }
 
 
 function changeAndDraw() {
-    console.log('change delete');
     curObject.set2( pos.x, pos.y );
     ctx.clearRect( 0, 0, c.width, c.height );
     curObject.drawTop();
@@ -94,9 +92,21 @@ function changeAndDraw() {
 
 /// Переносит результат на bottomCanvas
 function endDrawing( event ) {
-    console.log('end');
-    curObject.drawBottom();
-    clearInterval( curDrawing );
+    if ( curObject ) {
+        curObject.drawBottom();
+        ctx.clearRect( 0, 0, c.width, c.height );
+        curPos = curPos > 0 ? curPos : 0;
+        objects = objects.slice( 0, curPos );
+        objects.push( curObject );
+        clearInterval( curDrawing );
+
+        curPos = objects.length;
+        curObject = null;
+        curDrawing = null;
+
+        localStorage.setItem( "objects", objects );
+        localStorage.setItem( "curPos", curPos );
+    }
 }
 
 
@@ -107,4 +117,8 @@ function getPos( event ) {
         x : event.clientX - rect.left,
         y : event.clientY - rect.top
     };
+}
+
+function save(){
+    window.open(bottomCanvas.toDataURL('image/png'), 'new_window');
 }
