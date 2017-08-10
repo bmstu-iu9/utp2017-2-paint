@@ -167,8 +167,15 @@ c.onmousedown = startDrawing;
 c.onmouseup = endDrawing;
 c.onmousemove = trackPosition;
 /// Необходимо, тк были проблемы с выходом курсора с canvas
+<<<<<<< HEAD
 c.onmouseleave = function( event ) { endDrawing( event ) };
 c.onmouseenter = function( event ) { window.getSelection().removeAllRanges(); };
+=======
+c.onmouseleave = function( event ) { endDrawing( event ); };
+c.onmouseenter = function( event ) { window.getSelection().removeAllRanges(); };
+
+
+>>>>>>> 9b91982c56f8e287d4adb432d5d704e660afa3d5
 
 /// Когда появятся другие элементы(круг и тд) должно быть изменено
 function startDrawing( event ) {
