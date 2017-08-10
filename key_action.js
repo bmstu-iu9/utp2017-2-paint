@@ -12,8 +12,16 @@ function handleKeyDown( evt ) {
         undo();
     }
 
-    if (evt.keyCode === 89 && evt.ctrlKey ) {
+    if ( evt.keyCode === 89 && evt.ctrlKey ) {
         redo();
+    }
+
+    if ( evt.keyCode === 76 ) {
+        curStyle = "Line";
+    }
+
+    if ( evt.keyCode === 80 ) {
+        curStyle = "Pensil";
     }
 };
 
