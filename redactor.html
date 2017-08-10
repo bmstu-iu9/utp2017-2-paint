@@ -101,10 +101,10 @@
 	   opacity: 0;
 	}
 	.file-upload {
-     position: relative; /* Даем возможность делать позиционирование, внутри данного элемента */
-     overflow: hidden; /* Все что выходит за пределы - скрываем */
-     width: 35px; /* Задаем ширину кнопки выбора файла */
-     height: 25px; /* Задаем высоту кнопки выбора файла */ 
+     position: relative; 
+     overflow: hidden; 
+     width: 35px; 
+     height: 25px; 
      background-color: #C0C0C0;
     background: linear-gradient(to bottom right, #DCDCDC, #D3D3D3);
     color: #FFFFFF;
@@ -117,10 +117,9 @@
     color: #FFFFFF;
 }
 .file-upload input[type="file"]{
-    display: none; /* Обязательно скрываем настоящий Input File */
+    display: none;
 }
 .file-upload label {
-     /* Растягиваем label на всю возможную площадь блока .file-upload */
      display: block;
      position: absolute;
      top: 0;
@@ -130,7 +129,7 @@
      cursor: pointer;
 }
 .file-upload span {
-     line-height: 36px; /* Делаем вертикальное выравнивание текста, который написан на кнопке */
+     line-height: 36px;
 }
 	</style>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -147,7 +146,7 @@
      </label>
 </div></li>
               <li>
-              <button id ="save" title="Сохранить"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAG/SURBVFiF7Ze/axRRFIW/EyNYWFhJQNhaA4qlhVinlECwsrRQQkRtrCStRTRIrCxCOtEthvwDNoKxMNFCdrHSgJhGEyUJSAjHIm9gHGazj5m32SYHLjNz333vflzerwHIAB+BzdumbKMc6A3wjP/1GFgDXlJfT4H3wFtgTpJs3y0G5ADrtrNig6SHQLfsr5KkE8DNgmvbdlvSbBhjQdI68DpAzJQBmuoksAhshjF/Ae1igO1lSVMBYsT2NMBIIoBck8CjXo22l4Ep4Jak55KUqgLRKlYC+Jm6AtEQwCvgUmqAFnA2MnYf0k3CXEvh+S22QyqAv8CFwvdeKoAJSWfqEEkCONcEYBUYBy7XAQj6DHytBWD7ToPE0RrKMjwGKKpyDkg6NYBce7b3+wJIGgN+DADgHjDfF6DUoZso+YteDYcBrNheSZFd0k4dgLzzbeBGyf3B9oOmYFEAwBfgY8n3KUXyWIB3wPeyU9J5YMP2VhOAmH3gCdDpYZmkq5I6dQFiKnCfiuUTtGF7S9KVgQHY3qXPcrT9uy7A0LfiY4ChA+STsCXpenjP74DXwsGUQqeBi4UccHCF/wNH93teZdk/X9zGrzfK1hIAAAAASUVORK5CYII=" width="30" height="30"
+              <button id ="save" title="Сохранить" onclick="save()"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAG/SURBVFiF7Ze/axRRFIW/EyNYWFhJQNhaA4qlhVinlECwsrRQQkRtrCStRTRIrCxCOtEthvwDNoKxMNFCdrHSgJhGEyUJSAjHIm9gHGazj5m32SYHLjNz333vflzerwHIAB+BzdumbKMc6A3wjP/1GFgDXlJfT4H3wFtgTpJs3y0G5ADrtrNig6SHQLfsr5KkE8DNgmvbdlvSbBhjQdI68DpAzJQBmuoksAhshjF/Ae1igO1lSVMBYsT2NMBIIoBck8CjXo22l4Ep4Jak55KUqgLRKlYC+Jm6AtEQwCvgUmqAFnA2MnYf0k3CXEvh+S22QyqAv8CFwvdeKoAJSWfqEEkCONcEYBUYBy7XAQj6DHytBWD7ToPE0RrKMjwGKKpyDkg6NYBce7b3+wJIGgN+DADgHjDfF6DUoZso+YteDYcBrNheSZFd0k4dgLzzbeBGyf3B9oOmYFEAwBfgY8n3KUXyWIB3wPeyU9J5YMP2VhOAmH3gCdDpYZmkq5I6dQFiKnCfiuUTtGF7S9KVgQHY3qXPcrT9uy7A0LfiY4ChA+STsCXpenjP74DXwsGUQqeBi4UccHCF/wNH93teZdk/X9zGrzfK1hIAAAAASUVORK5CYII=" width="30" height="30"
                                                                         style="vertical-align: middle"></button></li>
          </ul>
       </div>

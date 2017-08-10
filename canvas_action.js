@@ -145,3 +145,7 @@ if(window.File && window.FileReader && window.FileList && window.Blob) {
 } else {
   alert('К сожалению ваш браузер не поддерживает file API');
 }
+
+function save(){
+     window.open(bottomCanvas.toDataURL('image/png'), 'new_window');
+ } 
