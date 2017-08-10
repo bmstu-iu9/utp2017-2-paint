@@ -89,16 +89,18 @@
 	   position: absolute;
 	   overflow: auto;
 	}
-	#bottomCanvas canvas{
+	#bottomCanvas canvas {
+	   position: absolute;
 	   max-width: 100%;
 	   height: auto;
-	   z-index: 0;
+	   z-index: 2;
 	}
 	#topCanvas canvas {
+	   position: absolute;
 	   max-width: 100%;
 	   height: auto;
-	   z-index: 1;
-	   opacity: 0;
+	   z-index: 3;
+	
 	}
 	</style>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -109,7 +111,7 @@
 	      <ul>
 	         <li><button id ="image" title="Открыть"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAInSURBVFiF7dfLi45xFAfwzxnjsnFLhKREE2nUuGwkpChNsbFyiSxs5RJZ8BfIZUcppGSLlMvGoMidwhARpUnJmI3lsXgfmnnNO807ed6x8K2nnvN7Tud8z/f3POc5v8hMw4mmYc3+LxAIjEA7tmJSSXkOYCp2FvZXnMWVZuzCChzBt5IIvMQovC/sidiNlkAnlmMdFpdEoBoPcQm3At2ZOSEiOnEU30tOPh67MnNuRHQrCFBRYmpmKvNSeRc6i/vuAb+CqGBOmXLUJBAR2/EC5yPiQUSsLYvEH1uAyXiFKYXdgtcY0agt2IQLmfkFMvMNHmP1366+FoFHWPTLiIhAK543hEBm3sa0iDgdERtxGc8y8/NgA0dEa0Q8K2JMqItAgaW4ilU4hs11JN+m0mj24xOeRkR7Lf+6+oDKC3kDBzG66tkYnMIdTO+13oanOIO5BtsHqqpqiog9uIjjKh3td2URMRt30YOVvbcrM59gCT7gZt0KYF4R/CTG9lqfj45CkY/YMAgFl/VWYEACKr/qA3iD1QME3YJ32IeRf6UVR0Qr7mEWFmXmjVq+mXkOCzEDDyNiei3f/tBHAYzEIbzFmiF0ugUYN1QF2nAfM7EwM6/XU0mhxvPM7Bmsf3OVfQI7MvNavYmHimoCKzPzfb+eJaF6C340Mjl/KrA+IhoxkvUh0BURU3BY44bSw0XOrsBe5Y/l1fg1lnc06mBSjd8Hk8j/h9Nhxk+g5fnMktJQdQAAAABJRU5ErkJggg==" width="30" height="30"
                                                                              style="vertical-align: middle"></button></li>
-              <li><button id ="save" title="Сохранить"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAG/SURBVFiF7Ze/axRRFIW/EyNYWFhJQNhaA4qlhVinlECwsrRQQkRtrCStRTRIrCxCOtEthvwDNoKxMNFCdrHSgJhGEyUJSAjHIm9gHGazj5m32SYHLjNz333vflzerwHIAB+BzdumbKMc6A3wjP/1GFgDXlJfT4H3wFtgTpJs3y0G5ADrtrNig6SHQLfsr5KkE8DNgmvbdlvSbBhjQdI68DpAzJQBmuoksAhshjF/Ae1igO1lSVMBYsT2NMBIIoBck8CjXo22l4Ep4Jak55KUqgLRKlYC+Jm6AtEQwCvgUmqAFnA2MnYf0k3CXEvh+S22QyqAv8CFwvdeKoAJSWfqEEkCONcEYBUYBy7XAQj6DHytBWD7ToPE0RrKMjwGKKpyDkg6NYBce7b3+wJIGgN+DADgHjDfF6DUoZso+YteDYcBrNheSZFd0k4dgLzzbeBGyf3B9oOmYFEAwBfgY8n3KUXyWIB3wPeyU9J5YMP2VhOAmH3gCdDpYZmkq5I6dQFiKnCfiuUTtGF7S9KVgQHY3qXPcrT9uy7A0LfiY4ChA+STsCXpenjP74DXwsGUQqeBi4UccHCF/wNH93teZdk/X9zGrzfK1hIAAAAASUVORK5CYII=" width="30" height="30"
+              <li><button id ="save" title="Сохранить" onclick="save()"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAG/SURBVFiF7Ze/axRRFIW/EyNYWFhJQNhaA4qlhVinlECwsrRQQkRtrCStRTRIrCxCOtEthvwDNoKxMNFCdrHSgJhGEyUJSAjHIm9gHGazj5m32SYHLjNz333vflzerwHIAB+BzdumbKMc6A3wjP/1GFgDXlJfT4H3wFtgTpJs3y0G5ADrtrNig6SHQLfsr5KkE8DNgmvbdlvSbBhjQdI68DpAzJQBmuoksAhshjF/Ae1igO1lSVMBYsT2NMBIIoBck8CjXo22l4Ep4Jak55KUqgLRKlYC+Jm6AtEQwCvgUmqAFnA2MnYf0k3CXEvh+S22QyqAv8CFwvdeKoAJSWfqEEkCONcEYBUYBy7XAQj6DHytBWD7ToPE0RrKMjwGKKpyDkg6NYBce7b3+wJIGgN+DADgHjDfF6DUoZso+YteDYcBrNheSZFd0k4dgLzzbeBGyf3B9oOmYFEAwBfgY8n3KUXyWIB3wPeyU9J5YMP2VhOAmH3gCdDpYZmkq5I6dQFiKnCfiuUTtGF7S9KVgQHY3qXPcrT9uy7A0LfiY4ChA+STsCXpenjP74DXwsGUQqeBi4UccHCF/wNH93teZdk/X9zGrzfK1hIAAAAASUVORK5CYII=" width="30" height="30"
                                                                         style="vertical-align: middle"></button></li>
          </ul>
       </div>
@@ -155,7 +157,7 @@
 	   <div id = "canvas1"> <canvas id="bottomCanvas" style="border:1px solid #000000; background:white;" width="800" height="450"></canvas> </div>
 	   <div id = "canvas2"> <canvas id="topCanvas" style="border:1px solid #000000;" width="800" height="450"></canvas> </div>
 	</div>
-	<div id="mouse_coords_on_move" style=" display : none ;position : fixed; border: 1px solid #000000;padding-left: 3px; margin-left: 64px; margin-top: 447px; width: 130px ; height:18px; background: grey"></div>
+	<div id="mouse_coords_on_move" style=" display : none ;position : fixed; border: 1px solid #000000;padding-left: 3px; margin-left: 64px; margin-top: 447px; width: 150px ; height:18px; background: grey"></div>
     <script src = "canvas_action.js"></script>
 	<script src = "key_action.js"></script>
 </body>
