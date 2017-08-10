@@ -156,7 +156,7 @@ var curDrawing;
 var curObject = null;
 var objects = [];
 var curPos = 0;
-var curStyle = "Line";
+var curStyle = "Pensil";
 
 /// Изначально было задуманно для передачи данных межу файлами, но вроде
 /// и без этого работает
@@ -214,34 +214,31 @@ function getPos( event ) {
 }
 
 function onFilesSelect(e) {
-  var files = e.target.files,fr,file;
-  //for(var i = 0; i < files.length; i++) {    
-    file = files[0];
-    if(/image.*/.test(file.type)) {
-      fr = new FileReader();
-      fr.readAsDataURL(file);
-      fr.onload = (function (file) {
-        return function (e) {       
-          var img = new Image(),             
-            s, td;       
-          img.src = e.target.result;
-          var img_obj = new Img(0,0,bottomCanvas.width,bottomCanvas.height,img);
-          if(img.complete) {
-            //bottom_ctx.drawImage(img,0,0,bottomCanvas.width,bottomCanvas.height);
+  var files = e.target.files,fr,file;   
+  file = files[0];
+  if(/image.*/.test(file.type)) {
+    fr = new FileReader();
+    fr.readAsDataURL(file);
+    fr.onload = (function (file) {
+      return function (e) {       
+        var img = new Image(),             
+          s, td;       
+        img.src = e.target.result;
+        var img_obj = new Img(0,0,bottomCanvas.width,bottomCanvas.height,img);
+        if(img.complete) {
+          img_obj.drawBottom();
+        } else {
+          img.onload =  function () {
             img_obj.drawBottom();
-          } else {
-            img.onload =  function () {
-              //bottom_ctx.drawImage(img,0,0,bottomCanvas.width,bottomCanvas.height);
-              img_obj.drawBottom();
-            }
           }
- 
         }
-      }) (file);
-    } else {
-      alert('Файл не является изображением');
-    }      
-  //} 
+        objects.push( img_obj );
+        curPos++;
+      }
+    }) (file);
+  } else {
+    alert('Файл не является изображением');
+  }      
 }
  
 if(window.File && window.FileReader && window.FileList && window.Blob) {
@@ -252,7 +249,14 @@ if(window.File && window.FileReader && window.FileList && window.Blob) {
   alert('К сожалению ваш браузер не поддерживает file API');
 }
 
-function save(){
-    //window.open(bottomCanvas.toDataURL('image/png'), 'new_window');
-    //window.location = bottomCanvas.toDataURL();
- } 
+function save() {
+	var im = document.getElementById('for_save_place');
+	im.src=bottomCanvas.toDataURL('image/png');
+	im.onload = function () {
+		document.getElementById('for_save_block').style.display='block';
+	}
+}
+
+function done() {
+	document.getElementById('for_save_block').style.display='none';
+} 
