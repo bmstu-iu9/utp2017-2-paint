@@ -10,13 +10,34 @@ var bottom_ctx = bottomCanvas.getContext( "2d" );
 /// Изначально пытался запихнать Line в отделтный файл objects.js,
 /// но не получилось импортировать класс от туда.
 /// Если есть варинат как сделать тнадо сделать
-class Line {
+
+class Form {
 
     constructor( pos1x, pos1y, pos2x, pos2y ) {
         this.pos1x = pos1x;
         this.pos1y = pos1y;
         this.pos2x = pos2x;
         this.pos2y = pos2y;
+    }
+
+    drawTop() {
+    	alert('T');
+    }
+
+    drawBottom() {
+    	alert('B');
+    }
+
+    set2( pos2x, pos2y ) {
+        this.pos2x = pos2x;
+        this.pos2y = pos2y;
+    }
+}
+
+class Line extends Form {
+
+    constructor( pos1x, pos1y, pos2x, pos2y ) {
+        super( pos1x, pos1y, pos2x, pos2y );
     }
 
     drawTop() {
@@ -34,10 +55,22 @@ class Line {
         bottom_ctx.stroke();
         bottom_ctx.closePath();
     }
+}
 
-    set2( pos2x, pos2y ) {
-        this.pos2x = pos2x;
-        this.pos2y = pos2y;
+class Img extends Form {
+	constructor( pos1x, pos1y, pos2x, pos2y , image ) {
+        super( pos1x, pos1y, pos2x, pos2y );
+        this.image = image;
+    }
+
+    drawTop() {
+        ctx.drawImage(this.image ,this.pos1x ,this.pos1y ,
+        	this.pos1x + this.pos2x ,this.pos1y + this.pos2y);
+    }
+
+    drawBottom() {
+        bottom_ctx.drawImage(this.image ,this.pos1x ,this.pos1y ,
+        	this.pos1x + this.pos2x ,this.pos1y + this.pos2y);
     }
 }
 
@@ -112,8 +145,8 @@ function getPos( event ) {
 
 function onFilesSelect(e) {
   var files = e.target.files,fr,file;
-  for(var i = 0; i < files.length; i++) {    
-    file = files[i];
+  //for(var i = 0; i < files.length; i++) {    
+    file = files[0];
     if(/image.*/.test(file.type)) {
       fr = new FileReader();
       fr.readAsDataURL(file);
@@ -122,11 +155,14 @@ function onFilesSelect(e) {
           var img = new Image(),             
             s, td;       
           img.src = e.target.result;
+          var img_obj = new Img(0,0,bottomCanvas.width,bottomCanvas.height,img);
           if(img.complete) {
-            bottom_ctx.drawImage(img,0,0,bottomCanvas.width,bottomCanvas.height);
+            //bottom_ctx.drawImage(img,0,0,bottomCanvas.width,bottomCanvas.height);
+            img_obj.drawBottom();
           } else {
             img.onload =  function () {
-              bottom_ctx.drawImage(img,0,0,bottomCanvas.width,bottomCanvas.height);
+              //bottom_ctx.drawImage(img,0,0,bottomCanvas.width,bottomCanvas.height);
+              img_obj.drawBottom();
             }
           }
  
@@ -135,7 +171,7 @@ function onFilesSelect(e) {
     } else {
       alert('Файл не является изображением');
     }      
-  } 
+  //} 
 }
  
 if(window.File && window.FileReader && window.FileList && window.Blob) {
