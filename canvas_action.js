@@ -183,5 +183,6 @@ if(window.File && window.FileReader && window.FileList && window.Blob) {
 }
 
 function save(){
-     window.open(bottomCanvas.toDataURL('image/png'), 'new_window');
+    //window.open(bottomCanvas.toDataURL('image/png'), 'new_window');
+    //window.location = bottomCanvas.toDataURL();
  } 
