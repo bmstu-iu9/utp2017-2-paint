@@ -15,7 +15,8 @@ var objNameSpace = {};
 /// Изначально пытался запихнать Line в отделтный файл objects.js,
 /// но не получилось импортировать класс от туда.
 /// Если есть варинат как сделать тнадо сделать
-class Line {
+
+class Form {
 
     constructor( pos1x, pos1y, pos2x, pos2y ) {
         this.pos1x = pos1x;
@@ -23,6 +24,26 @@ class Line {
         this.pos2x = pos2x;
         this.pos2y = pos2y;
         this.type = "figure";
+    }
+
+    drawTop() {
+    	alert('T');
+    }
+
+    drawBottom() {
+    	alert('B');
+    }
+
+    set2( pos2x, pos2y ) {
+        this.pos2x = pos2x;
+        this.pos2y = pos2y;
+    }
+}
+
+class Line extends Form {
+
+    constructor( pos1x, pos1y, pos2x, pos2y ) {
+        super( pos1x, pos1y, pos2x, pos2y );
     }
 
     drawTop() {
@@ -40,10 +61,22 @@ class Line {
         bottom_ctx.stroke();
         bottom_ctx.closePath();
     }
+}
 
-    set2( pos2x, pos2y ) {
-        this.pos2x = pos2x;
-        this.pos2y = pos2y;
+class Img extends Form {
+	constructor( pos1x, pos1y, pos2x, pos2y , image ) {
+        super( pos1x, pos1y, pos2x, pos2y );
+        this.image = image;
+    }
+
+    drawTop() {
+        ctx.drawImage(this.image ,this.pos1x ,this.pos1y ,
+        	this.pos1x + this.pos2x ,this.pos1y + this.pos2y);
+    }
+
+    drawBottom() {
+        bottom_ctx.drawImage(this.image ,this.pos1x ,this.pos1y ,
+        	this.pos1x + this.pos2x ,this.pos1y + this.pos2y);
     }
 }
 
@@ -105,7 +138,8 @@ var pos;
 
 function trackPosition( event ) {
     pos = getPos( event );
-//отображение координат на канвасе
+    window.getSelection().removeAllRanges();
+    //отображение координат на канвасе
     var coords_on_move = document.getElementById('mouse_coords_on_move');
     if ( pos.x <= c.width && pos.y <= c.height &&
         pos.x >= 0 && pos.y >= 0) {
@@ -123,7 +157,7 @@ var curDrawing;
 var curObject = null;
 var objects = [];
 var curPos = 0;
-var curStyle = "Line";
+var curStyle = "Pensil";
 
 /// Изначально было задуманно для передачи данных межу файлами, но вроде
 /// и без этого работает
@@ -136,7 +170,6 @@ document.onmousemove = trackPosition;
 /// Необходимо, тк были проблемы с выходом курсора с canvas
 c.onmouseleave = function( event ) { endDrawing( event ) };
 c.onmouseenter = function( event ) { window.getSelection().removeAllRanges(); };
-
 /// Когда появятся другие элементы(круг и тд) должно быть изменено
 function startDrawing( event ) {
     curObject = new objNameSpace[ curStyle ]( pos.x, pos.y, pos.x, pos.y );
@@ -181,6 +214,50 @@ function getPos( event ) {
     };
 }
 
-function save(){
-    window.open(bottomCanvas.toDataURL('image/png'), 'new_window');
+function onFilesSelect(e) {
+  var files = e.target.files,fr,file;   
+  file = files[0];
+  if(/image.*/.test(file.type)) {
+    fr = new FileReader();
+    fr.readAsDataURL(file);
+    fr.onload = (function (file) {
+      return function (e) {       
+        var img = new Image(),             
+          s, td;       
+        img.src = e.target.result;
+        var img_obj = new Img(0,0,bottomCanvas.width,bottomCanvas.height,img);
+        if(img.complete) {
+          img_obj.drawBottom();
+        } else {
+          img.onload =  function () {
+            img_obj.drawBottom();
+          }
+        }
+        objects.push( img_obj );
+        curPos++;
+      }
+    }) (file);
+  } else {
+    alert('Файл не является изображением');
+  }      
 }
+ 
+if(window.File && window.FileReader && window.FileList && window.Blob) {
+  onload = function () {
+    document.querySelector('input').addEventListener('change', onFilesSelect, false);
+  }
+} else {
+  alert('К сожалению ваш браузер не поддерживает file API');
+}
+
+function save() {
+	var im = document.getElementById('for_save_place');
+	im.src=bottomCanvas.toDataURL('image/png');
+	im.onload = function () {
+		document.getElementById('for_save_block').style.display='block';
+	}
+}
+
+function done() {
+	document.getElementById('for_save_block').style.display='none';
+} 
