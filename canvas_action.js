@@ -9,13 +9,15 @@ var bottomCanvas = document.getElementById( "bottomCanvas" );
 var bottom_ctx = bottomCanvas.getContext( "2d" );
 bottom_ctx.lineWidth = 2;
 
-
 var objNameSpace = {};
+var im_is = false;
+var img_move = false;
+var vector = { x_0:0 ,x_1:0 ,y_0:0 ,y_1:0};
+var img_cur;
 
 /// Изначально пытался запихнать Line в отделтный файл objects.js,
 /// но не получилось импортировать класс от туда.
 /// Если есть варинат как сделать тнадо сделать
-
 class Form {
 
     constructor( pos1x, pos1y, pos2x, pos2y ) {
@@ -71,13 +73,34 @@ class Img extends Form {
 
     drawTop() {
         ctx.drawImage(this.image ,this.pos1x ,this.pos1y ,
-        	this.pos1x + this.pos2x ,this.pos1y + this.pos2y);
+        	this.pos2x ,this.pos2y);
     }
 
     drawBottom() {
         bottom_ctx.drawImage(this.image ,this.pos1x ,this.pos1y ,
-        	this.pos1x + this.pos2x ,this.pos1y + this.pos2y);
+        this.pos2x ,this.pos2y);
     }
+
+    drawFrame() {
+		ctx.beginPath();
+		ctx.fillStyle="rgb(0,0,255)"
+		ctx.lineWidth = 1;
+	    ctx.moveTo( this.pos1x, this.pos1y );
+	    ctx.lineTo( this.pos1x, this.pos2y + this.pos1y );
+	    ctx.stroke();
+	    ctx.lineTo( this.pos2x + this.pos1x, this.pos2y + this.pos1y);
+	    ctx.stroke();
+	    ctx.lineTo( this.pos2x + this.pos1x, this.pos1y );
+	    ctx.stroke();
+	    ctx.lineTo( this.pos1x, this.pos1y );
+	    ctx.stroke();
+	    ctx.strokeRect(this.pos1x - 5,this.pos1y - 5,4,4);
+	    ctx.strokeRect(this.pos2x + 1 + this.pos1x,this.pos1y - 5,4,4);
+	    ctx.strokeRect(this.pos2x + this.pos1x,this.pos1y + 1 + this.pos2y,4,4);
+	    ctx.strokeRect(this.pos1x - 5,this.pos2y + this.pos1y,4,4);
+	    ctx.stroke();
+    	ctx.closePath();
+	}
 }
 
 class Pensil {
@@ -133,7 +156,6 @@ objNameSpace.Line = Line;
 objNameSpace.Pensil = Pensil;
 
 
-
 var pos;
 
 function trackPosition( event ) {
@@ -149,6 +171,18 @@ function trackPosition( event ) {
         ', Y: ' + pos.y + ', px';
     } else {
         coords_on_move.style.display = 'none';
+    }
+
+    if ( img_move ) {
+    	ctx.clearRect( 0, 0, c.width, c.height );
+    	vector.x_0 = vector.x_1;
+    	vector.y_0 = vector.y_1;
+    	vector.x_1 = pos.x;
+    	vector.y_1 = pos.y;
+    	img_cur.pos1x += vector.x_1 - vector.x_0;
+    	img_cur.pos1y += vector.y_1 - vector.y_0;
+    	img_cur.drawTop();
+    	img_cur.drawFrame();
     }
 }
 
@@ -172,8 +206,12 @@ c.onmouseleave = function( event ) { endDrawing( event ) };
 c.onmouseenter = function( event ) { window.getSelection().removeAllRanges(); };
 /// Когда появятся другие элементы(круг и тд) должно быть изменено
 function startDrawing( event ) {
-    curObject = new objNameSpace[ curStyle ]( pos.x, pos.y, pos.x, pos.y );
-    curDrawing = setInterval( changeAndDraw, 1 );
+	if ( im_is ) {
+		img_place();
+	} else {
+    	curObject = new objNameSpace[ curStyle ]( pos.x, pos.y, pos.x, pos.y );
+   		curDrawing = setInterval( changeAndDraw, 1 );
+	}
 }
 
 
@@ -187,21 +225,25 @@ function changeAndDraw() {
 
 /// Переносит результат на bottomCanvas
 function endDrawing( event ) {
-    if ( curObject ) {
-        curObject.drawBottom();
-        ctx.clearRect( 0, 0, c.width, c.height );
-        curPos = curPos > 0 ? curPos : 0;
-        objects = objects.slice( 0, curPos );
-        objects.push( curObject );
-        clearInterval( curDrawing );
+	if ( !im_is ) {
+    	if ( curObject ) {
+        	curObject.drawBottom();
+       		ctx.clearRect( 0, 0, c.width, c.height );
+        	curPos = curPos > 0 ? curPos : 0;
+        	objects = objects.slice( 0, curPos );
+        	objects.push( curObject );
+        	clearInterval( curDrawing );
 
-        curPos = objects.length;
-        curObject = null;
-        curDrawing = null;
+        	curPos = objects.length;
+        	curObject = null;
+        	curDrawing = null;
 
-        localStorage.setItem( "objects", objects );
-        localStorage.setItem( "curPos", curPos );
-    }
+        	localStorage.setItem( "objects", objects );
+        	localStorage.setItem( "curPos", curPos );
+    	}
+	} else {
+		img_move = false;
+	}
 }
 
 
@@ -221,20 +263,25 @@ function onFilesSelect(e) {
     fr = new FileReader();
     fr.readAsDataURL(file);
     fr.onload = (function (file) {
-      return function (e) {       
+      return function (e) {     
         var img = new Image(),             
           s, td;       
         img.src = e.target.result;
-        var img_obj = new Img(0,0,bottomCanvas.width,bottomCanvas.height,img);
-        if(img.complete) {
-          img_obj.drawBottom();
-        } else {
-          img.onload =  function () {
-            img_obj.drawBottom();
-          }
+        var img_obj = new Img( 20 ,20 ,200 ,200 ,img );
+        if ( img.complete ) {
+			im_is = true;
+          	img_obj.drawTop();
+        } else { 
+        	img.onload =  function () {
+          		im_is = true;
+          		img_obj.drawTop();
+          	}	
         }
-        objects.push( img_obj );
-        curPos++;
+        img_obj.drawFrame();
+        curPos = curPos > 0 ? curPos : 0;
+        objects = objects.slice( 0, curPos );
+        objects.push( curObject );
+        curPos = objects.length;
       }
     }) (file);
   } else {
@@ -260,4 +307,21 @@ function save() {
 
 function done() {
 	document.getElementById('for_save_block').style.display='none';
-} 
+}
+
+function img_place() {
+	vector.x_0 = pos.x;
+	vector.y_0 = pos.y;
+	vector.x_1 = pos.x;
+	vector.y_1 = pos.y;
+	img_cur = objects[curPos-1];
+	ctx.clearRect( 0, 0, c.width, c.height );
+	if ( pos.x >= img_cur.pos1x && pos.x <= img_cur.pos1x + img_cur.pos2x && 
+		pos.y >= img_cur.pos1y && pos.y <= img_cur.pos1y + img_cur.pos2y ){
+		img_move = true;
+	} else {
+		img_cur.drawBottom();
+		img_move = false;
+		im_is = false;
+	}
+}
