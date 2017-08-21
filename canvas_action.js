@@ -14,6 +14,12 @@ var im_is = false;
 var img_move = false;
 var vector = { x_0:0 ,x_1:0 ,y_0:0 ,y_1:0};
 var img_cur;
+var img_size = false;
+var img_size_right = false;
+var img_size_left = false;
+var img_size_top = false;
+var img_size_bottom = false;
+var img_size_corner = false;
 
 /// Изначально пытался запихнать Line в отделтный файл objects.js,
 /// но не получилось импортировать класс от туда.
@@ -94,10 +100,11 @@ class Img extends Form {
 	    ctx.stroke();
 	    ctx.lineTo( this.pos1x, this.pos1y );
 	    ctx.stroke();
-	    ctx.strokeRect(this.pos1x - 5,this.pos1y - 5,4,4);
-	    ctx.strokeRect(this.pos2x + 1 + this.pos1x,this.pos1y - 5,4,4);
+	    ctx.strokeRect(this.pos1x - 5,this.pos1y - 2 + (this.pos2y / 2),4,4);
+	    ctx.strokeRect(this.pos2x + 1 + this.pos1x,this.pos1y - 2 + (this.pos2y / 2),4,4);
 	    ctx.strokeRect(this.pos2x + this.pos1x,this.pos1y + 1 + this.pos2y,4,4);
-	    ctx.strokeRect(this.pos1x - 5,this.pos2y + this.pos1y,4,4);
+	    ctx.strokeRect(this.pos1x - 2 + (this.pos2x / 2),this.pos1y - 5 ,4,4);
+	    ctx.strokeRect(this.pos1x - 2 + (this.pos2x / 2) ,this.pos2y + this.pos1y,4,4);
 	    ctx.stroke();
     	ctx.closePath();
 	}
@@ -184,6 +191,44 @@ function trackPosition( event ) {
     	img_cur.drawTop();
     	img_cur.drawFrame();
     }
+
+    if ( img_size_right ){
+    	ctx.clearRect( 0, 0, c.width, c.height );
+    	img_cur.pos2x = pos.x - 2 - img_cur.pos1x;
+    	img_cur.drawTop();
+    	img_cur.drawFrame();
+    }
+
+    if ( img_size_left ){
+    	ctx.clearRect( 0, 0, c.width, c.height );
+    	img_cur.pos2x += img_cur.pos1x - pos.x - 2;
+    	img_cur.pos1x = pos.x + 2;
+    	img_cur.drawTop();
+    	img_cur.drawFrame();
+    }
+
+    if ( img_size_top ){
+    	ctx.clearRect( 0, 0, c.width, c.height );
+    	img_cur.pos2y += img_cur.pos1y - pos.y - 2;
+    	img_cur.pos1y = pos.y + 2;
+    	img_cur.drawTop();
+    	img_cur.drawFrame();
+    }
+
+    if ( img_size_bottom ){
+    	ctx.clearRect( 0, 0, c.width, c.height );
+    	img_cur.pos2y = pos.y - 2 - img_cur.pos1y;
+    	img_cur.drawTop();
+    	img_cur.drawFrame();
+    }
+
+    if ( img_size_corner ){
+    	ctx.clearRect( 0, 0, c.width, c.height );
+    	img_cur.pos2x = pos.x - 2 - img_cur.pos1x;
+    	img_cur.pos2y = pos.y - 2 - img_cur.pos1y;
+    	img_cur.drawTop();
+    	img_cur.drawFrame();
+    }
 }
 
 
@@ -234,22 +279,29 @@ function changeAndDraw() {
 /// Переносит результат на bottomCanvas
 function endDrawing( event ) {
 	img_move = false;
-	if ( !im_is ) {
-    	if ( curObject ) {
-        	curObject.drawBottom();
-       		ctx.clearRect( 0, 0, c.width, c.height );
-       		curPos = curPos > 0 ? curPos : 0;
-        	objects = objects.slice( 0, curPos );
-        	objects.push( curObject );
-        	clearInterval( curDrawing );
+    if ( !im_is && curObject ) {
+        curObject.drawBottom();
+       	ctx.clearRect( 0, 0, c.width, c.height );
+       	curPos = curPos > 0 ? curPos : 0;
+        objects = objects.slice( 0, curPos );
+        objects.push( curObject );
+        clearInterval( curDrawing );
 
-        	curPos = objects.length;
-        	curObject = null;
-        	curDrawing = null;
+        curPos = objects.length;
+        curObject = null;
+        curDrawing = null;
 
-        	localStorage.setItem( "objects", objects );
-        	localStorage.setItem( "curPos", curPos );
-    	}
+        localStorage.setItem( "objects", objects );
+        localStorage.setItem( "curPos", curPos );
+    }
+
+	if ( img_size ) {
+		img_size = false;
+		img_size_right = false;
+		img_size_left = false;
+		img_size_top = false;
+		img_size_bottom = false;
+		img_size_corner = false;
 	}
 }
 
@@ -327,6 +379,26 @@ function img_place() {
 		vector.y_0 = pos.y;
 		vector.x_1 = pos.x;
 		vector.y_1 = pos.y;
+	} else if ( pos.x >= img_cur.pos1x - 5 && pos.x <= img_cur.pos1x && 
+		pos.y >= img_cur.pos1y + ( img_cur.pos2y / 2 ) - 3 &&  pos.y <= img_cur.pos1y + ( img_cur.pos2y / 2 ) + 3 ) {
+		img_size_left = true;
+		img_size = true;
+	} else if ( pos.x <= img_cur.pos2x + img_cur.pos1x + 5 && pos.x >= img_cur.pos1x + img_cur.pos2x && 
+		pos.y >= img_cur.pos1y + ( img_cur.pos2y / 2 ) - 3 &&  pos.y <= img_cur.pos1y + ( img_cur.pos2y / 2 ) + 3 ) {
+		img_size_right = true;
+		img_size = true;
+	} else if ( pos.y >= img_cur.pos1y - 5 && pos.y <= img_cur.pos1y && 
+		pos.x >= img_cur.pos1x + ( img_cur.pos2x / 2 ) - 3 &&  pos.x <= img_cur.pos1x + ( img_cur.pos2x / 2 ) + 3 ) {
+		img_size_top = true;
+		img_size = true;
+	} else if ( pos.y >= img_cur.pos2y - 5 && pos.y <= img_cur.pos2y && 
+		pos.x >= img_cur.pos1x + ( img_cur.pos2x / 2 ) - 3 &&  pos.x <= img_cur.pos1x + ( img_cur.pos2x / 2 ) + 3 ) {
+		img_size_bottom = true;
+		img_size = true;
+	} else if ( pos.x >= img_cur.pos2x + img_cur.pos1x && pos.x <= img_cur.pos2x + img_cur.pos1x + 5 && 
+		pos.y >= img_cur.pos2y + img_cur.pos1y && pos.y <= img_cur.pos2y + img_cur.pos1y + 5 ) {
+		img_size_corner = true;
+		img_size = true;
 	} else {
 		img_cur.drawBottom();
 		img_move = false;
