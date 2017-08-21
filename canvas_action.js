@@ -202,7 +202,15 @@ c.onmousedown = startDrawing;
 c.onmouseup = endDrawing;
 document.onmousemove = trackPosition;
 /// Необходимо, тк были проблемы с выходом курсора с canvas
-c.onmouseleave = function( event ) { endDrawing( event ) };
+c.onmouseleave = function( event ) {
+	if ( im_is ) {
+		ctx.clearRect( 0, 0, c.width, c.height );
+		img_cur.drawBottom();
+		im_is = false;
+		img_move = false;
+	}
+	endDrawing( event );
+};
 c.onmouseenter = function( event ) { window.getSelection().removeAllRanges(); };
 /// Когда появятся другие элементы(круг и тд) должно быть изменено
 function startDrawing( event ) {
@@ -225,11 +233,12 @@ function changeAndDraw() {
 
 /// Переносит результат на bottomCanvas
 function endDrawing( event ) {
+	img_move = false;
 	if ( !im_is ) {
     	if ( curObject ) {
         	curObject.drawBottom();
        		ctx.clearRect( 0, 0, c.width, c.height );
-        	curPos = curPos > 0 ? curPos : 0;
+       		curPos = curPos > 0 ? curPos : 0;
         	objects = objects.slice( 0, curPos );
         	objects.push( curObject );
         	clearInterval( curDrawing );
@@ -241,8 +250,6 @@ function endDrawing( event ) {
         	localStorage.setItem( "objects", objects );
         	localStorage.setItem( "curPos", curPos );
     	}
-	} else {
-		img_move = false;
 	}
 }
 
@@ -278,10 +285,12 @@ function onFilesSelect(e) {
           	}	
         }
         img_obj.drawFrame();
+        img_cur = img_obj;
         curPos = curPos > 0 ? curPos : 0;
         objects = objects.slice( 0, curPos );
-        objects.push( curObject );
+        objects.push( img_obj );
         curPos = objects.length;
+        console.log(curPos);
       }
     }) (file);
   } else {
@@ -310,18 +319,18 @@ function done() {
 }
 
 function img_place() {
-	vector.x_0 = pos.x;
-	vector.y_0 = pos.y;
-	vector.x_1 = pos.x;
-	vector.y_1 = pos.y;
-	img_cur = objects[curPos-1];
 	ctx.clearRect( 0, 0, c.width, c.height );
 	if ( pos.x >= img_cur.pos1x && pos.x <= img_cur.pos1x + img_cur.pos2x && 
-		pos.y >= img_cur.pos1y && pos.y <= img_cur.pos1y + img_cur.pos2y ){
+		pos.y >= img_cur.pos1y && pos.y <= img_cur.pos1y + img_cur.pos2y ) {
 		img_move = true;
+		vector.x_0 = pos.x;
+		vector.y_0 = pos.y;
+		vector.x_1 = pos.x;
+		vector.y_1 = pos.y;
 	} else {
 		img_cur.drawBottom();
 		img_move = false;
 		im_is = false;
+		startDrawing();
 	}
 }
