@@ -107,6 +107,7 @@ class Img extends Form {
 	    ctx.strokeRect(this.pos1x - 2 + (this.pos2x / 2) ,this.pos2y + this.pos1y,4,4);
 	    ctx.stroke();
     	ctx.closePath();
+    	ctx.lineWidth = 2;
 	}
 }
 
@@ -172,6 +173,7 @@ function trackPosition( event ) {
     var coords_on_move = document.getElementById('mouse_coords_on_move');
     if ( pos.x <= c.width && pos.y <= c.height &&
         pos.x >= 0 && pos.y >= 0) {
+    	//coords_on_move.style.marginTop = c.height +10;
         coords_on_move.style.display = 'block';
         coords_on_move.innerHTML =
         'X: ' + pos.x +  
@@ -342,7 +344,6 @@ function onFilesSelect(e) {
         objects = objects.slice( 0, curPos );
         objects.push( img_obj );
         curPos = objects.length;
-        console.log(curPos);
       }
     }) (file);
   } else {
@@ -371,7 +372,6 @@ function done() {
 }
 
 function img_place() {
-	ctx.clearRect( 0, 0, c.width, c.height );
 	if ( pos.x >= img_cur.pos1x && pos.x <= img_cur.pos1x + img_cur.pos2x && 
 		pos.y >= img_cur.pos1y && pos.y <= img_cur.pos1y + img_cur.pos2y ) {
 		img_move = true;
@@ -405,4 +405,26 @@ function img_place() {
 		im_is = false;
 		startDrawing();
 	}
+}
+
+if ( document.documentElement.clientHeight != 970) {
+	reSize();
+}
+
+window.onresize = reSize;
+
+function reSize() {
+	document.getElementById('topCanvas').width = document.documentElement.clientWidth - 200;
+	document.getElementById('bottomCanvas').height = document.documentElement.clientHeight - 200;
+	document.getElementById('bottomCanvas').width = document.documentElement.clientWidth - 200;
+	document.getElementById('topCanvas').height = document.documentElement.clientHeight - 200;
+	for( let i = 0; i < curPos; i++ ) {
+        objects[i].drawBottom();
+    }
+	document.getElementById('mouse_coords_on_move').style.marginTop = "" + (c.height - 3) + "px";
+	document.getElementById('for_save_block').style.width = "" + ( document.documentElement.clientWidth - 200 ) + "px";
+	document.getElementById('for_save_block').style.height = "" + ( document.documentElement.clientHeight - 140 ) + "px";
+	console.log(document.getElementById('for_save_block').style.width,document.getElementById('for_save_block').style.height);
+	let a = ( ( ( document.documentElement.clientWidth - 200 ) / 2 ) - 15 );
+	document.getElementById('done').style.marginLeft = "" + a + "px";
 }
