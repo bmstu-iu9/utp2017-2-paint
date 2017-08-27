@@ -13,6 +13,24 @@ bottom_ctx.fillStyle = "rgb(255,255,255)";
 bottom_ctx.fillRect( 0 ,0 ,c.width ,c.height );
 bottom_ctx.fillStyle = "rgb(0,0,255)";
 
+/**
+ * Default color is black.
+ * @type {string}
+ */
+var Color = 'black';
+
+/**
+ * Returns the selected color {@code Color}.
+ * @return the selected color {@code Color}
+ * @type {string}
+ */
+function getColor () {
+    document.getElementById('color').oninput = function () {
+        Color = this.value;
+    }
+    return Color;
+}
+
 var objNameSpace = {};
 var im_is = false;
 var img_move = false;
@@ -30,7 +48,8 @@ var img_size_corner = false;
 /// Если есть варинат как сделать тнадо сделать
 class Form {
 
-    constructor( pos1x, pos1y, pos2x, pos2y ) {
+    constructor( pos1x, pos1y, pos2x, pos2y, color ) {
+        this.color = color;
         this.pos1x = pos1x;
         this.pos1y = pos1y;
         this.pos2x = pos2x;
@@ -54,11 +73,12 @@ class Form {
 
 class Line extends Form {
 
-    constructor( pos1x, pos1y, pos2x, pos2y ) {
-        super( pos1x, pos1y, pos2x, pos2y );
+    constructor( pos1x, pos1y, pos2x, pos2y, color ) {
+        super( pos1x, pos1y, pos2x, pos2y, color );
     }
 
     drawTop() {
+        ctx.strokeStyle = this.color;
         ctx.beginPath();
         ctx.moveTo( this.pos1x, this.pos1y );
         ctx.lineTo( this.pos2x, this.pos2y );
@@ -67,6 +87,7 @@ class Line extends Form {
     }
 
     drawBottom() {
+        bottom_ctx.strokeStyle = this.color;
         bottom_ctx.beginPath();
         bottom_ctx.moveTo( this.pos1x, this.pos1y );
         bottom_ctx.lineTo( this.pos2x, this.pos2y );
@@ -117,7 +138,8 @@ class Img extends Form {
 
 class Pensil {
 
-    constructor( pos1x, pos1y, pos2x, pos2y ) {
+    constructor( pos1x, pos1y, pos2x, pos2y, color ) {
+        this.color = color;
         this.pos1x = pos1x;
         this.pos1y = pos1y;
         this.pos2x = pos2x;
@@ -147,6 +169,7 @@ class Pensil {
     }
 
     drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
+        ctx.strokeStyle = this.color;
         ctx.beginPath();
         if ( getDist( pos1x, pos1y, pos2x, pos2y ) > 0.5 ) {
             ctx.moveTo( pos1x, pos1y );
