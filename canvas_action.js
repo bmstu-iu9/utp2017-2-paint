@@ -288,17 +288,12 @@ c.onmouseleave = function( event ) {
 c.onmouseenter = function( event ) { window.getSelection().removeAllRanges(); };
 /// Когда появятся другие элементы(круг и тд) должно быть изменено
 function startDrawing( event ) {
-<<<<<<< HEAD
 	if ( im_is ) {
 		img_place();
 	} else {
-    	curObject = new objNameSpace[ curStyle ]( pos.x, pos.y, pos.x, pos.y );
-   		curDrawing = setInterval( changeAndDraw, 1 );
-	}
-=======
-    curObject = new objNameSpace[ curStyle ]( pos.x, pos.y, pos.x, pos.y, getColor() );
+    	curObject = new objNameSpace[ curStyle ]( pos.x, pos.y, pos.x, pos.y, getColor() );
     curDrawing = setInterval( changeAndDraw, 1 );
->>>>>>> 275e08fd38e6a5641e4665bb17d02cba58621dfa
+	}
 }
 
 
