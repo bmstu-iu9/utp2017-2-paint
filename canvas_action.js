@@ -9,6 +9,10 @@ var bottomCanvas = document.getElementById( "bottomCanvas" );
 var bottom_ctx = bottomCanvas.getContext( "2d" );
 bottom_ctx.lineWidth = 2;
 
+bottom_ctx.fillStyle = "rgb(255,255,255)";
+bottom_ctx.fillRect( 0 ,0 ,c.width ,c.height );
+bottom_ctx.fillStyle = "rgb(0,0,255)";
+
 var objNameSpace = {};
 var im_is = false;
 var img_move = false;
@@ -418,6 +422,9 @@ function reSize() {
 	document.getElementById('bottomCanvas').height = document.documentElement.clientHeight - 200;
 	document.getElementById('bottomCanvas').width = document.documentElement.clientWidth - 200;
 	document.getElementById('topCanvas').height = document.documentElement.clientHeight - 200;
+	bottom_ctx.fillStyle = "rgb(255,255,255)";
+	bottom_ctx.fillRect( 0 ,0 ,c.width ,c.height );
+	bottom_ctx.fillStyle = "rgb(0,0,255)";
 	for( let i = 0; i < curPos; i++ ) {
         objects[i].drawBottom();
     }
