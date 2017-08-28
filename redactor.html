@@ -133,6 +133,17 @@
 	   height: auto;
 	   z-index: 0;
 	}
+	#visible {
+		width: 90px;
+		height:20px;
+	}
+	#visible-text {
+		width: 40px;
+		height:13px;
+	}
+	#clearCanvas canvas {
+		position: absolute;
+	}
 	#topCanvas canvas {
 	   max-width: 100%;
 	   height: auto;
@@ -214,6 +225,12 @@
                              
 			</ul>
 		</div>
+		<input type = "range" id = "visible" min = "1" max = "100" step = "1" title = "Прозрачность" value="100" oninput="setVisibility()">
+		<input type = "number" id = "visible-text" min = "1" max = "100" step = "1" title = "Прозрачность" value="100">
+		<button type="button" id = "clearBtn" onclick = "clearCanvas()">Clear</button>
+		<script>
+            document.getElementById("clearBtn").style.bottom = "10px"
+		</script>
 	</div>
          <div id ="blockTools2">
 		<div id="nav">
