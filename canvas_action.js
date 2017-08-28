@@ -20,8 +20,8 @@ bottom_ctx.fillStyle = "rgb(0,0,255)";
 var Color = 'black';
 
 /**
- * Changes the color {@code Color}.
- * @Changes the selected color {@code Color}
+ * Set the selected color {@code Color}.
+ * @Set the selected color {@code Color}
  * @type {string}
  */
 document.getElementById('color').oninput = function () {
