@@ -12,16 +12,21 @@
 	   background-repeat: no-repeat;
 	   padding: 1em;
    }
-   #blockTools, #blockCanvas { position: absolute; }
-   #blockTools, #blockCanvas { overflow: visible; padding: 10px; }
+   #blockTools, #blockTools2, #blockCanvas { position: absolute; }
+   #blockTools, #blockTools2, #blockCanvas { overflow: visible; padding: 10px; }
    #blockTools {
 	   width: 50px;
 	   top: 2px;
    }
+   #blockTools2 {
+	   width: 50px;
+	   top: 2px;
+	   left: 61px;
+   }
    #blockCanvas {
 	   width: 1000px;
 	   top: 2px;
-	   left: 70px;
+	   left: 117px;
    }
 	#tools, #nav {
 		width: 200px;
@@ -35,16 +40,13 @@
 		background: #87CEEB;
 		color: #FFFFFF;
 	}
-	li {
-		width: 40px;
-	}
 	ul.submenu {
 	   display: none;
 	   position: absolute;
-	   width: 30px;
-	   height: 30px;
+	   width: 32px;
+	   height: 32px;
 	   left: 10px;
-	   top: 482px;
+	   top: 266px;
 	    background-color: #000;
 	    font-size: 90%;
 	}
@@ -67,6 +69,8 @@
 	background-color: #C0C0C0;
 	background: linear-gradient(to bottom right, #C0C0C0, #A9A9A9);
 	color: #FFFFFF;
+        width: 44px;
+        height: 43px;
 	text-decoration: none;
 	cursor: pointer;
 	border: 1px solid #333;
@@ -84,6 +88,8 @@
 		background: linear-gradient(to bottom right, #DCDCDC, #D3D3D3);
 		color: #FFFFFF;
 		text-decoration: none;
+		width: 44px;
+                height: 43px;
 		cursor: pointer;
 		border: 1px solid #333;
 		border-radius: 3px;
@@ -92,6 +98,20 @@
 	   position: absolute;
 	   overflow: auto;
 	}
+  #color {
+    font-size: 90%;
+		display: block;
+		padding: 0.2em 0.2em 0.2em 0.2em;
+    width: 36px;
+    height: 36px;
+		background-color: #C0C0C0;
+		background: linear-gradient(to bottom right, #C0C0C0, #A9A9A9);
+		color: #FFFFFF;
+		text-decoration: none;
+		cursor: pointer;
+		border: 1px solid #333;
+		border-radius: 3px;
+        }
 	#Done:hover {
 		background: #35C0CD;
 		color: #FFFFFF;
@@ -120,15 +140,16 @@
 	   opacity: 0;
 	}
 	.file-upload {
-   	  position: relative;
+   	 position: relative;
     	 overflow: hidden;
-    	 width: 35px;
-   	  height: 25px;
-   	  background-color: #C0C0C0;
+    	 width: 34px;
+   	 height: 25px;
+   	 background-color: #C0C0C0;
    	 background: linear-gradient(to bottom right, #DCDCDC, #D3D3D3);
-  	  color: #FFFFFF;
-  	   border-radius: 3px;
-   	  padding: 8px 4px;
+ 	 color: #FFFFFF;
+         border: 1px solid #333;
+  	 border-radius: 3px;
+   	 padding: 8px 4px;
     	 text-align: center;
 	}
 	.file-upload:hover {
@@ -139,9 +160,9 @@
   	  display: none;
 	}
 	.file-upload label {
- 	    display: block;
-  	   position: absolute;
-  	   top: 0;
+ 	  display: block;
+  	  position: absolute;
+  	  top: 0;
    	  left: 0;
    	  width: 100%;
    	  height: 100%;
@@ -150,78 +171,80 @@
 	.file-upload span {
      	line-height: 36px;
 	}
-	li.color input {
-  	display: none;
- 	}
- 	li.color:hover input {
-  	display: inline;
- 	}
 	</style>
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 </head>
 <body id="body">
 	<div id ="blockTools">
 		<div id="nav">
-	      <ul>
-	         <li><div class="file-upload" title="Открыть">
-     <label style="padding-top: 5px;">
-          <input type="file" name="file">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAInSURBVFiF7dfLi45xFAfwzxnjsnFLhKREE2nUuGwkpChNsbFyiSxs5RJZ8BfIZUcppGSLlMvGoMidwhARpUnJmI3lsXgfmnnNO807ed6x8K2nnvN7Tud8z/f3POc5v8hMw4mmYc3+LxAIjEA7tmJSSXkOYCp2FvZXnMWVZuzCChzBt5IIvMQovC/sidiNlkAnlmMdFpdEoBoPcQm3At2ZOSEiOnEU30tOPh67MnNuRHQrCFBRYmpmKvNSeRc6i/vuAb+CqGBOmXLUJBAR2/EC5yPiQUSsLYvEH1uAyXiFKYXdgtcY0agt2IQLmfkFMvMNHmP1366+FoFHWPTLiIhAK543hEBm3sa0iDgdERtxGc8y8/NgA0dEa0Q8K2JMqItAgaW4ilU4hs11JN+m0mj24xOeRkR7Lf+6+oDKC3kDBzG66tkYnMIdTO+13oanOIO5BtsHqqpqiog9uIjjKh3td2URMRt30YOVvbcrM59gCT7gZt0KYF4R/CTG9lqfj45CkY/YMAgFl/VWYEACKr/qA3iD1QME3YJ32IeRf6UVR0Qr7mEWFmXmjVq+mXkOCzEDDyNiei3f/tBHAYzEIbzFmiF0ugUYN1QF2nAfM7EwM6/XU0mhxvPM7Bmsf3OVfQI7MvNavYmHimoCKzPzfb+eJaF6C340Mjl/KrA+IhoxkvUh0BURU3BY44bSw0XOrsBe5Y/l1fg1lnc06mBSjd8Hk8j/h9Nhxk+g5fnMktJQdQAAAABJRU5ErkJggg==" width="30" height="30"
+	      		<ul>
+				<li><div class="file-upload" title="Открыть">
+     					<label style="padding-top: 5px;">
+          				<input type="file" name="file">
+          				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAInSURBVFiF7dfLi45xFAfwzxnjsnFLhKREE2nUuGwkpChNsbFyiSxs5RJZ8BfIZUcppGSLlMvGoMidwhARpUnJmI3lsXgfmnnNO807ed6x8K2nnvN7Tud8z/f3POc5v8hMw4mmYc3+LxAIjEA7tmJSSXkOYCp2FvZXnMWVZuzCChzBt5IIvMQovC/sidiNlkAnlmMdFpdEoBoPcQm3At2ZOSEiOnEU30tOPh67MnNuRHQrCFBRYmpmKvNSeRc6i/vuAb+CqGBOmXLUJBAR2/EC5yPiQUSsLYvEH1uAyXiFKYXdgtcY0agt2IQLmfkFMvMNHmP1366+FoFHWPTLiIhAK543hEBm3sa0iDgdERtxGc8y8/NgA0dEa0Q8K2JMqItAgaW4ilU4hs11JN+m0mj24xOeRkR7Lf+6+oDKC3kDBzG66tkYnMIdTO+13oanOIO5BtsHqqpqiog9uIjjKh3td2URMRt30YOVvbcrM59gCT7gZt0KYF4R/CTG9lqfj45CkY/YMAgFl/VWYEACKr/qA3iD1QME3YJ32IeRf6UVR0Qr7mEWFmXmjVq+mXkOCzEDDyNiei3f/tBHAYzEIbzFmiF0ugUYN1QF2nAfM7EwM6/XU0mhxvPM7Bmsf3OVfQI7MvNavYmHimoCKzPzfb+eJaF6C340Mjl/KrA+IhoxkvUh0BURU3BY44bSw0XOrsBe5Y/l1fg1lnc06mBSjd8Hk8j/h9Nhxk+g5fnMktJQdQAAAABJRU5ErkJggg==" width="30" height="30"
                                                                              style="vertical-align: middle">
-     </label>
-</div></li>
-              <li>
-              <button id ="save" title="Сохранить" onclick="save()"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAG/SURBVFiF7Ze/axRRFIW/EyNYWFhJQNhaA4qlhVinlECwsrRQQkRtrCStRTRIrCxCOtEthvwDNoKxMNFCdrHSgJhGEyUJSAjHIm9gHGazj5m32SYHLjNz333vflzerwHIAB+BzdumbKMc6A3wjP/1GFgDXlJfT4H3wFtgTpJs3y0G5ADrtrNig6SHQLfsr5KkE8DNgmvbdlvSbBhjQdI68DpAzJQBmuoksAhshjF/Ae1igO1lSVMBYsT2NMBIIoBck8CjXo22l4Ep4Jak55KUqgLRKlYC+Jm6AtEQwCvgUmqAFnA2MnYf0k3CXEvh+S22QyqAv8CFwvdeKoAJSWfqEEkCONcEYBUYBy7XAQj6DHytBWD7ToPE0RrKMjwGKKpyDkg6NYBce7b3+wJIGgN+DADgHjDfF6DUoZso+YteDYcBrNheSZFd0k4dgLzzbeBGyf3B9oOmYFEAwBfgY8n3KUXyWIB3wPeyU9J5YMP2VhOAmH3gCdDpYZmkq5I6dQFiKnCfiuUTtGF7S9KVgQHY3qXPcrT9uy7A0LfiY4ChA+STsCXpenjP74DXwsGUQqeBi4UccHCF/wNH93teZdk/X9zGrzfK1hIAAAAASUVORK5CYII=" width="30" height="30"
-                                                                        style="vertical-align: middle"></button></li>
-         </ul>
-      </div>
+     					</label>
+				</div></li>
+         		</ul>
+      		</div>
 		<div id = "tools">
 			<ul class = "menu">
 				<li><button id="pencil" title="Карандаш"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAJLSURBVFiFvddNiE5RGMDx35kQY5rsrJSNIrKYMINJQsxCLFBTPqYsrOxsbNRsJMVOlmxtlJTv75khKTsb+YoxQ0ZREkLH4p5Xd673NTOve5263ds5p/P/P895bvdcMUZVX2jDGTzDjvxYi4pbCKENl/AVfTgZQtj5e0KFUa/AMdzFcYTUvxQj2BljrEYA7XiJA3iPjsL4gtp2VAFfjif4hm6sTxEXJRbieRU1sBVnsQvnk8g+XAwhdOTm9eJBFdU+hDH0YHN67sZ2vEMH+jGItrLhA2nxRbIa6Elb8DZJ7MZn3ENbaUWI2TV4rm+P7NXrSfDX6X4ER3/PKwl+pwDvSMC9eIFNWIYveIPFpQgk+O0CfAmGsS5X7WM4jFHMya/R9FsQQmjFBdyOMfbn+uahL8Z4M03txWP8wIYY48dxCzUZeStuFSLvlBVea66vX6r2hms1Cb9ZB/4KnVOBT1mgAbyrWfiUBDALN+rAh9HVDHzSAgl+vWz4pAQawFeWAZ9QIMGv1YG/xsp/hf9VADNxtQBfVSa8ocAE8FVlwesKJPiVOvCRsuF/CCT45QJ8dVXwcQKY0QA+itVVwIsCvfheE5B9u4vweThXFrwocAXbUnSnErw7N34Qm8sCjxNIkT1Hi+xoNYhThbQPlRl57QoxRiGEQ5gbY9zPuL+ZG7K2EZtijJ9U0AKeyn4UtqSIW9J2fMd9tJcdeS671soOF/OTxIl0v5AkplcFjzGaJjs4fsBp/JQV35oY40gV6a6X/kd4KKv8gVjLy39qvwAxqoj+MuvGUAAAAABJRU5ErkJggg==" width="30" height="30"
                                                           style="vertical-align: middle"></button></li>
-	         <li><button id="brush" title="Кисть"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAKaSURBVFiFvdZNiJVVGAfw37kOIzo1jhJKm8lKggglZUT7MAYdMAQ3tUgCPxYiDIGbNuHChWiWKC2U8ANpYUhC+JWQLTSDSNBooybJWGMFLiIhglk04nFxTnJ9ve/c8c5958BZ3Od57vP/P5/nDTFGk3VCCJ3YjrfxDwZrkwg+D98hYDk244AYY+UXA/gTK+tkPfhrMsDXYxgvF+RbsKtq8K24gt6C/E38hllVAXfgMM5jRkG3MJdjQYxRFeBP4iw+R2dB15vLseKBrM3gT+Mn7EAo6HpwFWsfkrcR/CXcxKYGuk5cwJZHdG0C78cfWNVAF3AU+xv+tw3g7+a6LirRf4SvMKXtBPABruGZEv0gLqGr1EeLwFOwP9d1ZonNatzA7DF9tQDelVP6C77G1AY2i3ELLzTz91iPUQhhTo76Gl6UttnxEMLUgulnWBNjvNHU6Tij3oCL+B2DhQ7/FGekUZuJt1Abb0abZiCE0IN92CaltbeOfMR7mdiX+T4fY7zXNPLxZgDT8R9ewxPSm76zYFOTeqLhrE+oCbETp6VF84rUhBfqSUizfkbJrLdMAEulUerCkpzqvvz720xuEJeNMestEcA0XMcbdbI+9NeV5nwmNacV8GYEPsbeEt1NvC7N+7lWwR8hgHX4Abcxip+L0eXIT+Eu/sVAWwjgQ3yDd9CdIzwkLZ3Z2ebV3O2fYIaSNfzYBLALJzVYIDghfdftzg25bKKgBf/mSl8q00sM5udy7Gm108e6HdJ7fiTGONJ4VbmDv2OM75foJ3RqmcDJMWzmSSu4klOT1utwI2UIIUj9cbBKAr9KfVAE75Reuu9jjIerJDCEVSGE7pDOUyGEjfgRo1XV/v8TpNnegOfwLEZwDF/EGIeqBIf78TLBMmaxl+MAAAAASUVORK5CYII=" width="30" height="30"
+	         		<li><button id ="eraser" title="Ластик"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAIgSURBVFiFxdfLahRBFIDhr4KEKMHE6OSi5gVEUcSN4MrncBsh4EZiRHNTstEYbzsfQxAEEQRBBQmi0ZigBMWFCx9BUGgXUyOdufRUT0ZT0Is+1XX+v6vqdNEhyzI72Xp2lN5tgRDChRDCZgjhSvKgLMu6cuEqvuIoXuBG0rguwjcxHu/7UyW6AZ/BZxyqiydJbBc+iw2MtehvK7Ed+Bw+YqTNc4USncLn8R6VxOdbSnQCX8Bb7M/FjmBvJxJl4dfwBvvq4ufxGgNlJcrCP2AwFztem4lYiqUlUuHX45t/w9lcfCJKHYj3MyUlZlPhXzCAY00kLscNWZOYS5QYw48U+EoETMZYM4lprOaWY75IAnvwDIsp0z6ISpzqIolLeJeTWGgmkYPfbLkHInwVQ7lYBWttJKZUS3Qotzynm8CXWlZBhK/V1rSubzhB4mKUqC/VBniDQISvY7hgaYZVP8FFEpM40wR+qyFfHfwTRhMqY6SdRAr8r0CEb+JgO3idxHqbmajBlwvymFat88Op8BSJFHhN4DtOlIXnEoyqfivG6yRWcDthvOX4cOFplpDoFM7FN3+ZAq8JBDzAK/RvQ6ASN+YG7iSPyyW4j+fY3aFAH56WgW8RiEmWYpK+DuBPcLe0eJNki3iM3n8NbyoQk87iIXYlwu91undCTNTQQghTqida0d9rD3rxs0X/b5zEL9XDbSLLskdbOK0E/lfb8b/jP1lxQ5DvMSGUAAAAAElFTkSuQmCC" width="30" height="30"
+                                                          style="vertical-align: middle"></button>
+                 		<input type="color" id="color"></li>
+	         		<li><button id ="increase" title="Увеличить"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAOASURBVFiFtdZLqFV1FAbw3/Yo6fXiC5s5MIe3F0ldHwgKWSA2aCA4kSBUkkARJ5lp4LyggYSWmEEmiTbJcBgkCrd8RIhBYtokQieKE2+o/wb7O7nbHe89avfA5uz1/L691vqvvatSikf9VVXVwTK8kGsh5uMXnMN5/FhKOffAJKWUR7owhBGUXHdwAcdxuaEvOIone+Z5BOAOtuN2rt0YxrSW30wsx/6QuIY1j0UAU3E6CUcw1LDNwctYjyUYaNhexe+J+/hxCHyYJLvRiW41LrVKXnAXp/Bc/Gbg69jWPDSBDNtdnGgkPJCEf2IPNmAlNuNgWjSKXWndjFTiWncm+gUfyFPewLzojgX8COaOMahn4rer0Y6Cow9D4M0EbYi8NvK+PmKnhMRoox3dwVzYL4FPU/4BTMN1/IbBlt90bEHVoxK3cSry8hB4q18CF3Ax90sTvKmH3+bYhnvYDjYeYmb89k4yzq+qqll5gvNRvZj/sw2f6VVVLcaCqJ6tqmq4qqqqkeosJuH5UsrNVHD8FgS8YGfkTyIPNny+9N9jWLCl4bMyuvWRj+PW5PEqoF6r99Q7Hq7kf766NbATP6h7+zo+yhMeaOTpxl9tyFf7nYHLOJv7V/Ik63r4bY1tcQ/bntjmqAf5Dj7vl8C36mM0BbNz/z0mtfwWpB3TW/q56mV1KfJwyGztl8DOBKyK/F7kbX3GH4n/6si7Iy/vl8Ag/kj/BzE5PR/FtnYlWnH7AnagtRNG0OmLQALfSKI9kZ8KiZJ2rMMzAX0JmzKIRb22Z6jfByMhMFTKw72MqgTfw2vRTU47RvU+htextpGjW/p3/tGNAdjBXvUeXxS5+zq9l6kejO/snI531Xtii3pjTot9Hk4k9rS8yh9IIGBfNMBuqBdHCYlu6a9gFaY8IM+A+hV9Q72GP8DUf/mMA34YK3Ar8vHYqyS+Fv2oetXuV5+YQ7gY0IJfsbQnyTHAC3ZEvywkbmBRw38W3sc36g3XjfsLP+EzvK31vdiTQAv8mPqzumB77CvSjjNjzM1MPI0n+h7uHuBfqad7ToPEjrSjYG+/yfs8XapWzzsNY5NEiV/n/yawMckPtZOnEscmCrxL4OcMWPvzqpN2TBh4l8BNnOwBfniiwbsEvst5HYpiMO2YcPAugSUhcBcn3V86Ew5eyv1juCSVuJmZ2Kj1aT1R19/UFQiD/5Y5pQAAAABJRU5ErkJggg==" width="30" height="30"
                                                           style="vertical-align: middle"></button></li>
-	         <li><button id ="eraser" title="Ластик"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAIgSURBVFiFxdfLahRBFIDhr4KEKMHE6OSi5gVEUcSN4MrncBsh4EZiRHNTstEYbzsfQxAEEQRBBQmi0ZigBMWFCx9BUGgXUyOdufRUT0ZT0Is+1XX+v6vqdNEhyzI72Xp2lN5tgRDChRDCZgjhSvKgLMu6cuEqvuIoXuBG0rguwjcxHu/7UyW6AZ/BZxyqiydJbBc+iw2MtehvK7Ed+Bw+YqTNc4USncLn8R6VxOdbSnQCX8Bb7M/FjmBvJxJl4dfwBvvq4ufxGgNlJcrCP2AwFztem4lYiqUlUuHX45t/w9lcfCJKHYj3MyUlZlPhXzCAY00kLscNWZOYS5QYw48U+EoETMZYM4lprOaWY75IAnvwDIsp0z6ISpzqIolLeJeTWGgmkYPfbLkHInwVQ7lYBWttJKZUS3Qotzynm8CXWlZBhK/V1rSubzhB4mKUqC/VBniDQISvY7hgaYZVP8FFEpM40wR+qyFfHfwTRhMqY6SdRAr8r0CEb+JgO3idxHqbmajBlwvymFat88Op8BSJFHhN4DtOlIXnEoyqfivG6yRWcDthvOX4cOFplpDoFM7FN3+ZAq8JBDzAK/RvQ6ASN+YG7iSPyyW4j+fY3aFAH56WgW8RiEmWYpK+DuBPcLe0eJNki3iM3n8NbyoQk87iIXYlwu91undCTNTQQghTqida0d9rD3rxs0X/b5zEL9XDbSLLskdbOK0E/lfb8b/jP1lxQ5DvMSGUAAAAAElFTkSuQmCC" width="30" height="30"
-                                                          style="vertical-align: middle"></button></li>
-	         <li><button id ="filling" title="Заливка"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHVSURBVFiF7de/a9ZQFMbxz2krQtUKioXiZBWkgpOIjoKCUienooKDWHdxce/mIE4ODoL/gZuLDl0ciyKKSFEcKhYRf1WtWDkOiTWtL2jytunSB+5wT5L7fElOzrlXZsIhPMMPzOFDw/Ee+zBRiSVeYzwzLR9KgNu4gDs40unGpqOE2INXna73KLQV01ZJmTldevylnk7BNtUmwEBEPIyIGxGxfS0APuM8NuBBRGxqGyAzcyozxxX5drEK8AVDq+UcEUOlx2/dwkHoKwM3Fb/iIA5HxPwK+g9gClcrsXfoXwTIzMmI2I0tK2hc1bfM/F6Zb8TCIkAJ8VNRNNrQGJ4sAWhDEdGP0zhhWQ40XfAszmAY8R+P7MBzjGbmTFcAETGBUVzHPUXT+Zc+ZebXJeuUDaOu+RBeYFdmvqm9QEVNC9EB3O3WvBFARAzjHEYiYqxbgNqfICImcR9PFcXlVGY+agrQJAn34nhmzkfEMYygHYCI2KkorbMR0avobLNNzaHu9uoaLlXmmzGDvqZbtrpJuA0vK/BzikTubfoCVmI/cHRZo2kd4HKZD2sGcFKRjGsG0JXWAdYB6gJ8VBw0QUQMKnZCC40Japbi/Xjsz9H7La50c3r+BZMCf5H+J+LTAAAAAElFTkSuQmCC" width="30" height="30"
-                                                          style="vertical-align: middle"></button></li>
-	         <li><button id ="highlight" title="Выделить"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhBxcVMQnLTg88AAAA9UlEQVRIx63VMW7CQBAF0OfF4CDcJwdAvgTuabkBB+AgHMWl75HCqSylpHOV0qKJRIo4RdodtlhNsf/vn5H+H+4aF51k1DoaFHpne5Pa1VVtsnfWKwyOWqOkc9G40yDZYMtyV9JSlcqlSqp/bzYSGi6S3JNcklaZTVBqBf7/1WBc+so5WyNtSEGb7EIEO4ZQCwNFSEFBr8qGV/qVFx8emQQP1crsK1vBw8wUGuJEnQ2HmmvIC9eYE/5ExNDhIe5DCvbJIZRIh+RknU2wdnqCmYJ2Xrn5zCb4dkvmUAvzE0I1HOudTTZ8o1t58x5IpNcnLNfgev8Btl8+qMPPpvsAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDctMjNUMjE6NDk6MDkrMDI6MDDnzwbJAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA3LTIzVDIxOjQ5OjA5KzAyOjAwlpK+dQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII=" width="30" height="30"
-                                                          style="vertical-align: middle"></button></li>
-	         <li><button id ="crop" title="Обрезать"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAOKSURBVFiFtddZqJZFGAfw3xw1tVzLDlRgRmYWWkaoLUaIeBG0aJS0b17ojRCSEVSWRjdWENldgRom0QJeFCUeaSUisgVpQctWlRZtoRW06eJ5TnzZOcf3O+rAwDvzPjPz/z/rTKm16m6llBXYiztr649+tFJKBx7BwFrrwl4Fa63/dnyIiiWt8/3pWJp7be1Tbr9FN+Mn7Ma5B3H4hdiT/ZZ2AAzENqzDlzi6H4ePwTdYi8/SBL3Kd+xnjr1YjtPwEla3afeCNbl2Iu7LPXttHT3MPYkheA1jSymL28CwGOPQhZFCC323XtQ4Bw9jgrDj9Aaqn4afMRmbcUMjkx1g04Jr8QVG9yE3EtuxAJdhKwYcFIBk/z4G4HGs70P2aTyTgN/FdY2d9gAaeAc3YSi24NYeZBbg89TCHHzSlH0TABelageJyNiDqS3/J+MXTE/27+GatsK2gXO9iQX5fWMCGoWj8DFuz39z8RE6DjWAWfgag3O8Gs9hFTYk85L+clU7hzcCkIe+jEX5fWQy/Q6dOXe5qCNtsW8HwAzswtAcTxI1Y2qy/wDz2j28MYA8dANuaxnPT3+YnxFSDjeAaan2YS1za/E3rujP4bXWHmtBb21M9mWllFmllJOxUGS9Y9vY57+tIfvjk/0dokxX4QNn4Qz8iCmHxQQiFb+CB0W224L7he134kSRDbdi+OEAcC/eEuHXJcp1yX/LRUiOxlNYd0gBYCZ+EDV+NV7FEfvJrMn5MeI2df0hAZCOtUOk2HtEkflfSRZ1YmNq4HTM7DcAzMMboqTuwkqR/7/FSX2AHSGS0QPiltWVvrINS/SRI1o3eQhf4WKcLyrcePyu2Y3ohIyU2Tg511+QhF7ozUG7F89OxmdikyixG3Ec/sDYBgAGZWhOwXpxtf80QWzSy1ujOxFdmUjnp607RbwvwrO41IHbDJGaJ4ly3Ym7sSzJzO1pUTeAQWnDCdhca/0zgQxJVp0NAIwS2oIdtdZ94l0wTpTqwT2uSvUtTOGZQnXPiyRznnCksxuYYBh+E5GwQ2j0e1yNFUnwEpyi5cpWaq1KKSOF53eJcJqIt3PhiFrr1AYaUEpZJWy+OBnvFj6xFE/g1AS4T+SL11sZjMWL+CsZ/JrjEY1jOp52K1MTO0XN2C6i4y5xuxovIu7RHhMRhovH5THtJJT99hide3TfmKbjMZExd4p3xjm1Vv8AMXHPZCluSfcAAAAASUVORK5CYII=" width="30" height="30"
-                                                          style="vertical-align: middle"></button></li>
-	         <li><button id ="increase" title="Увеличить"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAOASURBVFiFtdZLqFV1FAbw3/Yo6fXiC5s5MIe3F0ldHwgKWSA2aCA4kSBUkkARJ5lp4LyggYSWmEEmiTbJcBgkCrd8RIhBYtokQieKE2+o/wb7O7nbHe89avfA5uz1/L691vqvvatSikf9VVXVwTK8kGsh5uMXnMN5/FhKOffAJKWUR7owhBGUXHdwAcdxuaEvOIone+Z5BOAOtuN2rt0YxrSW30wsx/6QuIY1j0UAU3E6CUcw1LDNwctYjyUYaNhexe+J+/hxCHyYJLvRiW41LrVKXnAXp/Bc/Gbg69jWPDSBDNtdnGgkPJCEf2IPNmAlNuNgWjSKXWndjFTiWncm+gUfyFPewLzojgX8COaOMahn4rer0Y6Cow9D4M0EbYi8NvK+PmKnhMRoox3dwVzYL4FPU/4BTMN1/IbBlt90bEHVoxK3cSry8hB4q18CF3Ax90sTvKmH3+bYhnvYDjYeYmb89k4yzq+qqll5gvNRvZj/sw2f6VVVLcaCqJ6tqmq4qqqqkeosJuH5UsrNVHD8FgS8YGfkTyIPNny+9N9jWLCl4bMyuvWRj+PW5PEqoF6r99Q7Hq7kf766NbATP6h7+zo+yhMeaOTpxl9tyFf7nYHLOJv7V/Ik63r4bY1tcQ/bntjmqAf5Dj7vl8C36mM0BbNz/z0mtfwWpB3TW/q56mV1KfJwyGztl8DOBKyK/F7kbX3GH4n/6si7Iy/vl8Ag/kj/BzE5PR/FtnYlWnH7AnagtRNG0OmLQALfSKI9kZ8KiZJ2rMMzAX0JmzKIRb22Z6jfByMhMFTKw72MqgTfw2vRTU47RvU+htextpGjW/p3/tGNAdjBXvUeXxS5+zq9l6kejO/snI531Xtii3pjTot9Hk4k9rS8yh9IIGBfNMBuqBdHCYlu6a9gFaY8IM+A+hV9Q72GP8DUf/mMA34YK3Ar8vHYqyS+Fv2oetXuV5+YQ7gY0IJfsbQnyTHAC3ZEvywkbmBRw38W3sc36g3XjfsLP+EzvK31vdiTQAv8mPqzumB77CvSjjNjzM1MPI0n+h7uHuBfqad7ToPEjrSjYG+/yfs8XapWzzsNY5NEiV/n/yawMckPtZOnEscmCrxL4OcMWPvzqpN2TBh4l8BNnOwBfniiwbsEvst5HYpiMO2YcPAugSUhcBcn3V86Ew5eyv1juCSVuJmZ2Kj1aT1R19/UFQiD/5Y5pQAAAABJRU5ErkJggg==" width="30" height="30"
-                                                          style="vertical-align: middle"></button></li>
-	         <li><button id ="decrease" title="Уменьшить"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAN6SURBVFiFvddfaJdVGAfwz+tvjhmMbmJSdrEKS0zUVjKJWHfe9OduEUyTyBCCAhEr6A9Bf5CkNDM1QSxvCgovhLIbbV1kJdmmxKDoYoQSI8JUqiXL08V5fu3d2H57f9P1wuH3fp9znvP9nuc85znvr0gpme1TFEUN3bgTXfHbiSF8h5P4NqV0atpJUkqzaliKE0jRfsEn2IVjOFfqO4SOKeeZBfE8bMEoRvAIrp9m7M14Gn/iV/RekQC0oj9W9SGuK/W14x704S60lfpuxZfht+dKBLyCy+gr2XpwOuyp1MbwBZaUIrc1+nqbFoBVMenewAuwI4h/wgu4H8vQG2S/4S9sQhEivo7t6KgsAG2R2cNoD9v7+AdvYME0fgvxcax6Uyl5/8ahZgSsj0nWBH4w8HMV/T+KRLwt8Ivhv6KqgLdxPsI4P47cSbRU9O+IsB8NvDgEPFZVwHH0x/vKcH6oyQR+LULfGgv5HbtbzPBEtVuBd8N0R/wOlMa0Yckk18sppdMlPBDkt6eUBoqiGEBXFeW3xIo3BN6GSyhKY/aYeATrbWNpzLKw9QV+BxdmjADOytl+U+BhOQ8W4UzYXpLP/IQI4HAJd5b8xXzDMwpIKY0WRfGjfNmQLxlyLpyJMSNyZWz0rAxRg4G7cKRqAn2AkXi/Bn/gcBMJ2IYfMBh4kbwdT1adYHM4LA/8lNJ+VvDfFqu/N/Dj4X93VQHtci58g5p8jD6Xa8O6Bn7z8bycQ2+FbaFcok+g1sw5fjhUPxv4BhwN26d4ADeGuMUxfjD63xPlWq6Ko1iaUvO34bFw7gpcYCMuGD96l0rvZ3Ffyb8v7Fv+s81AuDVW0Rn4QEwwimdQKyVZN57A63hULl4tpS3cG3nQj3kzCsB24/f6MPYHPhCRSJETyxvMUWBN+I/hVbROGDMD+W6slut2wv5JOXE27CM4EgQb8Gas9Hz0D2HVlFwNyBPWhq07RAzXt6MU2s1ynRiKVSa5ThyXb9H1Sp9nDQWUyPfJXy5jxmv36sCfNQh5m3x31Con9hTkuwJfWxKxNrYj4eVmTk4lASXynZNWVBdR35LtV5M8OKyLyXdMM2DfXJHXBXyPn6faN/lfzpyR1wVcxMEpOnbONXldwFfy/7j653ZN/t6fc/K6gB75tjqHg7Ed/wt5SuOnoCcicTFyYtor9mq3fwG8uUbSYSpY1AAAAABJRU5ErkJggg==" width="30" height="30"
-                                                          style="vertical-align: middle"></button></li>
-	         <li><button id ="addFigure" title="Добавить фигуру"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAKFSURBVFiFvdbNaxNBGMfx7zRREcRLUetV7AuCID0JHmPrySKKeBARvFU8elfEkyf1D8h74ksuhYrVsxVvVm0VUesLUUFzMKCUgpTHwz5px2FndxM3DiwkuzP7+c3sMDNGREirGGOywDHgnYg8S9RIRFK5gCzQAOaBFnA6Sbtsij2vAxkgB4wCc8YYRKTW1xFQ9A7wGzhg3R8GloGTEW03pYHfBqrACeALsN96vg9442k7BfxIC88QzIF54JvCnTlxzYN/Alb/Bb/l4A1rJJrAPSAPDHjwMaDdK1734PZIxOHTQE94LQSvAAPWfx/+0cJfASup4VqnEoOPWvhQ4k+gvauG4GWr57uByQT4S2BIn8UHUKASgzeAy57ZHoonCqBAOQQvdfHNbXyXU8cfQIFSArzQC6715rrFi13gI1G41t3qw4sJ8KIH/2DhSz5c678NwwsheMHBS93g2nYwJEDbxfN9wDvrx2xcgKv6vWw87+DlhPhOC68DT4EH3gDAZuAr8ESDpIlXgUNxAY4DM8A24BGw4OCVCHxY8UUHt3fLg3EBZoFz+rsT4gobu1y3+Po5Qe/5AxBsCi194RiwHbgIiA57JgR/78GzBMezqt0uKkAWOKPQGvAYWNHPMS4iC1jFGDMFXAeOAIeB80BORL7rwbRGcDY8KyJrJCyLwE/gIXAK2OJZNNyev3B6ftfteZIRMMAE8FpEmr6EIT2f1p639PlNvTejI+mWQWBVRI46720bTeItFj6pYf/Ctc4IsCfyRbAkIp/dAHHbcWfY97Ix7Dui2nRzEbMd9xWPDKD4soU/Txtfn4TuHDDG5ID7BKvfL+ACcINgrUi7XAoLME4w4f5Haf4BaU6HDNpydm4AAAAASUVORK5CYII=" width="30" height="30"
+	         		<li><button id ="addFigure" title="Добавить фигуру"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAKFSURBVFiFvdbNaxNBGMfx7zRREcRLUetV7AuCID0JHmPrySKKeBARvFU8elfEkyf1D8h74ksuhYrVsxVvVm0VUesLUUFzMKCUgpTHwz5px2FndxM3DiwkuzP7+c3sMDNGREirGGOywDHgnYg8S9RIRFK5gCzQAOaBFnA6Sbtsij2vAxkgB4wCc8YYRKTW1xFQ9A7wGzhg3R8GloGTEW03pYHfBqrACeALsN96vg9442k7BfxIC88QzIF54JvCnTlxzYN/Alb/Bb/l4A1rJJrAPSAPDHjwMaDdK1734PZIxOHTQE94LQSvAAPWfx/+0cJfASup4VqnEoOPWvhQ4k+gvauG4GWr57uByQT4S2BIn8UHUKASgzeAy57ZHoonCqBAOQQvdfHNbXyXU8cfQIFSArzQC6715rrFi13gI1G41t3qw4sJ8KIH/2DhSz5c678NwwsheMHBS93g2nYwJEDbxfN9wDvrx2xcgKv6vWw87+DlhPhOC68DT4EH3gDAZuAr8ESDpIlXgUNxAY4DM8A24BGw4OCVCHxY8UUHt3fLg3EBZoFz+rsT4gobu1y3+Po5Qe/5AxBsCi194RiwHbgIiA57JgR/78GzBMezqt0uKkAWOKPQGvAYWNHPMS4iC1jFGDMFXAeOAIeB80BORL7rwbRGcDY8KyJrJCyLwE/gIXAK2OJZNNyev3B6ftfteZIRMMAE8FpEmr6EIT2f1p639PlNvTejI+mWQWBVRI46720bTeItFj6pYf/Ctc4IsCfyRbAkIp/dAHHbcWfY97Ix7Dui2nRzEbMd9xWPDKD4soU/Txtfn4TuHDDG5ID7BKvfL+ACcINgrUi7XAoLME4w4f5Haf4BaU6HDNpydm4AAAAASUVORK5CYII=" width="30" height="30"
                                                           style="vertical-align: middle"></button>
 					<ul class="submenu">
-				      <li><button id ="circle" title="Круг"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAGrSURBVFiFxdexbhpBEMbx31GAKCK5Axpqu3CTKJLrdK4iuc5DUNKgKC9h5QHyAnkBKhdIUdJabnEBaaFKtSkYpMsJOBxz7Ehb3N3sfP+bvduZLVJKjrGiKDr4gI+4wiAGLGI84jumKaU/R8WtAyiKoofP+IQ3+IVZCC7DrR8wN3iLNb7hS0rp90GBlNLOgTYmEewZIwz3+ZfmDcP3OeZO0N7rvydIDw9YYYxunfCOGN2Yu4pYvaMAcI05nnD5UuEd8S4j1hzXBwHizeeY4uK14qW4FxFzXs1Edc0fgvZk4hWIp9Bo7wKYxHq9Ou01y7HC5B+ASP0a46bESxDj0OqVAe7jt3nx1/4fAN3Quo9rnUjLqGnxEsQoNDtwi3TMJnNCgGFo3hb4ivcppXcHt8wTW1EUP/GjZVNYZucUD5vhqmVTRBYZABYYbAGWNc5N2HILkNVaNqnoZ9DuY7EFGNQ4N2GDLcCjTSdzbrsJ7bwbUcumTq9xd8a3vwvNaf5iFDfzluN4kK8hiYd5W7LSUuRpSkvO+drySibyHEwq30TjR7Psh9NagBJII8fzv1Ui9Fu7brz2AAAAAElFTkSuQmCC" width="30" height="30"
+						<li><button id ="line" title="Прямая"><img src="data:image/png;base6;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAA6SURBVFiF7dZBEQAwDAIwOv9C5rKTwR7BADlezO6mmVNtBwAAAAAA+AEwSW4T0F/AIQEAAAAAAGgDHl8ZBuDs/IygAAAAAElFTkSuQmCC" width="30" height="30"
                                                                         style="vertical-align: middle"></button></li>
-			         <li><button id ="square" title="Квадрат"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABdSURBVFiF7dexDcAwCETRT5SlvJSHyRTZxN6KNHaXGjf/JCSoeO0BTCAPzYy1PMCgNg3o9zpGZr6V3yMCoF+VT/8iQIAAAQIECBAgQIAAAQJ2N2yrq1Wm7eVoPf8AyiBHdR5pqboAAAAASUVORK5CYII=" width="30" height="30"
+						<li><button id ="circle" title="Круг"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAGrSURBVFiFxdexbhpBEMbx31GAKCK5Axpqu3CTKJLrdK4iuc5DUNKgKC9h5QHyAnkBKhdIUdJabnEBaaFKtSkYpMsJOBxz7Ehb3N3sfP+bvduZLVJKjrGiKDr4gI+4wiAGLGI84jumKaU/R8WtAyiKoofP+IQ3+IVZCC7DrR8wN3iLNb7hS0rp90GBlNLOgTYmEewZIwz3+ZfmDcP3OeZO0N7rvydIDw9YYYxunfCOGN2Yu4pYvaMAcI05nnD5UuEd8S4j1hzXBwHizeeY4uK14qW4FxFzXs1Edc0fgvZk4hWIp9Bo7wKYxHq9Ou01y7HC5B+ASP0a46bESxDj0OqVAe7jt3nx1/4fAN3Quo9rnUjLqGnxEsQoNDtwi3TMJnNCgGFo3hb4ivcppXcHt8wTW1EUP/GjZVNYZucUD5vhqmVTRBYZABYYbAGWNc5N2HILkNVaNqnoZ9DuY7EFGNQ4N2GDLcCjTSdzbrsJ7bwbUcumTq9xd8a3vwvNaf5iFDfzluN4kK8hiYd5W7LSUuRpSkvO+drySibyHEwq30TjR7Psh9NagBJII8fzv1Ui9Fu7brz2AAAAAElFTkSuQmCC" width="30" height="30"
                                                                         style="vertical-align: middle"></button></li>
-			         <li><button id ="rectangle" title="Прямоугольник"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABoSURBVFiF7dexDcAgDETR7yhLsRTDZIpsAltdGtOkDy5yJyGZyg8JCROSqMxR2t0AAzITUNGakcUFjK9P+koD+pmbIene2T0iAHr5HTDAAAMMMMAAA9Y80PJ93pm2itqRzD8jA34PeACHPU1tOqP6GgAAAABJRU5ErkJggg==" width="30" height="30"
+			        		<li><button id ="square" title="Квадрат"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABdSURBVFiF7dexDcAwCETRT5SlvJSHyRTZxN6KNHaXGjf/JCSoeO0BTCAPzYy1PMCgNg3o9zpGZr6V3yMCoF+VT/8iQIAAAQIECBAgQIAAAQJ2N2yrq1Wm7eVoPf8AyiBHdR5pqboAAAAASUVORK5CYII=" width="30" height="30"
                                                                         style="vertical-align: middle"></button></li>
-			         <li><button id ="triangle" title="Треугольник"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAIMSURBVFiFvZcxSFxBEIa/EUEDptBKKzWNWsoLpPEQ0nik9EiRQpPytNZaa7UVUx42KSStWAWClWDKpFRskiqVhRGJv8WbwBrunu/27d3CFG939p9vBnZ2n0kidpjZRwBJzWgRSVEGzAB/3WZidSy2AmbWAl7555mkD32rADAJ3AHv3e6AySitSIB94BIYdLsE9vsCAIwDN8B6MLfuc+P9ANgBfgHDwdywz+30FAAYBa6BzTZrm7422kuALeA3MNJmbcTXtnoCEATYLvDZ7gSYAmDDSzxW4DPmPhtJAYAh4CewW8J3132HUgKslT1mwTFdSwIQ02jCRpUCYNVb7VQXAFO+Z7USADAA/ABaZYMHe1u+d6AKQIP8up2NAJj1vY0iv8Lr2My+AReS3nZ0KhhmdgS8kJR1dCrIoA4ImO82+0Bj3jXqXVfAzE6Ba0lvYrIPdI6B55JqpSsA1Jx8ITb7QGvBtWqlK2BmJ8AzSYtVsg/0vgI3kupPVgDInHipavaB5pJrZk9WwMw+k7/vXqbIPtA9B64kNTpWAJgD7oHlVNkH2suuPfdo/j+nQ+A75JVJDGCufdgWAJgm798rqYMHMVY8xnQ7gAPgghI3WAWAQY9x8AgAmAD+AM1eBQ8gmh5rIgTYo4tXTEWAf6+rPUkY+TvuCvgCfKp+4EqNd8Br8l88MuCWvFH0026B7AGJjfVJC9f3HwAAAABJRU5ErkJggg==" width="30" height="30"
+			        		<li><button id ="rectangle" title="Прямоугольник"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABoSURBVFiF7dexDcAgDETR7yhLsRTDZIpsAltdGtOkDy5yJyGZyg8JCROSqMxR2t0AAzITUNGakcUFjK9P+koD+pmbIene2T0iAHr5HTDAAAMMMMAAA9Y80PJ93pm2itqRzD8jA34PeACHPU1tOqP6GgAAAABJRU5ErkJggg==" width="30" height="30"
+                                                                        style="vertical-align: middle"></button></li>
+			        		<li><button id ="triangle" title="Треугольник"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAIMSURBVFiFvZcxSFxBEIa/EUEDptBKKzWNWsoLpPEQ0nik9EiRQpPytNZaa7UVUx42KSStWAWClWDKpFRskiqVhRGJv8WbwBrunu/27d3CFG939p9vBnZ2n0kidpjZRwBJzWgRSVEGzAB/3WZidSy2AmbWAl7555mkD32rADAJ3AHv3e6AySitSIB94BIYdLsE9vsCAIwDN8B6MLfuc+P9ANgBfgHDwdywz+30FAAYBa6BzTZrm7422kuALeA3MNJmbcTXtnoCEATYLvDZ7gSYAmDDSzxW4DPmPhtJAYAh4CewW8J3132HUgKslT1mwTFdSwIQ02jCRpUCYNVb7VQXAFO+Z7USADAA/ABaZYMHe1u+d6AKQIP8up2NAJj1vY0iv8Lr2My+AReS3nZ0KhhmdgS8kJR1dCrIoA4ImO82+0Bj3jXqXVfAzE6Ba0lvYrIPdI6B55JqpSsA1Jx8ITb7QGvBtWqlK2BmJ8AzSYtVsg/0vgI3kupPVgDInHipavaB5pJrZk9WwMw+k7/vXqbIPtA9B64kNTpWAJgD7oHlVNkH2suuPfdo/j+nQ+A75JVJDGCufdgWAJgm798rqYMHMVY8xnQ7gAPgghI3WAWAQY9x8AgAmAD+AM1eBQ8gmh5rIgTYo4tXTEWAf6+rPUkY+TvuCvgCfKp+4EqNd8Br8l88MuCWvFH0026B7AGJjfVJC9f3HwAAAABJRU5ErkJggg==" width="30" height="30"
                                                                         style="vertical-align: middle"></button></li>
 					</ul>
 				</li>
-            <li><button id ="addText" title="Добавить текст"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAKXSURBVFiFzdc7iF1VFAbgb40TUJh0IoEYiBBfIRZqZUyhoOIrFqKQYgqxSUALQcFCMPEJVmKjiDYDIgqBjOILKwNRCx+oaJxCZDRNFEXzGmFQfotzJty5M3NnbrwnccGGs9f59/n/c9bea61T2IKLdWO/Jfl2EKBwAsfwdwcCNmJTkqMrAcYxgauSzI6avaqC8wdhxkZN2mc/4dQgwHjHAi5LMj+UgKragKewrsf9TpL9fbjrsLvHFTyXZOa0YxVylg/BrbgZs+2YwCPL4HZrTtAC7mrsWo2w31YKwWySfVBVu/DQCrhDPbjNw5LT/Sb8/wtYCMHjVXW8vd76H563tao2JTmy1gVj2IPjPb7DmlMwrM3iXvxcVV9X1bNVdX1VnTdo0XiSl8+AbDl7D3vb6y+wGW8jVTWNx5L80r9olHvgM/yK1zRf4lVchLs0of6+qi7tTECS4AP8jgfxFl7R5If78Qae6ExAa+/i9iRTOKgp84/iNjyJO6vq2i4FfIhLqmoLvtSU4/X4oy3Jz2C6qg5V1ZtVtW6kxSjJn1X1Ee7D0/gRR5J80kJe1GTVeVyJ17uohg/jU/yF55PMQVVNaE7KYUxiGutHngmTfINbcBN+qKrJlvx9zZtP4gBO4u5OUnGSj5PciAfwEr7qIz+FnUnmOm1Ikhyoqu9awiXknJ1iNK9pfpeQny0BO3GBJuaLyOm+J5TkWFVtbzPlEluuJ9yDDT2ubQOev6Oq9vXMT+CFJIv+MVYih+q9V1WXYwZTfbi1NKVwD+5IcnCA6MWW5PTAFQuCz2RoeoIbhllzzluycy6gfxPO4Z+qmm3nU0n2VtU12G91wRs1x23NtmgTQlVtw4XtdCbJ0aoaw441CDiZ5PNhBPwL0tpCw/ngpg8AAAAASUVORK5CYII=" width="30" height="30"
+
+			</ul>
+		</div>
+	</div>
+         <div id ="blockTools2">
+		<div id="nav">
+	      		<ul>
+              			<li><button id ="save" title="Сохранить" onclick="save()"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAG/SURBVFiF7Ze/axRRFIW/EyNYWFhJQNhaA4qlhVinlECwsrRQQkRtrCStRTRIrCxCOtEthvwDNoKxMNFCdrHSgJhGEyUJSAjHIm9gHGazj5m32SYHLjNz333vflzerwHIAB+BzdumbKMc6A3wjP/1GFgDXlJfT4H3wFtgTpJs3y0G5ADrtrNig6SHQLfsr5KkE8DNgmvbdlvSbBhjQdI68DpAzJQBmuoksAhshjF/Ae1igO1lSVMBYsT2NMBIIoBck8CjXo22l4Ep4Jak55KUqgLRKlYC+Jm6AtEQwCvgUmqAFnA2MnYf0k3CXEvh+S22QyqAv8CFwvdeKoAJSWfqEEkCONcEYBUYBy7XAQj6DHytBWD7ToPE0RrKMjwGKKpyDkg6NYBce7b3+wJIGgN+DADgHjDfF6DUoZso+YteDYcBrNheSZFd0k4dgLzzbeBGyf3B9oOmYFEAwBfgY8n3KUXyWIB3wPeyU9J5YMP2VhOAmH3gCdDpYZmkq5I6dQFiKnCfiuUTtGF7S9KVgQHY3qXPcrT9uy7A0LfiY4ChA+STsCXpenjP74DXwsGUQqeBi4UccHCF/wNH93teZdk/X9zGrzfK1hIAAAAASUVORK5CYII=" width="30" height="30"
                                                                         style="vertical-align: middle"></button></li>
-						<li class="color"><button id ="palette" title="Палитра"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAQvSURBVFiFpdd5qNVFFAfwz7zny+WZe5mKqdkiuGRW9jL/yBZowRDEhCCoLEEoCzJQK1r+sCjFIiTLf9oLUStoQ8lKCiq0zdQsLS2ztKAFQ9Rw+mPm2s+f9953X/1guHfOOXPmzDnfc85MiDFq5AshdMZEXJp/+6IHWrEHW/JYG2Nc05BShPYMCCGciLm4Ce9jOXZhb974F/TDeWjL42/MjzGub9eCGGPVgeOwAN/iAQyrJVtl7Wh8jCntytZQ0D+fdgW6l3inYlE26uQ6RgzBhxUv1xpNVVw+Gh/hLUyLMe4r8LphNb7E91gbQmiu4dzd+SCNhwAnYBsm1zjVNVhSmK/ExTVk52FpwyFAC97DvDpuHYrP0Cefbhv6VJG7FuvRqyMG3Ie1aCrQBhbnmXYLtmIzbijxumECLkK/hgBbcP0ODMrzMXgdm/AVbi5t1KwELgzDF5jbaLYUDViI+wvKVldwIOX4JxheJzT9pCI0vSOb57W64a/KBlL6fFoSmoUFdZQsxN0d3TzGqBMuwIYY4/acGD+hewiheyEFx+DdGokEl+OKOnwQQhgjlfI/sTzG+EcTJuGZilCM8SCexWshhOkhhIVZZlUd3ftRs6aHEIaGEFbkfXribKwKIbTAB2ir4tZzsRQz0LWdOD6KOTV4U/BD1hPi0WGbA9+pA7AGgdRXyqI70JppI/AYPseIKmvGSqXeHvQoMVtwFkYq1YE6Rpwm1f692I59Ur+o6j0MznJ+LTHGSRVuUz7VBh3rhIOy4cc3YPD+Sgh6F06+DVfneRPmY93/CM9wPCzdKfoV6KOxowlf45wM2FE4EGNcDjHGw1iMkSGEPjVAXvMLIfTAO3mPw3i7wO6Kn5ukuj4+Ew+iNYRQbNNdpMvJoY4agKlYGWNcFmN8CLtDCG2ZNwkb4Sq8WnD5etwp3fX64gms+o/uHysBs1XqN9+gZ+ZtkYqSFuzESQV0rsZvUsV6ScZIBSftbNpSmi+QcLYVN2Zam5QtzRWhJXi8tLAVXUqgeUoq1WtwZUl+It7I/KdxeoHX2dFtfikWxfhvNxyM33FGnZNtxDSpFbflE1Xad3OeT8hhnIE3a+jpIWVa7yMGZMacWrHGhXi5RLsV9+b/l+GFEn8zBlbR9TxmVeZFtD+CwSGEmY79qmXBoUwnXURGVRghhL4StvYUF4QQrpMK0JNHiCXr+ks5O7VED1JlnJz/j5VQPKQgs0y6U94l3Zpnl3RMlS42R13ValWunbi+RB8nZcSPWFc2MsuMyaEcXKLPlDAy4Jg1NWI+THqYvCjnbYFXtzVX8ehzUi2o+oipt7hZ6gO7cE/Zde1s3Au3SY+T29XpqI0oG4AHs+tXYDbORG+56EjvhPHSe2Blll2MU9rT3+7ruIDg7rgE50v5PlTqE51wIIN0k3TDeiXGeKARvf8AchcCtjmmFUEAAAAASUVORK5CYII=" width="30" height="30"
-																																				                                                                        style="vertical-align: middle"></button>
-					    <input type="color" id="color"></li>
+         		</ul>
+                </div>
+		<div id = "tools">
+			<ul class = "menu">
+	         <li><button id="brush" title="Кисть"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAKaSURBVFiFvdZNiJVVGAfw37kOIzo1jhJKm8lKggglZUT7MAYdMAQ3tUgCPxYiDIGbNuHChWiWKC2U8ANpYUhC+JWQLTSDSNBooybJWGMFLiIhglk04nFxTnJ9ve/c8c5958BZ3Od57vP/P5/nDTFGk3VCCJ3YjrfxDwZrkwg+D98hYDk244AYY+UXA/gTK+tkPfhrMsDXYxgvF+RbsKtq8K24gt6C/E38hllVAXfgMM5jRkG3MJdjQYxRFeBP4iw+R2dB15vLseKBrM3gT+Mn7EAo6HpwFWsfkrcR/CXcxKYGuk5cwJZHdG0C78cfWNVAF3AU+xv+tw3g7+a6LirRf4SvMKXtBPABruGZEv0gLqGr1EeLwFOwP9d1ZonNatzA7DF9tQDelVP6C77G1AY2i3ELLzTz91iPUQhhTo76Gl6UttnxEMLUgulnWBNjvNHU6Tij3oCL+B2DhQ7/FGekUZuJt1Abb0abZiCE0IN92CaltbeOfMR7mdiX+T4fY7zXNPLxZgDT8R9ewxPSm76zYFOTeqLhrE+oCbETp6VF84rUhBfqSUizfkbJrLdMAEulUerCkpzqvvz720xuEJeNMestEcA0XMcbdbI+9NeV5nwmNacV8GYEPsbeEt1NvC7N+7lWwR8hgHX4Abcxip+L0eXIT+Eu/sVAWwjgQ3yDd9CdIzwkLZ3Z2ebV3O2fYIaSNfzYBLALJzVYIDghfdftzg25bKKgBf/mSl8q00sM5udy7Gm108e6HdJ7fiTGONJ4VbmDv2OM75foJ3RqmcDJMWzmSSu4klOT1utwI2UIIUj9cbBKAr9KfVAE75Reuu9jjIerJDCEVSGE7pDOUyGEjfgRo1XV/v8TpNnegOfwLEZwDF/EGIeqBIf78TLBMmaxl+MAAAAASUVORK5CYII=" width="30" height="30"
+                                                          style="vertical-align: middle"></button></li>
+	         <li><button id ="filling" title="Заливка"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHVSURBVFiF7de/a9ZQFMbxz2krQtUKioXiZBWkgpOIjoKCUienooKDWHdxce/mIE4ODoL/gZuLDl0ciyKKSFEcKhYRf1WtWDkOiTWtL2jytunSB+5wT5L7fElOzrlXZsIhPMMPzOFDw/Ee+zBRiSVeYzwzLR9KgNu4gDs40unGpqOE2INXna73KLQV01ZJmTldevylnk7BNtUmwEBEPIyIGxGxfS0APuM8NuBBRGxqGyAzcyozxxX5drEK8AVDq+UcEUOlx2/dwkHoKwM3Fb/iIA5HxPwK+g9gClcrsXfoXwTIzMmI2I0tK2hc1bfM/F6Zb8TCIkAJ8VNRNNrQGJ4sAWhDEdGP0zhhWQ40XfAszmAY8R+P7MBzjGbmTFcAETGBUVzHPUXT+Zc+ZebXJeuUDaOu+RBeYFdmvqm9QEVNC9EB3O3WvBFARAzjHEYiYqxbgNqfICImcR9PFcXlVGY+agrQJAn34nhmzkfEMYygHYCI2KkorbMR0avobLNNzaHu9uoaLlXmmzGDvqZbtrpJuA0vK/BzikTubfoCVmI/cHRZo2kd4HKZD2sGcFKRjGsG0JXWAdYB6gJ8VBw0QUQMKnZCC40Japbi/Xjsz9H7La50c3r+BZMCf5H+J+LTAAAAAElFTkSuQmCC" width="30" height="30"
+                                                          style="vertical-align: middle"></button></li>
+	         <li><button id ="crop" title="Обрезать"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAOKSURBVFiFtddZqJZFGAfw3xw1tVzLDlRgRmYWWkaoLUaIeBG0aJS0b17ojRCSEVSWRjdWENldgRom0QJeFCUeaSUisgVpQctWlRZtoRW06eJ5TnzZOcf3O+rAwDvzPjPz/z/rTKm16m6llBXYiztr649+tFJKBx7BwFrrwl4Fa63/dnyIiiWt8/3pWJp7be1Tbr9FN+Mn7Ma5B3H4hdiT/ZZ2AAzENqzDlzi6H4ePwTdYi8/SBL3Kd+xnjr1YjtPwEla3afeCNbl2Iu7LPXttHT3MPYkheA1jSymL28CwGOPQhZFCC323XtQ4Bw9jgrDj9Aaqn4afMRmbcUMjkx1g04Jr8QVG9yE3EtuxAJdhKwYcFIBk/z4G4HGs70P2aTyTgN/FdY2d9gAaeAc3YSi24NYeZBbg89TCHHzSlH0TABelageJyNiDqS3/J+MXTE/27+GatsK2gXO9iQX5fWMCGoWj8DFuz39z8RE6DjWAWfgag3O8Gs9hFTYk85L+clU7hzcCkIe+jEX5fWQy/Q6dOXe5qCNtsW8HwAzswtAcTxI1Y2qy/wDz2j28MYA8dANuaxnPT3+YnxFSDjeAaan2YS1za/E3rujP4bXWHmtBb21M9mWllFmllJOxUGS9Y9vY57+tIfvjk/0dokxX4QNn4Qz8iCmHxQQiFb+CB0W224L7he134kSRDbdi+OEAcC/eEuHXJcp1yX/LRUiOxlNYd0gBYCZ+EDV+NV7FEfvJrMn5MeI2df0hAZCOtUOk2HtEkflfSRZ1YmNq4HTM7DcAzMMboqTuwkqR/7/FSX2AHSGS0QPiltWVvrINS/SRI1o3eQhf4WKcLyrcePyu2Y3ohIyU2Tg511+QhF7ozUG7F89OxmdikyixG3Ec/sDYBgAGZWhOwXpxtf80QWzSy1ujOxFdmUjnp607RbwvwrO41IHbDJGaJ4ly3Ym7sSzJzO1pUTeAQWnDCdhca/0zgQxJVp0NAIwS2oIdtdZ94l0wTpTqwT2uSvUtTOGZQnXPiyRznnCksxuYYBh+E5GwQ2j0e1yNFUnwEpyi5cpWaq1KKSOF53eJcJqIt3PhiFrr1AYaUEpZJWy+OBnvFj6xFE/g1AS4T+SL11sZjMWL+CsZ/JrjEY1jOp52K1MTO0XN2C6i4y5xuxovIu7RHhMRhovH5THtJJT99hide3TfmKbjMZExd4p3xjm1Vv8AMXHPZCluSfcAAAAASUVORK5CYII=" width="30" height="30"
+                                                          style="vertical-align: middle"></button></li>
+	         <li><button id ="decrease" title="Уменьшить"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAN6SURBVFiFvddfaJdVGAfwz+tvjhmMbmJSdrEKS0zUVjKJWHfe9OduEUyTyBCCAhEr6A9Bf5CkNDM1QSxvCgovhLIbbV1kJdmmxKDoYoQSI8JUqiXL08V5fu3d2H57f9P1wuH3fp9znvP9nuc85znvr0gpme1TFEUN3bgTXfHbiSF8h5P4NqV0atpJUkqzaliKE0jRfsEn2IVjOFfqO4SOKeeZBfE8bMEoRvAIrp9m7M14Gn/iV/RekQC0oj9W9SGuK/W14x704S60lfpuxZfht+dKBLyCy+gr2XpwOuyp1MbwBZaUIrc1+nqbFoBVMenewAuwI4h/wgu4H8vQG2S/4S9sQhEivo7t6KgsAG2R2cNoD9v7+AdvYME0fgvxcax6Uyl5/8ahZgSsj0nWBH4w8HMV/T+KRLwt8Ivhv6KqgLdxPsI4P47cSbRU9O+IsB8NvDgEPFZVwHH0x/vKcH6oyQR+LULfGgv5HbtbzPBEtVuBd8N0R/wOlMa0Yckk18sppdMlPBDkt6eUBoqiGEBXFeW3xIo3BN6GSyhKY/aYeATrbWNpzLKw9QV+BxdmjADOytl+U+BhOQ8W4UzYXpLP/IQI4HAJd5b8xXzDMwpIKY0WRfGjfNmQLxlyLpyJMSNyZWz0rAxRg4G7cKRqAn2AkXi/Bn/gcBMJ2IYfMBh4kbwdT1adYHM4LA/8lNJ+VvDfFqu/N/Dj4X93VQHtci58g5p8jD6Xa8O6Bn7z8bycQ2+FbaFcok+g1sw5fjhUPxv4BhwN26d4ADeGuMUxfjD63xPlWq6Ko1iaUvO34bFw7gpcYCMuGD96l0rvZ3Ffyb8v7Fv+s81AuDVW0Rn4QEwwimdQKyVZN57A63hULl4tpS3cG3nQj3kzCsB24/f6MPYHPhCRSJETyxvMUWBN+I/hVbROGDMD+W6slut2wv5JOXE27CM4EgQb8Gas9Hz0D2HVlFwNyBPWhq07RAzXt6MU2s1ynRiKVSa5ThyXb9H1Sp9nDQWUyPfJXy5jxmv36sCfNQh5m3x31Con9hTkuwJfWxKxNrYj4eVmTk4lASXynZNWVBdR35LtV5M8OKyLyXdMM2DfXJHXBXyPn6faN/lfzpyR1wVcxMEpOnbONXldwFfy/7j653ZN/t6fc/K6gB75tjqHg7Ed/wt5SuOnoCcicTFyYtor9mq3fwG8uUbSYSpY1AAAAABJRU5ErkJggg==" width="30" height="30"
+                                                          style="vertical-align: middle"></button></li>
+                <li><button id ="addText" title="Добавить текст"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAKXSURBVFiFzdc7iF1VFAbgb40TUJh0IoEYiBBfIRZqZUyhoOIrFqKQYgqxSUALQcFCMPEJVmKjiDYDIgqBjOILKwNRCx+oaJxCZDRNFEXzGmFQfotzJty5M3NnbrwnccGGs9f59/n/c9bea61T2IKLdWO/Jfl2EKBwAsfwdwcCNmJTkqMrAcYxgauSzI6avaqC8wdhxkZN2mc/4dQgwHjHAi5LMj+UgKragKewrsf9TpL9fbjrsLvHFTyXZOa0YxVylg/BrbgZs+2YwCPL4HZrTtAC7mrsWo2w31YKwWySfVBVu/DQCrhDPbjNw5LT/Sb8/wtYCMHjVXW8vd76H563tao2JTmy1gVj2IPjPb7DmlMwrM3iXvxcVV9X1bNVdX1VnTdo0XiSl8+AbDl7D3vb6y+wGW8jVTWNx5L80r9olHvgM/yK1zRf4lVchLs0of6+qi7tTECS4AP8jgfxFl7R5If78Qae6ExAa+/i9iRTOKgp84/iNjyJO6vq2i4FfIhLqmoLvtSU4/X4oy3Jz2C6qg5V1ZtVtW6kxSjJn1X1Ee7D0/gRR5J80kJe1GTVeVyJ17uohg/jU/yF55PMQVVNaE7KYUxiGutHngmTfINbcBN+qKrJlvx9zZtP4gBO4u5OUnGSj5PciAfwEr7qIz+FnUnmOm1Ikhyoqu9awiXknJ1iNK9pfpeQny0BO3GBJuaLyOm+J5TkWFVtbzPlEluuJ9yDDT2ubQOev6Oq9vXMT+CFJIv+MVYih+q9V1WXYwZTfbi1NKVwD+5IcnCA6MWW5PTAFQuCz2RoeoIbhllzzluycy6gfxPO4Z+qmm3nU0n2VtU12G91wRs1x23NtmgTQlVtw4XtdCbJ0aoaw441CDiZ5PNhBPwL0tpCw/ngpg8AAAAASUVORK5CYII=" width="30" height="30"
+                                                                        style="vertical-align: middle"></button></li>
 			</ul>
 		</div>
 	</div>
 	<div id="blockCanvas">
-	   <div id = "canvas1"> <canvas id="bottomCanvas" style="border:1px solid #000000; background:white;" width="800" height="450"></canvas> </div>
-	   <div id = "canvas2"> <canvas id="topCanvas" style="border:1px solid #000000;" width="800" height="450" ></canvas> </div>
+	   <div id = "canvas1"> <canvas id="bottomCanvas" style="border:1px solid #000000; background:white;" width="1500" height="800"></canvas> </div>
+	   <div id = "canvas2"> <canvas id="topCanvas" style="border:1px solid #000000;" width="1500" height="800" ></canvas> </div>
 	</div>
-	<div id="mouse_coords_on_move" style=" display : none ;position : fixed; border: 1px solid #000000;padding-left: 3px; margin-left: 64px; margin-top: 447px; width: 150px ; height:18px; background: grey"></div>
-	<div id="for_save_block" style="display: none; z-index: 10; position: fixed;margin-top: 100px;margin-left: 100px;border: 1px solid #000000;background: grey;width: 800px;height: 500px;padding: 30px;">
+	<div id="mouse_coords_on_move" style=" display : none ;position : fixed; border: 1px solid #000000;padding-left: 3px; margin-left: 111px; margin-top: 797px; width: 150px ; height:18px; background: grey"></div>
+	<div id="for_save_block" style="display: none; z-index: 10; position: fixed;margin-top: 5px;margin-left: 10px;border: 1px solid #000000;background: grey;width: 1520px;height: 840px;padding: 30px;">
 		<img id="for_save_place" style="border: 3px solid #000000;">
-		<button id="Done" onclick="done()" style="width: 60px;height: 35px;margin-left: 360px;margin-top: 15px;">Done</button>
+		<button id="done" onclick="done()" style="width: 60px;height: 35px;margin-left: 750px;margin-top: 15px;">Done</button>
 	</div>
     <script src = "canvas_action.js"></script>
 	<script src = "key_action.js"></script>
