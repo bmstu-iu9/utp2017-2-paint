@@ -28,6 +28,43 @@ document.getElementById('color').oninput = function () {
     Color = this.value;
 }
 
+/**
+ * Default visibility is 100%.
+ * @type {string}
+ */
+var Visibility = 1;
+
+/**
+ * Set visibility {@code Visibility}.
+ * @Get visibility from range {@code Visibility}
+ * @type {string}
+ */
+document.getElementById('visible').oninput = function () {
+    Visibility = this.value / 100;
+    var visibleText = document.getElementById('visible-text');
+    visibleText.value = this.value;
+}
+
+/**
+ * Set visibility {@code Visibility}.
+ * @Get visibility from number input {@code Visibility}
+ * @type {string}
+ */
+document.getElementById('visible-text').oninput = function () {
+    Visibility = this.value / 100;
+    var visibleRange = document.getElementById('visible');
+    visibleRange.value = this.value;
+}
+
+/**
+ * Clear Canvas {@code}.
+ * @Clear Canvas {@code}
+ * @type {string}
+ */
+function clearCanvas () {
+    bottom_ctx.clearRect(0, 0, bottomCanvas.width, bottomCanvas.height)
+}
+
 var objNameSpace = {};
 var im_is = false;
 var img_move = false;
@@ -47,6 +84,7 @@ class Form {
 
     constructor( pos1x, pos1y, pos2x, pos2y ) {
         this.color = Color;
+        this.visibility = Visibility;
         this.pos1x = pos1x;
         this.pos1y = pos1y;
         this.pos2x = pos2x;
@@ -77,6 +115,7 @@ class Line extends Form {
     drawTop() {
         ctx.strokeStyle = this.color;
         ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
         ctx.moveTo( this.pos1x, this.pos1y );
         ctx.lineTo( this.pos2x, this.pos2y );
         ctx.stroke();
@@ -86,6 +125,7 @@ class Line extends Form {
     drawBottom() {
         bottom_ctx.strokeStyle = this.color;
         bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
         bottom_ctx.moveTo( this.pos1x, this.pos1y );
         bottom_ctx.lineTo( this.pos2x, this.pos2y );
         bottom_ctx.stroke();
@@ -137,6 +177,7 @@ class Pensil {
 
     constructor( pos1x, pos1y, pos2x, pos2y ) {
         this.color = Color;
+        this.visibility = Visibility;
         this.pos1x = pos1x;
         this.pos1y = pos1y;
         this.pos2x = pos2x;
@@ -168,6 +209,7 @@ class Pensil {
     drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
         ctx.strokeStyle = this.color;
         ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
         if ( getDist( pos1x, pos1y, pos2x, pos2y ) > 0.5 ) {
             ctx.moveTo( pos1x, pos1y );
             ctx.lineTo( pos2x, pos2y );
