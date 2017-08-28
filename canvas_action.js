@@ -20,15 +20,12 @@ bottom_ctx.fillStyle = "rgb(0,0,255)";
 var Color = 'black';
 
 /**
- * Returns the selected color {@code Color}.
- * @return the selected color {@code Color}
+ * Changes the color {@code Color}.
+ * @Changes the selected color {@code Color}
  * @type {string}
  */
-function getColor () {
-    document.getElementById('color').oninput = function () {
-        Color = this.value;
-    }
-    return Color;
+document.getElementById('color').oninput = function () {
+    Color = this.value;
 }
 
 var objNameSpace = {};
@@ -48,8 +45,8 @@ var img_size_corner = false;
 /// Если есть варинат как сделать тнадо сделать
 class Form {
 
-    constructor( pos1x, pos1y, pos2x, pos2y, color ) {
-        this.color = color;
+    constructor( pos1x, pos1y, pos2x, pos2y ) {
+        this.color = Color;
         this.pos1x = pos1x;
         this.pos1y = pos1y;
         this.pos2x = pos2x;
@@ -73,8 +70,8 @@ class Form {
 
 class Line extends Form {
 
-    constructor( pos1x, pos1y, pos2x, pos2y, color ) {
-        super( pos1x, pos1y, pos2x, pos2y, color );
+    constructor( pos1x, pos1y, pos2x, pos2y ) {
+        super( pos1x, pos1y, pos2x, pos2y );
     }
 
     drawTop() {
@@ -138,8 +135,8 @@ class Img extends Form {
 
 class Pensil {
 
-    constructor( pos1x, pos1y, pos2x, pos2y, color ) {
-        this.color = color;
+    constructor( pos1x, pos1y, pos2x, pos2y ) {
+        this.color = Color;
         this.pos1x = pos1x;
         this.pos1y = pos1y;
         this.pos2x = pos2x;
@@ -291,7 +288,7 @@ function startDrawing( event ) {
 	if ( im_is ) {
 		img_place();
 	} else {
-    	curObject = new objNameSpace[ curStyle ]( pos.x, pos.y, pos.x, pos.y, getColor() );
+    	curObject = new objNameSpace[ curStyle ]( pos.x, pos.y, pos.x, pos.y );
     curDrawing = setInterval( changeAndDraw, 1 );
 	}
 }
