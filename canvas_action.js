@@ -4,14 +4,20 @@
 var c = document.getElementById( "topCanvas" );
 var ctx = c.getContext( "2d" );
 ctx.lineWidth = 2;
+ctx.lineJoin = ctx.lineCap = 'round'; 
 
 var bottomCanvas = document.getElementById( "bottomCanvas" );
 var bottom_ctx = bottomCanvas.getContext( "2d" );
 bottom_ctx.lineWidth = 2;
+bottom_ctx.lineJoin = bottom_ctx.lineCap = 'round';
 
 bottom_ctx.fillStyle = "rgb(255,255,255)";
 bottom_ctx.fillRect( 0 ,0 ,c.width ,c.height );
 bottom_ctx.fillStyle = "rgb(0,0,255)";
+
+
+var tag;        //тип Pensil(pensil/brush/spray/none)  
+tag="none";
 
 /**
  * Default color is black.
@@ -170,17 +176,42 @@ class Pensil {
 
     drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
         ctx.strokeStyle = this.color;
-        ctx.beginPath();
-        if ( getDist( pos1x, pos1y, pos2x, pos2y ) > 0.5 ) {
+	if (tag == "eraser")
+          ctx.strokeStyle = "rgb(255, 255, 255)";
+       if (tag == "pensil" || tag == "eraser") {
+          ctx.beginPath();
+          if ( getDist( pos1x, pos1y, pos2x, pos2y ) > 0.5 ) {
             ctx.moveTo( pos1x, pos1y );
             ctx.lineTo( pos2x, pos2y );
-        } else {
+          } else {
             ctx.arc( pos1x, pos1y, 0.1, 0, 2*Math.PI );
             ctx.fill();
-        }
-        ctx.stroke();
-        ctx.closePath();
+          }
+          ctx.stroke();
+          ctx.closePath();
+        } else if (tag == "brush") {
+            ctx.beginPath();
+		
+            ctx.moveTo(pos1x - getRandomInt(0, 3), pos1y - getRandomInt(0, 3));
+            ctx.lineTo(pos2x - getRandomInt(0, 3), pos2y - getRandomInt(0, 3));
+            ctx.stroke();
+
+            ctx.moveTo(pos1x, pos1y);
+            ctx.lineTo(pos2x, pos2y);
+            ctx.stroke();
+
+            ctx.moveTo(pos1x + getRandomInt(0, 3), pos1y + getRandomInt(0, 3));
+            ctx.lineTo(pos2x + getRandomInt(0, 3), pos2y + getRandomInt(0, 3));
+            ctx.stroke();
+
+            this.pos1x = pos2x;
+            this.pos1y = pos2y;
+          }
     }
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function getDist( pos1x, pos1y, pos2x, pos2y ) {
@@ -203,8 +234,8 @@ function trackPosition( event ) {
     	//coords_on_move.style.marginTop = c.height +10;
         coords_on_move.style.display = 'block';
         coords_on_move.innerHTML =
-        'X: ' + pos.x +  
-        ', Y: ' + pos.y + ', px';
+        'X: ' + Math.round(pos.x) +  
+        ', Y: ' + Math.round(pos.y) + ', px';
     } else {
         coords_on_move.style.display = 'none';
     }
@@ -457,4 +488,16 @@ function reSize() {
 	console.log(document.getElementById('for_save_block').style.width,document.getElementById('for_save_block').style.height);
 	let a = ( ( ( document.documentElement.clientWidth - 200 ) / 2 ) - 15 );
 	document.getElementById('done').style.marginLeft = "" + a + "px";
+}
+
+function clickOnPensil() {     
+  tag = "pensil";
+}
+
+function clickOnBrush() {
+  tag = "brush";
+}
+
+function clickOnEraser() {
+  tag = "eraser";
 }
