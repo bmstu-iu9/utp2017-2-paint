@@ -206,12 +206,28 @@ class Pensil {
 
             this.pos1x = pos2x;
             this.pos1y = pos2y;
-          }
+          } else if (tag == "spray"){
+              for (var i = 2; i--; ) {
+                var angle = getRandomFloat(0, Math.PI*2);
+                var radius = getRandomFloat(0, ctx.lineWidth*3);
+                ctx.fillStyle=Color;
+                ctx.fillRect(
+                  pos2x + radius * Math.cos(angle),
+                  pos2y + radius * Math.sin(angle),
+                    1, 1);
+                  }
+            this.pos1x = pos2x;
+            this.pos1y = pos2y;
+          }	  
     }
 }
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomFloat(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
 function getDist( pos1x, pos1y, pos2x, pos2y ) {
@@ -500,4 +516,8 @@ function clickOnBrush() {
 
 function clickOnEraser() {
   tag = "eraser";
+}
+
+function clickOnSpray() {
+  tag = "spray";
 }
