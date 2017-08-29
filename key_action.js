@@ -23,6 +23,10 @@ function handleKeyDown( evt ) {
     if ( evt.keyCode === 80 ) {
         curStyle = "Pensil";
     }
+
+    if ( evt.keyCode === 67) {
+        document.getElementById('color').click();
+    }
 };
 
 

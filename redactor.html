@@ -12,7 +12,9 @@
 	   background-repeat: no-repeat;
 	   padding: 1em;
    }
-   #blockTools, #blockTools2, #blockCanvas { position: absolute; }
+
+   #blockTools, #blockTools2, #blockCanvas { position: absolute; } 
+
    #blockTools, #blockTools2, #blockCanvas { overflow: visible; padding: 10px; }
    #blockTools {
 	   width: 50px;
@@ -134,6 +136,17 @@
 	   height: auto;
 	   z-index: 0;
 	}
+	#visible {
+		width: 90px;
+		height:20px;
+	}
+	#visible-text {
+		width: 40px;
+		height:13px;
+	}
+	#clearCanvas canvas {
+		position: absolute;
+	}
 	#topCanvas canvas {
 	   max-width: 100%;
 	   height: auto;
@@ -141,10 +154,10 @@
 	   opacity: 0;
 	}
 	.file-upload {
-   	 position: relative;
-    	 overflow: hidden;
-    	 width: 34px;
-   	 height: 25px;
+   	 position: relative; 
+    	 overflow: hidden; 
+    	 width: 34px; 
+   	 height: 25px; 
    	 background-color: #C0C0C0;
    	 background: linear-gradient(to bottom right, #DCDCDC, #D3D3D3);
  	 color: #FFFFFF;
@@ -194,7 +207,7 @@
                                                           style="vertical-align: middle"></button></li>
 	         		<li><button id ="eraser" title="Ластик" onclick="clickOnEraser()"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAIgSURBVFiFxdfLahRBFIDhr4KEKMHE6OSi5gVEUcSN4MrncBsh4EZiRHNTstEYbzsfQxAEEQRBBQmi0ZigBMWFCx9BUGgXUyOdufRUT0ZT0Is+1XX+v6vqdNEhyzI72Xp2lN5tgRDChRDCZgjhSvKgLMu6cuEqvuIoXuBG0rguwjcxHu/7UyW6AZ/BZxyqiydJbBc+iw2MtehvK7Ed+Bw+YqTNc4USncLn8R6VxOdbSnQCX8Bb7M/FjmBvJxJl4dfwBvvq4ufxGgNlJcrCP2AwFztem4lYiqUlUuHX45t/w9lcfCJKHYj3MyUlZlPhXzCAY00kLscNWZOYS5QYw48U+EoETMZYM4lprOaWY75IAnvwDIsp0z6ISpzqIolLeJeTWGgmkYPfbLkHInwVQ7lYBWttJKZUS3Qotzynm8CXWlZBhK/V1rSubzhB4mKUqC/VBniDQISvY7hgaYZVP8FFEpM40wR+qyFfHfwTRhMqY6SdRAr8r0CEb+JgO3idxHqbmajBlwvymFat88Op8BSJFHhN4DtOlIXnEoyqfivG6yRWcDthvOX4cOFplpDoFM7FN3+ZAq8JBDzAK/RvQ6ASN+YG7iSPyyW4j+fY3aFAH56WgW8RiEmWYpK+DuBPcLe0eJNki3iM3n8NbyoQk87iIXYlwu91undCTNTQQghTqida0d9rD3rxs0X/b5zEL9XDbSLLskdbOK0E/lfb8b/jP1lxQ5DvMSGUAAAAAElFTkSuQmCC" width="30" height="30"
                                                           style="vertical-align: middle"></button>
-                 		<input type="color" id="color"></li>
+                 		<input list type="color" id="color"></li>
 	         		<li><button id ="increase" title="Увеличить"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAOASURBVFiFtdZLqFV1FAbw3/Yo6fXiC5s5MIe3F0ldHwgKWSA2aCA4kSBUkkARJ5lp4LyggYSWmEEmiTbJcBgkCrd8RIhBYtokQieKE2+o/wb7O7nbHe89avfA5uz1/L691vqvvatSikf9VVXVwTK8kGsh5uMXnMN5/FhKOffAJKWUR7owhBGUXHdwAcdxuaEvOIone+Z5BOAOtuN2rt0YxrSW30wsx/6QuIY1j0UAU3E6CUcw1LDNwctYjyUYaNhexe+J+/hxCHyYJLvRiW41LrVKXnAXp/Bc/Gbg69jWPDSBDNtdnGgkPJCEf2IPNmAlNuNgWjSKXWndjFTiWncm+gUfyFPewLzojgX8COaOMahn4rer0Y6Cow9D4M0EbYi8NvK+PmKnhMRoox3dwVzYL4FPU/4BTMN1/IbBlt90bEHVoxK3cSry8hB4q18CF3Ax90sTvKmH3+bYhnvYDjYeYmb89k4yzq+qqll5gvNRvZj/sw2f6VVVLcaCqJ6tqmq4qqqqkeosJuH5UsrNVHD8FgS8YGfkTyIPNny+9N9jWLCl4bMyuvWRj+PW5PEqoF6r99Q7Hq7kf766NbATP6h7+zo+yhMeaOTpxl9tyFf7nYHLOJv7V/Ik63r4bY1tcQ/bntjmqAf5Dj7vl8C36mM0BbNz/z0mtfwWpB3TW/q56mV1KfJwyGztl8DOBKyK/F7kbX3GH4n/6si7Iy/vl8Ag/kj/BzE5PR/FtnYlWnH7AnagtRNG0OmLQALfSKI9kZ8KiZJ2rMMzAX0JmzKIRb22Z6jfByMhMFTKw72MqgTfw2vRTU47RvU+htextpGjW/p3/tGNAdjBXvUeXxS5+zq9l6kejO/snI531Xtii3pjTot9Hk4k9rS8yh9IIGBfNMBuqBdHCYlu6a9gFaY8IM+A+hV9Q72GP8DUf/mMA34YK3Ar8vHYqyS+Fv2oetXuV5+YQ7gY0IJfsbQnyTHAC3ZEvywkbmBRw38W3sc36g3XjfsLP+EzvK31vdiTQAv8mPqzumB77CvSjjNjzM1MPI0n+h7uHuBfqad7ToPEjrSjYG+/yfs8XapWzzsNY5NEiV/n/yawMckPtZOnEscmCrxL4OcMWPvzqpN2TBh4l8BNnOwBfniiwbsEvst5HYpiMO2YcPAugSUhcBcn3V86Ew5eyv1juCSVuJmZ2Kj1aT1R19/UFQiD/5Y5pQAAAABJRU5ErkJggg==" width="30" height="30"
                                                           style="vertical-align: middle"></button></li>
 				<li><button id="spray" title="Спрей" onclick="clickOnSpray()"><img src="https://st2.depositphotos.com/2485347/8062/v/950/depositphotos_80626262-stock-illustration-aerosol-spray-with-turquoise-paint.jpg" width="30" height="30"
@@ -214,9 +227,15 @@
                                                                         style="vertical-align: middle"></button></li>
 					</ul>
 				</li>
-
+                             
 			</ul>
 		</div>
+		<input type = "range" id = "visible" min = "1" max = "100" step = "1" title = "Прозрачность" value="100" oninput="setVisibility()">
+		<input type = "number" id = "visible-text" min = "1" max = "100" step = "1" title = "Прозрачность" value="100">
+		<button type="button" id = "clearBtn" onclick = "clearCanvas()">Clear</button>
+		<script>
+            document.getElementById("clearBtn").style.bottom = "10px"
+		</script>
 	</div>
          <div id ="blockTools2">
 		<div id="nav">
