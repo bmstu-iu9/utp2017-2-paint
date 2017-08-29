@@ -1,6 +1,7 @@
 "use strict";
 
 
+
 var c = document.getElementById( "topCanvas" );
 var ctx = c.getContext( "2d" );
 ctx.lineWidth = 2;
@@ -32,6 +33,7 @@ var Color = 'black';
  */
 document.getElementById('color').oninput = function () {
     Color = this.value;
+    localStorage.setItem('savedColor', Color);
 }
 
 /**
@@ -49,6 +51,7 @@ document.getElementById('visible').oninput = function () {
     Visibility = this.value / 100;
     var visibleText = document.getElementById('visible-text');
     visibleText.value = this.value;
+    localStorage.setItem('savedVisibility', Visibility);
 }
 
 /**
@@ -60,6 +63,7 @@ document.getElementById('visible-text').oninput = function () {
     Visibility = this.value / 100;
     var visibleRange = document.getElementById('visible');
     visibleRange.value = this.value;
+    localStorage.setItem('savedVisibility', Visibility);
 }
 
 /**
@@ -545,6 +549,14 @@ function reSize() {
 	console.log(document.getElementById('for_save_block').style.width,document.getElementById('for_save_block').style.height);
 	let a = ( ( ( document.documentElement.clientWidth - 200 ) / 2 ) - 15 );
 	document.getElementById('done').style.marginLeft = "" + a + "px";
+}
+
+function settings() {
+    if (localStorage.length != 0) {
+        document.getElementById('color').value = localStorage.getItem('savedColor');
+        document.getElementById('visible').value = localStorage.getItem('savedVisibility') * 100;
+        document.getElementById('visible-text').value = localStorage.getItem('savedVisibility') * 100;
+    }
 }
 
 function clickOnPensil() {     
