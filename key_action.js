@@ -45,3 +45,12 @@ function redo() {
         curPos++;
     }
 }
+
+
+document.onclick = changeCursor;
+
+function changeCursor(e) {
+    if(e.target.id === "pencil") {
+        document.body.style.cursor = 'text';
+    }
+}
