@@ -20,15 +20,49 @@ bottom_ctx.fillStyle = "rgb(0,0,255)";
 var Color = 'black';
 
 /**
- * Returns the selected color {@code Color}.
- * @return the selected color {@code Color}
+ * Set the selected color {@code Color}.
+ * @Set the selected color {@code Color}
  * @type {string}
  */
-function getColor () {
-    document.getElementById('color').oninput = function () {
-        Color = this.value;
-    }
-    return Color;
+document.getElementById('color').oninput = function () {
+    Color = this.value;
+}
+
+/**
+ * Default visibility is 100%.
+ * @type {string}
+ */
+var Visibility = 1;
+
+/**
+ * Set visibility {@code Visibility}.
+ * @Get visibility from range {@code Visibility}
+ * @type {string}
+ */
+document.getElementById('visible').oninput = function () {
+    Visibility = this.value / 100;
+    var visibleText = document.getElementById('visible-text');
+    visibleText.value = this.value;
+}
+
+/**
+ * Set visibility {@code Visibility}.
+ * @Get visibility from number input {@code Visibility}
+ * @type {string}
+ */
+document.getElementById('visible-text').oninput = function () {
+    Visibility = this.value / 100;
+    var visibleRange = document.getElementById('visible');
+    visibleRange.value = this.value;
+}
+
+/**
+ * Clear Canvas {@code}.
+ * @Clear Canvas {@code}
+ * @type {string}
+ */
+function clearCanvas () {
+    bottom_ctx.clearRect(0, 0, bottomCanvas.width, bottomCanvas.height)
 }
 
 var objNameSpace = {};
@@ -48,8 +82,9 @@ var img_size_corner = false;
 /// Если есть варинат как сделать тнадо сделать
 class Form {
 
-    constructor( pos1x, pos1y, pos2x, pos2y, color ) {
-        this.color = color;
+    constructor( pos1x, pos1y, pos2x, pos2y ) {
+        this.color = Color;
+        this.visibility = Visibility;
         this.pos1x = pos1x;
         this.pos1y = pos1y;
         this.pos2x = pos2x;
@@ -73,13 +108,14 @@ class Form {
 
 class Line extends Form {
 
-    constructor( pos1x, pos1y, pos2x, pos2y, color ) {
-        super( pos1x, pos1y, pos2x, pos2y, color );
+    constructor( pos1x, pos1y, pos2x, pos2y ) {
+        super( pos1x, pos1y, pos2x, pos2y );
     }
 
     drawTop() {
         ctx.strokeStyle = this.color;
         ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
         ctx.moveTo( this.pos1x, this.pos1y );
         ctx.lineTo( this.pos2x, this.pos2y );
         ctx.stroke();
@@ -89,6 +125,7 @@ class Line extends Form {
     drawBottom() {
         bottom_ctx.strokeStyle = this.color;
         bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
         bottom_ctx.moveTo( this.pos1x, this.pos1y );
         bottom_ctx.lineTo( this.pos2x, this.pos2y );
         bottom_ctx.stroke();
@@ -138,8 +175,9 @@ class Img extends Form {
 
 class Pensil {
 
-    constructor( pos1x, pos1y, pos2x, pos2y, color ) {
-        this.color = color;
+    constructor( pos1x, pos1y, pos2x, pos2y ) {
+        this.color = Color;
+        this.visibility = Visibility;
         this.pos1x = pos1x;
         this.pos1y = pos1y;
         this.pos2x = pos2x;
@@ -171,6 +209,7 @@ class Pensil {
     drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
         ctx.strokeStyle = this.color;
         ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
         if ( getDist( pos1x, pos1y, pos2x, pos2y ) > 0.5 ) {
             ctx.moveTo( pos1x, pos1y );
             ctx.lineTo( pos2x, pos2y );
@@ -291,7 +330,7 @@ function startDrawing( event ) {
 	if ( im_is ) {
 		img_place();
 	} else {
-    	curObject = new objNameSpace[ curStyle ]( pos.x, pos.y, pos.x, pos.y, getColor() );
+    	curObject = new objNameSpace[ curStyle ]( pos.x, pos.y, pos.x, pos.y );
     curDrawing = setInterval( changeAndDraw, 1 );
 	}
 }
