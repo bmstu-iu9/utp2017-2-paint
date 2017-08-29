@@ -1,6 +1,7 @@
 "use strict";
 
 
+
 var c = document.getElementById( "topCanvas" );
 var ctx = c.getContext( "2d" );
 ctx.lineWidth = 2;
@@ -26,6 +27,7 @@ var Color = 'black';
  */
 document.getElementById('color').oninput = function () {
     Color = this.value;
+    localStorage.setItem('savedcolor', Color);
 }
 
 /**
@@ -496,4 +498,10 @@ function reSize() {
 	console.log(document.getElementById('for_save_block').style.width,document.getElementById('for_save_block').style.height);
 	let a = ( ( ( document.documentElement.clientWidth - 200 ) / 2 ) - 15 );
 	document.getElementById('done').style.marginLeft = "" + a + "px";
+}
+
+function settings() {
+    if (localStorage.length != 0) {
+        document.getElementById('color').value = localStorage.getItem('savedcolor');
+    }
 }
