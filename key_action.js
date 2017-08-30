@@ -3,10 +3,6 @@
 
 document.onkeydown = handleKeyDown;
 
-var bottomCanvas = document.getElementById( "bottomCanvas" );
-var bottom_ctx = bottomCanvas.getContext( "2d" );
-
-
 function handleKeyDown( evt ) {
     if ( evt.keyCode === 90 && evt.ctrlKey ) {
         undo();
@@ -33,6 +29,7 @@ function handleKeyDown( evt ) {
 function undo() {
     bottom_ctx.clearRect( 0, 0, bottomCanvas.width, bottomCanvas.height );
     for( let i = 0; i < curPos-1; i++ ) {
+        curStyle = curStyles[i]; 
         objects[i].drawBottom();
     }
     curPos--;
@@ -44,6 +41,7 @@ function redo() {
     if( curPos < objects.length ) {
         bottom_ctx.clearRect( 0, 0, bottomCanvas.width, bottomCanvas.height );
         for( let i = 0; i < curPos+1; i++ ) {
+            curStyle = curStyles[i]; 
             objects[i].drawBottom();
         }
         curPos++;
