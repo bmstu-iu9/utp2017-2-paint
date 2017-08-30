@@ -574,3 +574,72 @@ function clickOnEraser() {
 function clickOnSpray() {
   tag = "spray";
 }
+
+function fill(x, y, fillR, fillG, fillB, width, height) {
+        var pixelStack = [];
+        pixelStack.length = 100000;
+        var i = 0;
+        var pixelPos = y*4*width + x*4;
+        var ImD = ctx.getImageData(0,0,width,height);
+        var r = ImD.data[pixelPos];
+        var g = ImD.data[pixelPos + 1];
+        var b = ImD.data[pixelPos + 2];
+        var left = true;
+        var right = true;
+        var max = width*height*4 - 1;
+        var checkDist;
+
+
+        pixelStack[i++] = pixelPos;
+
+        while(i>0){
+            left = right = true;
+            pixelPos = pixelStack[--i];
+
+            while(pixelPos>0 && checkPixelColor(pixelPos)){
+                pixelPos-=4*width;
+            }
+
+            pixelPos+=4*width;
+
+
+            while(pixelPos<max && checkPixelColor(pixelPos)){
+                checkDist = pixelPos%width;
+                if(checkDist!=0) {
+                    if (checkPixelColor(pixelPos - 4)) {
+                        if (left) {
+                            pixelStack[i++] = pixelPos - 4;
+                            left = false;
+                        }
+                        else if (!left) left = true;
+                    }
+                }
+                if(checkDist!=width-1) {
+                    if (checkPixelColor(pixelPos + 4)) {
+                        if (right) {
+                            pixelStack[i++] = pixelPos + 4;
+                            right = false;
+                        }
+                        else if (!right) right = true;
+                    }
+                }
+                changePixelColor(pixelPos);
+                pixelPos+=4*width;
+            }
+        }
+
+
+        ctx.putImageData(ImD,0,0);
+
+        function checkPixelColor(pixelPos) {
+            return ImD.data[pixelPos] == r
+                && ImD.data[pixelPos+1] == g
+                && ImD.data[pixelPos+2] == b;
+        }
+
+        function changePixelColor(pixelPos) {
+            ImD.data[pixelPos] = fillR;
+            ImD.data[pixelPos + 1] = fillG;
+            ImD.data[pixelPos + 2] = fillB;
+        }
+    }
