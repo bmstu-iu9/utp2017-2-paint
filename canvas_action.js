@@ -16,15 +16,11 @@ bottom_ctx.fillStyle = "rgb(255,255,255)";
 bottom_ctx.fillRect( 0 ,0 ,c.width ,c.height );
 bottom_ctx.fillStyle = "rgb(0,0,255)";
 
-
-var tag;        //тип Pensil(pensil/brush/spray/none)  
-tag="none";
-
 /**
  * Default color is black.
  * @type {string}
  */
-var Color = 'black';
+var Color = '#000000';
 
 /**
  * Set the selected color {@code Color}.
@@ -218,57 +214,165 @@ class Pensil {
 
     drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
         ctx.strokeStyle = this.color;
-        ctx.globalAlpha = this.visibility;
-	      if (tag == "eraser") {
-          ctx.strokeStyle = "rgb(255, 255, 255)";
-          ctx.globalALpha = 100;
+	ctx.globalAlpha = this.visibility;
+        ctx.beginPath();
+        if ( getDist( pos1x, pos1y, pos2x, pos2y ) > 0.5 ) {
+          ctx.moveTo( pos1x, pos1y );
+          ctx.lineTo( pos2x, pos2y );
+        } else {
+          ctx.arc( pos1x, pos1y, 0.1, 0, 2*Math.PI );
+          ctx.fill();
         }
-        if (tag == "pensil" || tag == "eraser") {
-          ctx.beginPath();
-          if ( getDist( pos1x, pos1y, pos2x, pos2y ) > 0.5 ) {
-            ctx.moveTo( pos1x, pos1y );
-            ctx.lineTo( pos2x, pos2y );
-          } else {
-            ctx.arc( pos1x, pos1y, 0.1, 0, 2*Math.PI );
-            ctx.fill();
-          }
-          ctx.stroke();
-          ctx.closePath();
-        } else if (tag == "brush") {
-            ctx.beginPath();
-		
-            ctx.moveTo(pos1x - getRandomInt(0, 3), pos1y - getRandomInt(0, 3));
-            ctx.lineTo(pos2x - getRandomInt(0, 3), pos2y - getRandomInt(0, 3));
-            ctx.stroke();
-
-            ctx.moveTo(pos1x, pos1y);
-            ctx.lineTo(pos2x, pos2y);
-            ctx.stroke();
-
-            ctx.moveTo(pos1x + getRandomInt(0, 3), pos1y + getRandomInt(0, 3));
-            ctx.lineTo(pos2x + getRandomInt(0, 3), pos2y + getRandomInt(0, 3));
-            ctx.stroke();
-
-            this.pos1x = pos2x;
-            this.pos1y = pos2y;
-          } else if (tag == "spray"){
-              for (var i = 2; i--; ) {
-                var angle = getRandomFloat(0, Math.PI*2);
-                var radius = getRandomFloat(0, ctx.lineWidth*3);
-                ctx.fillStyle=Color;
-                ctx.fillRect(
-                  pos2x + radius * Math.cos(angle),
-                  pos2y + radius * Math.sin(angle),
-                    1, 1);
-                  }
-            this.pos1x = pos2x;
-            this.pos1y = pos2y;
-          }	  
+        ctx.stroke();
+        ctx.closePath();
     }
 }
 
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+class Brush extends Pensil {
+  constructor( pos1x, pos1y, pos2x, pos2y, color ) {
+      super( pos1x, pos1y, pos2x, pos2y, color );
+  }
+  drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
+    var width=ctx.lineWidth;
+    ctx.lineWidth=width/3;
+    ctx.globalAlpha = this.visibility;
+    ctx.beginPath();
+
+    ctx.moveTo(pos1x - ctx.lineWidth/2, pos1y - ctx.lineWidth/2);
+    ctx.lineTo(pos2x - ctx.lineWidth/2, pos2y - ctx.lineWidth/2);
+    ctx.stroke();
+
+    ctx.moveTo(pos1x, pos1y);
+    ctx.lineTo(pos2x, pos2y);
+    ctx.stroke();
+
+    ctx.moveTo(pos1x + ctx.lineWidth/2, pos1y + ctx.lineWidth/2);
+    ctx.lineTo(pos2x + ctx.lineWidth/2, pos2y + ctx.lineWidth/2);
+    ctx.stroke();
+
+    this.pos1x = pos2x;
+    this.pos1y = pos2y;
+    ctx.lineWidth=width;
+  }
+}
+
+class Spray extends Pensil {
+  constructor( pos1x, pos1y, pos2x, pos2y, color ) {
+      super( pos1x, pos1y, pos2x, pos2y, color );
+  }
+  drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
+      ctx.globalAlpha = this.visibility;
+      var angle =getRandomFloat(0.1, Math.PI*2);
+      var radius = getRandomFloat(0.1, ctx.lineWidth);
+      ctx.fillStyle=Color;
+      ctx.fillRect(
+        pos2x + radius * Math.cos(angle),
+        pos2y + radius * Math.sin(angle),
+          1, 1);
+    this.pos1x = pos2x;
+    this.pos1y = pos2y;
+  }
+}
+
+class Eraser extends Pensil {
+  constructor( pos1x, pos1y, pos2x, pos2y, color ) {
+      super( pos1x, pos1y, pos2x, pos2y, color );
+  }
+
+  drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
+        ctx.strokeStyle = "rgb(255, 255, 255)";
+	ctx.globalAlpha = 100;
+        ctx.beginPath();
+        if ( getDist( pos1x, pos1y, pos2x, pos2y ) > 0.5 ) {
+          ctx.moveTo( pos1x, pos1y );
+          ctx.lineTo( pos2x, pos2y );
+        } else {
+          ctx.arc( pos1x, pos1y, 0.1, 0, 2*Math.PI );
+          ctx.fill();
+        }
+        ctx.stroke();
+        ctx.closePath();
+    }
+}
+
+class Fill {
+    constructor( pos1x, pos1y, pos2x, pos2y ){
+      this.x = Math.floor(pos1x);
+      this.y = Math.floor(pos1y);
+    }
+
+    drawBottom(){
+      var f = parseInt(String(Color).substring(1), 16);
+      var fillR = (f >> 16) & 255;
+      var fillG = (f >> 8) & 255;
+      var fillB = f & 255;
+      var width = bottomCanvas.width;
+      var height = bottomCanvas.height;
+      var pixelStack = [];
+      pixelStack.length = 10000000;
+      var i = 0;
+      var pixelPos = this.y*4*width + this.x*4;
+      var ImD = bottom_ctx.getImageData(0,0,width,height);
+      var r = ImD.data[pixelPos];
+      var g = ImD.data[pixelPos + 1];
+      var b = ImD.data[pixelPos + 2];
+      var left = true;
+      var right = true;
+      var max = width*height*4 - 1;
+      var checkDist;
+
+      if(!(r == fillR && g == fillG && b == fillB)){
+
+          pixelStack[i++] = pixelPos;
+          while(i>0){
+              left = right = true;
+              pixelPos = pixelStack[--i];
+
+              while(pixelPos>=width*4 && checkPixelColor(pixelPos-4*width))
+                  pixelPos-=4*width;
+
+              while(pixelPos<max && checkPixelColor(pixelPos)){
+                  checkDist = pixelPos%(width*4);
+                  if(checkDist!=0) {
+                      if (checkPixelColor(pixelPos - 4)) {
+                          if (left) {
+                              pixelStack[i++] = pixelPos - 4;
+                              left = false;
+                          }
+                      } 
+                      else if (!left) left = true;
+                  }
+                  if(checkDist!=width-1) {
+                      if (checkPixelColor(pixelPos + 4)) {
+                          if (right) {
+                              pixelStack[i++] = pixelPos + 4;
+                              right = false;
+                          }
+                      } 
+                      else if (!right) right = true;
+                  }
+                  changePixelColor(pixelPos);
+                  pixelPos+=4*width;
+              }
+          }
+
+          bottom_ctx.putImageData(ImD,0,0);
+      }
+      
+      function checkPixelColor(pixelPos) {
+          return ImD.data[pixelPos] == r
+              && ImD.data[pixelPos+1] == g
+              && ImD.data[pixelPos+2] == b;
+      }
+
+      function changePixelColor(pixelPos) {
+          ImD.data[pixelPos] = fillR;
+          ImD.data[pixelPos + 1] = fillG;
+          ImD.data[pixelPos + 2] = fillB;
+      }
+
+    }
+
 }
 
 function getRandomFloat(min, max) {
@@ -281,6 +385,10 @@ function getDist( pos1x, pos1y, pos2x, pos2y ) {
 
 objNameSpace.Line = Line;
 objNameSpace.Pensil = Pensil;
+objNameSpace.Brush = Brush;
+objNameSpace.Spray = Spray;
+objNameSpace.Eraser = Eraser;
+objNameSpace.Fill=Fill;                  
 
 
 var pos;
@@ -357,14 +465,19 @@ var curDrawing;
 var curObject = null;
 var objects = [];
 var curPos = 0;
-var curStyle = "Pensil";
+var curStyle = "None";
+var curStyles = [];
 
 /// Изначально было задуманно для передачи данных межу файлами, но вроде
 /// и без этого работает
 localStorage.setItem( "objects", objects );
 localStorage.setItem( "curPos", curPos );
+localStorage.setItem( "curStyles", curStyles );
 
-c.onmousedown = startDrawing;
+c.onmousedown = function( event ) {
+  if (curStyle !== "None")
+  startDrawing( event );
+}
 c.onmouseup = endDrawing;
 document.onmousemove = trackPosition;
 /// Необходимо, тк были проблемы с выходом курсора с canvas
@@ -406,6 +519,8 @@ function endDrawing( event ) {
        	curPos = curPos > 0 ? curPos : 0;
         objects = objects.slice( 0, curPos );
         objects.push( curObject );
+	curStyles = curStyles.slice( 0, curPos );                                  
+        curStyles.push( curStyle );
         clearInterval( curDrawing );
 
         curPos = objects.length;
@@ -414,6 +529,7 @@ function endDrawing( event ) {
 
         localStorage.setItem( "objects", objects );
         localStorage.setItem( "curPos", curPos );
+	localStorage.setItem( "curStyles", curStyles ); 
     }
 
 	if ( img_size ) {
@@ -559,94 +675,28 @@ function settings() {
     }
 }
 
-function clickOnPensil() {     
-  tag = "pensil";
+function clickOnPensil() {
+  curStyle = "Pensil";
 }
 
 function clickOnBrush() {
-  tag = "brush";
+  curStyle = "Brush";
 }
 
 function clickOnEraser() {
-  tag = "eraser";
+  curStyle = "Eraser";
 }
 
 function clickOnSpray() {
-  tag = "spray";
+  curStyle = "Spray";
 }
 
 function clickOnFill() {
-  tag = "fill";
+  curStyle = "Fill";
 }
 
-function fill(x, y, fillR, fillG, fillB, width, height) {
-        var pixelStack = [];
-        pixelStack.length = 100000;
-        var i = 0;
-        var pixelPos = y*4*width + x*4;
-        var ImD = bottom_ctx.getImageData(0,0,width,height);
-        var r = ImD.data[pixelPos];
-        var g = ImD.data[pixelPos + 1];
-        var b = ImD.data[pixelPos + 2];
-        var left = true;
-        var right = true;
-        var max = width*height*4 - 1;
-        var checkDist;
 
 
-        pixelStack[i++] = pixelPos;
-
-        while(i>0){
-            left = right = true;
-            pixelPos = pixelStack[--i];
-
-            while(pixelPos>0 && checkPixelColor(pixelPos)){
-                pixelPos-=4*width;
-            }
-
-            pixelPos+=4*width;
-
-
-            while(pixelPos<max && checkPixelColor(pixelPos)){
-                checkDist = pixelPos%width;
-                if(checkDist!=0) {
-                    if (checkPixelColor(pixelPos - 4)) {
-                        if (left) {
-                            pixelStack[i++] = pixelPos - 4;
-                            left = false;
-                        }
-                        else if (!left) left = true;
-                    }
-                }
-                if(checkDist!=width-1) {
-                    if (checkPixelColor(pixelPos + 4)) {
-                        if (right) {
-                            pixelStack[i++] = pixelPos + 4;
-                            right = false;
-                        }
-                        else if (!right) right = true;
-                    }
-                }
-                changePixelColor(pixelPos);
-                pixelPos+=4*width;
-            }
-        }
-
-
-        bottom_ctx.putImageData(ImD,0,0);
-
-        function checkPixelColor(pixelPos) {
-            return ImD.data[pixelPos] == r
-                && ImD.data[pixelPos+1] == g
-                && ImD.data[pixelPos+2] == b;
-        }
-
-        function changePixelColor(pixelPos) {
-            ImD.data[pixelPos] = fillR;
-            ImD.data[pixelPos + 1] = fillG;
-            ImD.data[pixelPos + 2] = fillB;
-        }
-    }
 
 
 
