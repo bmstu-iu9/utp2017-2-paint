@@ -575,12 +575,16 @@ function clickOnSpray() {
   tag = "spray";
 }
 
+function clickOnFill() {
+  tag = "fill";
+}
+
 function fill(x, y, fillR, fillG, fillB, width, height) {
         var pixelStack = [];
         pixelStack.length = 100000;
         var i = 0;
         var pixelPos = y*4*width + x*4;
-        var ImD = ctx.getImageData(0,0,width,height);
+        var ImD = bottom_ctx.getImageData(0,0,width,height);
         var r = ImD.data[pixelPos];
         var g = ImD.data[pixelPos + 1];
         var b = ImD.data[pixelPos + 2];
@@ -629,7 +633,7 @@ function fill(x, y, fillR, fillG, fillB, width, height) {
         }
 
 
-        ctx.putImageData(ImD,0,0);
+        bottom_ctx.putImageData(ImD,0,0);
 
         function checkPixelColor(pixelPos) {
             return ImD.data[pixelPos] == r
@@ -643,3 +647,7 @@ function fill(x, y, fillR, fillG, fillB, width, height) {
             ImD.data[pixelPos + 2] = fillB;
         }
     }
+
+
+
+
