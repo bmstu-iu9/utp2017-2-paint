@@ -20,7 +20,7 @@ bottom_ctx.fillStyle = "rgb(0,0,255)";
  * Default color is black.
  * @type {string}
  */
-var Color = 'black';
+var Color = '#000000';
 
 /**
  * Set the selected color {@code Color}.
@@ -228,6 +228,85 @@ class Pensil {
     }
 }
 
+class Fill {
+    constructor( pos1x, pos1y, pos2x, pos2y ){
+      this.x = Math.floor(pos1x);
+      this.y = Math.floor(pos1y);
+    }
+
+    drawBottom(){
+      var f = parseInt(String(Color).substring(1), 16);
+      var fillR = (f >> 16) & 255;
+      var fillG = (f >> 8) & 255;
+      var fillB = f & 255;
+      var width = bottomCanvas.width;
+      var height = bottomCanvas.height;
+      var pixelStack = [];
+      pixelStack.length = 10000000;
+      var i = 0;
+      var pixelPos = this.y*4*width + this.x*4;
+      var ImD = bottom_ctx.getImageData(0,0,width,height);
+      var r = ImD.data[pixelPos];
+      var g = ImD.data[pixelPos + 1];
+      var b = ImD.data[pixelPos + 2];
+      var left = true;
+      var right = true;
+      var max = width*height*4 - 1;
+      var checkDist;
+
+      if(!(r == fillR && g == fillG && b == fillB)){
+
+          pixelStack[i++] = pixelPos;
+          while(i>0){
+              left = right = true;
+              pixelPos = pixelStack[--i];
+
+              while(pixelPos>=width*4 && checkPixelColor(pixelPos-4*width))
+                  pixelPos-=4*width;
+
+              while(pixelPos<max && checkPixelColor(pixelPos)){
+                  checkDist = pixelPos%(width*4);
+                  if(checkDist!=0) {
+                      if (checkPixelColor(pixelPos - 4)) {
+                          if (left) {
+                              pixelStack[i++] = pixelPos - 4;
+                              left = false;
+                          }
+                      } 
+                      else if (!left) left = true;
+                  }
+                  if(checkDist!=width-1) {
+                      if (checkPixelColor(pixelPos + 4)) {
+                          if (right) {
+                              pixelStack[i++] = pixelPos + 4;
+                              right = false;
+                          }
+                      } 
+                      else if (!right) right = true;
+                  }
+                  changePixelColor(pixelPos);
+                  pixelPos+=4*width;
+              }
+          }
+
+          bottom_ctx.putImageData(ImD,0,0);
+      }
+      
+      function checkPixelColor(pixelPos) {
+          return ImD.data[pixelPos] == r
+              && ImD.data[pixelPos+1] == g
+              && ImD.data[pixelPos+2] == b;
+      }
+
+      function changePixelColor(pixelPos) {
+          ImD.data[pixelPos] = fillR;
+          ImD.data[pixelPos + 1] = fillG;
+          ImD.data[pixelPos + 2] = fillB;
+      }
+
+    }
+}
+
 class Brush extends Pensil {
   constructor( pos1x, pos1y, pos2x, pos2y, color ) {
       super( pos1x, pos1y, pos2x, pos2y, color );
@@ -308,6 +387,7 @@ objNameSpace.Pensil = Pensil;
 objNameSpace.Brush = Brush;
 objNameSpace.Spray = Spray;
 objNameSpace.Eraser = Eraser;
+objNameSpace.Fill=Fill;                  
 
 
 var pos;
@@ -609,3 +689,14 @@ function clickOnEraser() {
 function clickOnSpray() {
   curStyle = "Spray";
 }
+
+function clickOnFill() {
+  curStyle = "Fill";
+}
+
+
+
+
+
+
+
