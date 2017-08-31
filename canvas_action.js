@@ -643,6 +643,7 @@ function img_place() {
 	if ( pos.x >= img_cur.pos1x && pos.x <= img_cur.pos1x + img_cur.pos2x && 
 		pos.y >= img_cur.pos1y && pos.y <= img_cur.pos1y + img_cur.pos2y ) {
 		img_move = true;
+        document.body.style.cursor = 'default';
 		vector.x_0 = pos.x;
 		vector.y_0 = pos.y;
 		vector.x_1 = pos.x;
