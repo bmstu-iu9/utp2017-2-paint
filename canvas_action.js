@@ -29,7 +29,13 @@ var Color = 'black';
  */
 document.getElementById('color').oninput = function () {
     Color = this.value;
-    localStorage.setItem('savedColor', Color);
+    try {
+        localStorage.setItem('savedColor', Color);
+    } catch (e) {
+        if (e == QUOTA_EXCEEDED_ERR) {
+            alert('Превышен лимит хранилища!');
+        }
+    }
 }
 
 /**
@@ -47,7 +53,13 @@ document.getElementById('visible').oninput = function () {
     Visibility = this.value / 100;
     var visibleText = document.getElementById('visible-text');
     visibleText.value = this.value;
-    localStorage.setItem('savedVisibility', Visibility);
+    try {
+        localStorage.setItem('savedVisibility', Visibility);
+    } catch (e) {
+        if (e == QUOTA_EXCEEDED_ERR) {
+            alert('Превышен лимит хранилища!');
+        }
+    }
 }
 
 /**
@@ -59,7 +71,13 @@ document.getElementById('visible-text').oninput = function () {
     Visibility = this.value / 100;
     var visibleRange = document.getElementById('visible');
     visibleRange.value = this.value;
-    localStorage.setItem('savedVisibility', Visibility);
+    try {
+        localStorage.setItem('savedVisibility', Visibility);
+    } catch (e) {
+        if (e == QUOTA_EXCEEDED_ERR) {
+            alert('Превышен лимит хранилища!');
+        }
+    }
 }
 
 /**
@@ -389,9 +407,15 @@ var curStyles = [];
 
 /// Изначально было задуманно для передачи данных межу файлами, но вроде
 /// и без этого работает
-localStorage.setItem( "objects", objects );
-localStorage.setItem( "curPos", curPos );
-localStorage.setItem( "curStyles", curStyles );
+try {
+    localStorage.setItem( "objects", objects );
+    localStorage.setItem( "curPos", curPos );
+    localStorage.setItem( "curStyles", curStyles );
+} catch (e) {
+    if (e == QUOTA_EXCEEDED_ERR) {
+        alert('Превышен лимит хранилища!');
+    }
+}
 
 c.onmousedown = function( event ) {
   if (curStyle !== "None")
@@ -446,9 +470,16 @@ function endDrawing( event ) {
         curObject = null;
         curDrawing = null;
 
-        localStorage.setItem( "objects", objects );
-        localStorage.setItem( "curPos", curPos );
-	localStorage.setItem( "curStyles", curStyles ); 
+        try {
+            localStorage.setItem( "objects", objects );
+            localStorage.setItem( "curPos", curPos );
+            localStorage.setItem( "curStyles", curStyles );
+        } catch (e) {
+            if (e == QUOTA_EXCEEDED_ERR) {
+                alert('Превышен лимит хранилища!');
+            }
+        }
+
     }
 
 	if ( img_size ) {
