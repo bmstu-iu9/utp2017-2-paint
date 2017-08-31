@@ -28,6 +28,12 @@ function handleKeyDown( evt ) {
 
 function undo() {
     bottom_ctx.clearRect( 0, 0, bottomCanvas.width, bottomCanvas.height );
+    
+    var max = bottomCanvas.width*bottomCanvas.height*4;
+    var imageDate = bottom_ctx.getImageData(0,0,bottomCanvas.width,bottomCanvas.height);
+    for(var j = 0;j<max;j++) imageDate.data[j] = 255;
+    bottom_ctx.putImageData(imageDate,0,0);
+
     for( let i = 0; i < curPos-1; i++ ) {
         curStyle = curStyles[i]; 
         objects[i].drawBottom();
