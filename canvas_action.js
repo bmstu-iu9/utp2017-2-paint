@@ -228,73 +228,6 @@ class Pensil {
     }
 }
 
-class Brush extends Pensil {
-  constructor( pos1x, pos1y, pos2x, pos2y, color ) {
-      super( pos1x, pos1y, pos2x, pos2y, color );
-  }
-  drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
-    var width=ctx.lineWidth;
-    ctx.lineWidth=width/3;
-    ctx.globalAlpha = this.visibility;
-    ctx.beginPath();
-
-    ctx.moveTo(pos1x - ctx.lineWidth/2, pos1y - ctx.lineWidth/2);
-    ctx.lineTo(pos2x - ctx.lineWidth/2, pos2y - ctx.lineWidth/2);
-    ctx.stroke();
-
-    ctx.moveTo(pos1x, pos1y);
-    ctx.lineTo(pos2x, pos2y);
-    ctx.stroke();
-
-    ctx.moveTo(pos1x + ctx.lineWidth/2, pos1y + ctx.lineWidth/2);
-    ctx.lineTo(pos2x + ctx.lineWidth/2, pos2y + ctx.lineWidth/2);
-    ctx.stroke();
-
-    this.pos1x = pos2x;
-    this.pos1y = pos2y;
-    ctx.lineWidth=width;
-  }
-}
-
-class Spray extends Pensil {
-  constructor( pos1x, pos1y, pos2x, pos2y, color ) {
-      super( pos1x, pos1y, pos2x, pos2y, color );
-  }
-  drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
-      ctx.globalAlpha = this.visibility;
-      var angle =getRandomFloat(0.1, Math.PI*2);
-      var radius = getRandomFloat(0.1, ctx.lineWidth);
-      ctx.fillStyle=Color;
-      ctx.fillRect(
-        pos2x + radius * Math.cos(angle),
-        pos2y + radius * Math.sin(angle),
-          1, 1);
-    this.pos1x = pos2x;
-    this.pos1y = pos2y;
-  }
-}
-
-class Eraser extends Pensil {
-  constructor( pos1x, pos1y, pos2x, pos2y, color ) {
-      super( pos1x, pos1y, pos2x, pos2y, color );
-  }
-
-  drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
-        ctx.strokeStyle = "rgb(255, 255, 255)";
-	ctx.globalAlpha = 100;
-        ctx.beginPath();
-        if ( getDist( pos1x, pos1y, pos2x, pos2y ) > 0.5 ) {
-          ctx.moveTo( pos1x, pos1y );
-          ctx.lineTo( pos2x, pos2y );
-        } else {
-          ctx.arc( pos1x, pos1y, 0.1, 0, 2*Math.PI );
-          ctx.fill();
-        }
-        ctx.stroke();
-        ctx.closePath();
-    }
-}
-
 class Fill {
     constructor( pos1x, pos1y, pos2x, pos2y ){
       this.x = Math.floor(pos1x);
@@ -372,7 +305,73 @@ class Fill {
       }
 
     }
+}
 
+class Brush extends Pensil {
+  constructor( pos1x, pos1y, pos2x, pos2y, color ) {
+      super( pos1x, pos1y, pos2x, pos2y, color );
+  }
+  drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
+    var width=ctx.lineWidth;
+    ctx.lineWidth=width/3;
+    ctx.globalAlpha = this.visibility;
+    ctx.beginPath();
+
+    ctx.moveTo(pos1x - ctx.lineWidth/2, pos1y - ctx.lineWidth/2);
+    ctx.lineTo(pos2x - ctx.lineWidth/2, pos2y - ctx.lineWidth/2);
+    ctx.stroke();
+
+    ctx.moveTo(pos1x, pos1y);
+    ctx.lineTo(pos2x, pos2y);
+    ctx.stroke();
+
+    ctx.moveTo(pos1x + ctx.lineWidth/2, pos1y + ctx.lineWidth/2);
+    ctx.lineTo(pos2x + ctx.lineWidth/2, pos2y + ctx.lineWidth/2);
+    ctx.stroke();
+
+    this.pos1x = pos2x;
+    this.pos1y = pos2y;
+    ctx.lineWidth=width;
+  }
+}
+
+class Spray extends Pensil {
+  constructor( pos1x, pos1y, pos2x, pos2y, color ) {
+      super( pos1x, pos1y, pos2x, pos2y, color );
+  }
+  drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
+      ctx.globalAlpha = this.visibility;
+      var angle =getRandomFloat(0.1, Math.PI*2);
+      var radius = getRandomFloat(0.1, ctx.lineWidth);
+      ctx.fillStyle=Color;
+      ctx.fillRect(
+        pos2x + radius * Math.cos(angle),
+        pos2y + radius * Math.sin(angle),
+          1, 1);
+    this.pos1x = pos2x;
+    this.pos1y = pos2y;
+  }
+}
+
+class Eraser extends Pensil {
+  constructor( pos1x, pos1y, pos2x, pos2y, color ) {
+      super( pos1x, pos1y, pos2x, pos2y, color );
+  }
+
+  drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
+        ctx.strokeStyle = "rgb(255, 255, 255)";
+	ctx.globalAlpha = 100;
+        ctx.beginPath();
+        if ( getDist( pos1x, pos1y, pos2x, pos2y ) > 0.5 ) {
+          ctx.moveTo( pos1x, pos1y );
+          ctx.lineTo( pos2x, pos2y );
+        } else {
+          ctx.arc( pos1x, pos1y, 0.1, 0, 2*Math.PI );
+          ctx.fill();
+        }
+        ctx.stroke();
+        ctx.closePath();
+    }
 }
 
 function getRandomFloat(min, max) {
