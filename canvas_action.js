@@ -250,10 +250,11 @@ class Fill {
     constructor( pos1x, pos1y, pos2x, pos2y ){
       this.x = Math.floor(pos1x);
       this.y = Math.floor(pos1y);
+      this.color = Color;
     }
 
     drawBottom(){
-      var f = parseInt(String(Color).substring(1), 16);
+      var f = parseInt(String(this.color).substring(1), 16);
       var fillR = (f >> 16) & 255;
       var fillG = (f >> 8) & 255;
       var fillB = f & 255;
@@ -267,13 +268,12 @@ class Fill {
       var r = ImD.data[pixelPos];
       var g = ImD.data[pixelPos + 1];
       var b = ImD.data[pixelPos + 2];
+	
       var left = true;
       var right = true;
       var max = width*height*4 - 1;
       var checkDist;
-
       if(!(r == fillR && g == fillG && b == fillB)){
-
           pixelStack[i++] = pixelPos;
           while(i>0){
               left = right = true;
@@ -320,6 +320,7 @@ class Fill {
           ImD.data[pixelPos] = fillR;
           ImD.data[pixelPos + 1] = fillG;
           ImD.data[pixelPos + 2] = fillB;
+	  ImD.data[pixelPos + 3] = 255;
       }
 
     }
@@ -331,7 +332,8 @@ class Brush extends Pensil {
   }
   drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
     var width=ctx.lineWidth;
-    ctx.lineWidth=width/3;
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth=width*2;
     ctx.globalAlpha = this.visibility;
     ctx.beginPath();
 
@@ -361,7 +363,8 @@ class Spray extends Pensil {
       ctx.globalAlpha = this.visibility;
       var angle =getRandomFloat(0.1, Math.PI*2);
       var radius = getRandomFloat(0.1, ctx.lineWidth);
-      ctx.fillStyle=Color;
+      ctx.fillStyle=this.color;
+      ctx.beginPath();
       ctx.fillRect(
         pos2x + radius * Math.cos(angle),
         pos2y + radius * Math.sin(angle),
