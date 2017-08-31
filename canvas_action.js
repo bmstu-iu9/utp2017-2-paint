@@ -620,23 +620,53 @@ function reSize() {
 function settings() {
     if (localStorage.length != 0) {
         document.getElementById('color').value = localStorage.getItem('savedColor');
+        Color = localStorage.getItem('savedColor');
         document.getElementById('visible').value = localStorage.getItem('savedVisibility') * 100;
         document.getElementById('visible-text').value = localStorage.getItem('savedVisibility') * 100;
+        curStyle = localStorage.getItem('curStyle');
     }
 }
 
 function clickOnPensil() {
   curStyle = "Pensil";
+  try {
+      localStorage.setItem('curStyle', curStyle);
+  } catch (e) {
+      if (e == QUOTA_EXCEEDED_ERR) {
+            alert('Превышен лимит хранилища!');
+      }
+  }
 }
 
 function clickOnBrush() {
   curStyle = "Brush";
+    try {
+        localStorage.setItem('curStyle', curStyle);
+    } catch (e) {
+        if (e == QUOTA_EXCEEDED_ERR) {
+            alert('Превышен лимит хранилища!');
+        }
+    }
 }
 
 function clickOnEraser() {
   curStyle = "Eraser";
+    try {
+        localStorage.setItem('curStyle', curStyle);
+    } catch (e) {
+        if (e == QUOTA_EXCEEDED_ERR) {
+            alert('Превышен лимит хранилища!');
+        }
+    }
 }
 
 function clickOnSpray() {
   curStyle = "Spray";
+    try {
+        localStorage.setItem('curStyle', curStyle);
+    } catch (e) {
+        if (e == QUOTA_EXCEEDED_ERR) {
+            alert('Превышен лимит хранилища!');
+        }
+    }
 }
