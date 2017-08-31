@@ -40,7 +40,6 @@ function redo() {
     if( curPos < objects.length ) {
         bottom_ctx.clearRect( 0, 0, bottomCanvas.width, bottomCanvas.height );
         for( let i = 0; i < curPos+1; i++ ) {
-            curStyle = curStyles[i]; 
             objects[i].drawBottom();
         }
         curPos++;
