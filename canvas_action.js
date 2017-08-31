@@ -86,8 +86,21 @@ document.getElementById('visible-text').oninput = function () {
  * @type {string}
  */
 function clearCanvas () {
-    bottom_ctx.clearRect(0, 0, bottomCanvas.width, bottomCanvas.height)
+    bottom_ctx.clearRect(0, 0, bottomCanvas.width, bottomCanvas.height);
+
+    var max = bottomCanvas.width*bottomCanvas.height*4;
+    var imageDate = bottom_ctx.getImageData(0,0,bottomCanvas.width,bottomCanvas.height);
+    for(var j = 0;j<max;j++) imageDate.data[j] = 255;
+    bottom_ctx.putImageData(imageDate,0,0);
 }
+
+var width = bottomCanvas.width;
+      var height = bottomCanvas.height;
+      var pixelStack = [];
+      pixelStack.length = 10000000;
+      var i = 0;
+      var pixelPos = this.y*4*width + this.x*4;
+      var ImD = bottom_ctx.getImageData(0,0,width,height);
 
 var objNameSpace = {};
 var im_is = false;
@@ -320,7 +333,6 @@ class Fill {
           ImD.data[pixelPos] = fillR;
           ImD.data[pixelPos + 1] = fillG;
           ImD.data[pixelPos + 2] = fillB;
-	  ImD.data[pixelPos + 3] = 255;
       }
 
     }
