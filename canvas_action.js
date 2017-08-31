@@ -331,7 +331,8 @@ class Brush extends Pensil {
   }
   drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
     var width=ctx.lineWidth;
-    ctx.lineWidth=width/3;
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth=width*2;
     ctx.globalAlpha = this.visibility;
     ctx.beginPath();
 
