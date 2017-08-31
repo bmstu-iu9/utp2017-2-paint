@@ -333,7 +333,6 @@ class Fill {
           ImD.data[pixelPos] = fillR;
           ImD.data[pixelPos + 1] = fillG;
           ImD.data[pixelPos + 2] = fillB;
-	  //ImD.data[pixelPos + 3] = 255;
       }
 
     }
@@ -376,7 +375,8 @@ class Spray extends Pensil {
       ctx.globalAlpha = this.visibility;
       var angle =getRandomFloat(0.1, Math.PI*2);
       var radius = getRandomFloat(0.1, ctx.lineWidth);
-      ctx.fillStyle=Color;
+      ctx.fillStyle=this.color;
+      ctx.beginPath();
       ctx.fillRect(
         pos2x + radius * Math.cos(angle),
         pos2y + radius * Math.sin(angle),
