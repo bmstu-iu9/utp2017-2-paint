@@ -1,5 +1,55 @@
 "use strict";
 
+var c = document.getElementById( "topCanvas" );
+var ctx = c.getContext( "2d" );
+var bottomCanvas = document.getElementById( "bottomCanvas" );
+var bottom_ctx = bottomCanvas.getContext( "2d" );
+var t = document.getElementById("ttt");
+var addt = document.getElementById("addText");
+var s = document.getElementById("size");
+var f = document.getElementById("font");
+var flag2 = false; 
+var arr = new Array();
+var col = new Array();
+var fnt = new Array();
+var posx = new Array();
+var posy = new Array();
+var lastarr = new Array();
+var lastcol = new Array();
+var lastfnt = new Array();
+var lastposx = new Array();
+var lastposy = new Array();
+var curpos = 0;
+var flag3 = false;
+var curpos1 = 0;
+var x1 = 0;
+var y1 = 0;
+var curfont1 = f.value;
+var cursize1 = s.value;
+
+
+addt.addEventListener("click", function(event) { 
+	c.addEventListener("click", function(event) {
+		x1 = event.clientX - 125;
+		y1 = event.clientY - 8;		
+		flag2 = true;
+	});
+});
+
+t.addEventListener("change", function() {
+	if (flag2) {
+		arr[curpos] = ttt.value;
+		col[curpos] = localStorage.getItem('savedColor');
+		fnt[curpos] = (cursize1 + "px " + curfont1);
+		posx[curpos] = x1;
+		posy[curpos] = y1;
+		curpos++;
+		flag2 = false;
+	}
+ });
+ 
+ s.addEventListener("change", function () { cursize1 = s.value});
+ f.addEventListener("change", function () { curfont1 = f.value});
 
 document.onkeydown = handleKeyDown;
 
@@ -32,6 +82,18 @@ function undo() {
         objects[i].drawBottom();
     }
     curPos--;
+	for (let i = 0; i < curpos-1; i++) {	
+		bottom_ctx.font = fnt[i];
+		bottom_ctx.fillStyle = col[i];
+		bottom_ctx.fillText(arr[i], posx[i], posy[i]);
+	}
+	if (curpos > 0) { 
+		curpos--;
+		lastfnt[curpos1] = fnt[curpos];lastcol[curpos1] = col[curpos];lastarr[curpos1] = arr[curpos];lastposx[curpos1] = posx[curpos];lastposy[curpos1] = posy[curpos];
+		delete fnt[curpos];delete col[curpos];delete arr[curpos];delete posx[curpos];delete posy[curpos];
+		curpos1++;
+		flag3 = true;
+	}
 }
 
 
@@ -44,6 +106,23 @@ function redo() {
         }
         curPos++;
     }
+	if (flag3) {
+		for (let i = 0; i < curpos; i++) {	
+			bottom_ctx.font = fnt[i];
+			bottom_ctx.fillStyle = col[i];
+			bottom_ctx.fillText(arr[i], posx[i], posy[i]);
+		}
+		flag3 = false;
+	}
+	if (curpos1 > 0) {
+		curpos1--;
+		bottom_ctx.font = lastfnt[curpos1];
+		bottom_ctx.fillStyle = lastcol[curpos1];
+		bottom_ctx.fillText(lastarr[curpos1], lastposx[curpos1], lastposy[curpos1]);
+		fnt[curpos] = lastfnt[curpos1];col[curpos] = lastcol[curpos1];arr[curpos] = lastarr[curpos1];posx[curpos] = lastposx[curpos1];posy[curpos] = lastposy[curpos1];
+		delete lastfnt[curpos1];delete lastcol[curpos1];delete lastarr[curpos1];delete lastposx[curpos1];delete lastposy[curpos1];
+		curpos++;
+	}
 }
 
 function changeCursor(e){
