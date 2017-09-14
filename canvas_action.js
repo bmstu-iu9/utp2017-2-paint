@@ -12,9 +12,6 @@ var bottom_ctx = bottomCanvas.getContext( "2d" );
 bottom_ctx.lineWidth = 2;
 bottom_ctx.lineJoin = bottom_ctx.lineCap = 'round';
 
-bottom_ctx.fillStyle = "rgb(255,255,255)";
-bottom_ctx.fillRect( 0 ,0 ,c.width ,c.height );
-bottom_ctx.fillStyle = "rgb(0,0,255)";
 
 /**
  * Default color is black.
@@ -88,6 +85,11 @@ document.getElementById('visible-text').oninput = function () {
 function clearCanvas () {
     bottom_ctx.clearRect(0, 0, bottomCanvas.width, bottomCanvas.height)
 }
+
+var addt = document.getElementById("addText");
+addt.addEventListener("click", clickOnText);
+
+
 
 var objNameSpace = {};
 var im_is = false;
@@ -232,7 +234,7 @@ class Pensil {
 
     drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
         ctx.strokeStyle = this.color;
-	ctx.globalAlpha = this.visibility;
+		ctx.globalAlpha = this.visibility;
         ctx.beginPath();
         if ( getDist( pos1x, pos1y, pos2x, pos2y ) > 0.5 ) {
           ctx.moveTo( pos1x, pos1y );
@@ -395,6 +397,20 @@ class Eraser extends Pensil {
     }
 }
 
+class Text {
+	constructor (pos1x, pos1y, pos2x, pos2y, color, t ) { 
+			this.color = color;
+			this.pos1x = pos1x;
+			this.pos2x = pos2x;
+			this.pos1y = pos1y;
+			this.pos2y = pos2y;
+			this.t = t;
+	}
+	
+	
+	
+}
+
 function getRandomFloat(min, max) {
   return Math.random() * (max - min) + min;
 }
@@ -500,23 +516,20 @@ try {
     }
 }
 
-c.onmousedown = function( event ) {
-  if (curStyle !== "None")
-  startDrawing( event );
-}
-c.onmouseup = endDrawing;
-document.onmousemove = trackPosition;
+c.addEventListener("mousedown", function( event ) {
+  if (curStyle !== "None" && curStyle != "text") {
+	startDrawing( event );
+  }
+});
+
+c.addEventListener("mouseup", endDrawing);
+document.addEventListener("mousemove", trackPosition);
 /// Необходимо, тк были проблемы с выходом курсора с canvas
-c.onmouseleave = function( event ) {
-	if ( im_is ) {
-		ctx.clearRect( 0, 0, c.width, c.height );
-		img_cur.drawBottom();
-		im_is = false;
-		img_move = false;
-	}
-	endDrawing( event );
-};
-c.onmouseenter = function( event ) { window.getSelection().removeAllRanges(); };
+c.addEventListener("mouseleave", function(event) {
+	c.addEventListener("mouseenter", function (event) {
+	window.getSelection().removeAllRanges();});
+});	
+
 /// Когда появятся другие элементы(круг и тд) должно быть изменено
 function startDrawing( event ) {
 	if ( im_is ) {
@@ -769,6 +782,13 @@ function clickOnSpray() {
 function clickOnFill() {
   curStyle = "Fill";
 }
+
+function clickOnText() {
+  curStyle = "text";
+  
+}
+
+
 
 
 
