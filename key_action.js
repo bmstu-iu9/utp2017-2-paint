@@ -45,6 +45,13 @@ function redo() {
     curPos = curPos > 0 ? curPos : 0;
     if( curPos < objects.length ) {
         bottom_ctx.clearRect( 0, 0, bottomCanvas.width, bottomCanvas.height );
+	
+	//перевожу canvas с черного прозрачного в белый непрозрачный
+	var max = bottomCanvas.width*bottomCanvas.height*4;
+    	var imageDate = bottom_ctx.getImageData(0,0,bottomCanvas.width,bottomCanvas.height);
+    	for(var j = 0;j<max;j++) imageDate.data[j] = 255;
+    	bottom_ctx.putImageData(imageDate,0,0);
+	
         for( let i = 0; i < curPos+1; i++ ) {
             objects[i].drawBottom();
         }

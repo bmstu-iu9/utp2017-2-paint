@@ -86,12 +86,18 @@ document.getElementById('visible-text').oninput = function () {
  * @type {string}
  */
 function clearCanvas () {
-    bottom_ctx.clearRect(0, 0, bottomCanvas.width, bottomCanvas.height);
 
+    /*bottom_ctx.clearRect(0, 0, bottomCanvas.width, bottomCanvas.height);
     var max = bottomCanvas.width*bottomCanvas.height*4;
     var imageDate = bottom_ctx.getImageData(0,0,bottomCanvas.width,bottomCanvas.height);
     for(var j = 0;j<max;j++) imageDate.data[j] = 255;
-    bottom_ctx.putImageData(imageDate,0,0);
+    bottom_ctx.putImageData(imageDate,0,0);*/
+    
+    var objectClear = new Clear();
+    objectClear.drawBottom();
+    objects.push(objectClear);
+    curPos++;
+	
 }
 
 var width = bottomCanvas.width;
@@ -406,6 +412,18 @@ class Eraser extends Pensil {
         ctx.closePath();
     }
 }
+
+    class Clear{
+
+        drawBottom(){
+            var max = bottomCanvas.width*bottomCanvas.height*4;
+            var imageDate = bottom_ctx.getImageData(0,0,bottomCanvas.width,bottomCanvas.height);
+            for(var j = 0;j<max;j++) imageDate.data[j] = 255;
+            bottom_ctx.putImageData(imageDate,0,0);
+        }
+
+    }
+
 
 function getRandomFloat(min, max) {
   return Math.random() * (max - min) + min;
