@@ -268,6 +268,40 @@ class Tgle extends Form {
     }
 }
 
+class Circ extends Form {
+
+    constructor(pos1x, pos1y, pos2x, pos2y) {
+        super(pos1x, pos1y, pos2x, pos2y);
+    }
+
+    drawTop() {
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
+		var xx = Math.abs(this.pos1x - this.pos2x);
+		var yy = Math.abs(this.pos1y - this.pos2y);
+		var r = (xx < yy ? xx : yy) / 2;
+		var xxx = this.pos1x < this.pos2x ? this.pos1x + r : this.pos1x - r;
+		var yyy = this.pos1y < this.pos2y ? this.pos1y + r : this.pos1y - r;
+		ctx.arc(xxx, yyy, r, 0, Math.PI*2, false);
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    drawBottom() {
+        bottom_ctx.strokeStyle = this.color;
+        bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
+		var xx = Math.abs(this.pos1x - this.pos2x);
+		var yy = Math.abs(this.pos1y - this.pos2y);
+		var r = (xx < yy ? xx : yy) / 2;
+		var xxx = this.pos1x < this.pos2x ? this.pos1x + r : this.pos1x - r;
+		var yyy = this.pos1y < this.pos2y ? this.pos1y + r : this.pos1y - r;
+		bottom_ctx.arc(xxx, yyy, r, 0, Math.PI*2, false);
+        bottom_ctx.stroke();
+        bottom_ctx.closePath();
+    }
+}
 
 class Img extends Form {
 	constructor( pos1x, pos1y, pos2x, pos2y , image ) {
@@ -537,12 +571,12 @@ objNameSpace.Line = Line;
 objNameSpace.Rect = Rect;
 objNameSpace.Sqre = Sqre;
 objNameSpace.Tgle = Tgle;
+objNameSpace.Circ = Circ;
 objNameSpace.Pensil = Pensil;
 objNameSpace.Brush = Brush;
 objNameSpace.Spray = Spray;
 objNameSpace.Eraser = Eraser;
 objNameSpace.Fill=Fill;                  
-
 
 var pos;
 
@@ -918,4 +952,8 @@ function SqreOn() {
 
 function TgleOn() {
   curStyle = "Tgle";
+}
+
+function CircOn() {
+  curStyle = "Circ";
 }
