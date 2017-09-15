@@ -15,18 +15,19 @@ var cursize = s.value;
 
 addt.addEventListener("click", function(event) { 
 	c.addEventListener("click", function(event) { 
-		x = event.clientX;
-		y = event.clientY;
+		x = event.clientX - 125;
+		y = event.clientY - 8;
 		flag = true;
 	});
 });
 
- t.addEventListener("change", function(event) {
+ t.addEventListener("blur", function(event) {
 	if (flag) {
 		bottom_ctx.font = cursize + "px " + curfont;
 		bottom_ctx.fillStyle = localStorage.getItem('savedColor');
-		bottom_ctx.fillText(t.value,x-125,y-8);
+		bottom_ctx.fillText(t.value,x,y);
 		flag = false;
+		allundo();
 	}
  });
  

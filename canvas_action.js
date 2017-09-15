@@ -308,7 +308,6 @@ class Fill {
                   pixelPos+=4*width;
               }
           }
-
           bottom_ctx.putImageData(ImD,0,0);
       }
       
