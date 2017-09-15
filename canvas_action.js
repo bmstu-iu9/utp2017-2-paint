@@ -159,6 +159,39 @@ class Line extends Form {
     }
 }
 
+class Rect extends Form {
+
+    constructor(pos1x, pos1y, pos2x, pos2y) {
+        super(pos1x, pos1y, pos2x, pos2y);
+    }
+
+    drawTop() {
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
+        ctx.moveTo(this.pos1x, this.pos1y);
+		ctx.lineTo(this.pos1x, this.pos2y);
+        ctx.lineTo(this.pos2x, this.pos2y);
+		ctx.lineTo(this.pos2x, this.pos1y);
+		ctx.lineTo(this.pos1x, this.pos1y);
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    drawBottom() {
+        bottom_ctx.strokeStyle = this.color;
+        bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
+        bottom_ctx.moveTo(this.pos1x, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, this.pos2y);
+        bottom_ctx.lineTo(this.pos2x, this.pos2y);
+		bottom_ctx.lineTo(this.pos2x, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, this.pos1y);
+        bottom_ctx.stroke();
+        bottom_ctx.closePath();
+    }
+}
+
 class Img extends Form {
 	constructor( pos1x, pos1y, pos2x, pos2y , image ) {
         super( pos1x, pos1y, pos2x, pos2y );
@@ -308,6 +341,7 @@ class Fill {
                   pixelPos+=4*width;
               }
           }
+
           bottom_ctx.putImageData(ImD,0,0);
       }
       
@@ -410,6 +444,10 @@ class Text {
 	
 }
 
+function qwer() {
+	ctx.fillRect(40, 40, 40, 40);
+}
+
 function getRandomFloat(min, max) {
   return Math.random() * (max - min) + min;
 }
@@ -419,6 +457,8 @@ function getDist( pos1x, pos1y, pos2x, pos2y ) {
 }
 
 objNameSpace.Line = Line;
+objNameSpace.Rect = Rect;
+///objNameSpace.Sqre = Sqre;
 objNameSpace.Pensil = Pensil;
 objNameSpace.Brush = Brush;
 objNameSpace.Spray = Spray;
@@ -784,14 +824,16 @@ function clickOnFill() {
 
 function clickOnText() {
   curStyle = "text";
-  
 }
 
+function LineOn() {
+  curStyle = "Line";
+}
 
+function RectOn() {
+  curStyle = "Rect";
+}
 
-
-
-
-
-
-
+///function SqreOn() {
+///  curStyle = "Sqre";
+///}
