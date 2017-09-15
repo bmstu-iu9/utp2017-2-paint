@@ -192,6 +192,50 @@ class Rect extends Form {
     }
 }
 
+class Sqre extends Form {
+
+    constructor(pos1x, pos1y, pos2x, pos2y) {
+        super(pos1x, pos1y, pos2x, pos2y);
+    }
+
+    drawTop() {
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
+		var xx = Math.abs(this.pos1x - this.pos2x);
+		var yy = Math.abs(this.pos1y - this.pos2y);
+		var p2x = xx < yy ? this.pos2x : this.pos1x < this.pos2x ? this.pos1x + yy : this.pos1x - yy;
+		var xxx = Math.abs(p2x - this.pos1x);
+		var p2y = this.pos1y < this.pos2y ? this.pos1y + xxx : this.pos1y - xxx;
+        ctx.moveTo(this.pos1x, this.pos1y);
+		ctx.lineTo(this.pos1x, p2y);
+        ctx.lineTo(p2x, p2y);
+		ctx.lineTo(p2x, this.pos1y);
+		ctx.lineTo(this.pos1x, this.pos1y);
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    drawBottom() {
+        bottom_ctx.strokeStyle = this.color;
+        bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
+        var xx = Math.abs(this.pos1x - this.pos2x);
+		var yy = Math.abs(this.pos1y - this.pos2y);
+		var p2x = xx < yy ? this.pos2x : this.pos1x < this.pos2x ? this.pos1x + yy : this.pos1x - yy;
+		var xxx = Math.abs(p2x - this.pos1x);
+		var p2y = this.pos1y < this.pos2y ? this.pos1y + xxx : this.pos1y - xxx;
+        bottom_ctx.moveTo(this.pos1x, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, p2y);
+        bottom_ctx.lineTo(p2x, p2y);
+		bottom_ctx.lineTo(p2x, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, this.pos1y);
+        bottom_ctx.stroke();
+        bottom_ctx.closePath();
+    }
+}
+
+
 class Img extends Form {
 	constructor( pos1x, pos1y, pos2x, pos2y , image ) {
         super( pos1x, pos1y, pos2x, pos2y );
@@ -458,7 +502,7 @@ function getDist( pos1x, pos1y, pos2x, pos2y ) {
 
 objNameSpace.Line = Line;
 objNameSpace.Rect = Rect;
-///objNameSpace.Sqre = Sqre;
+objNameSpace.Sqre = Sqre;
 objNameSpace.Pensil = Pensil;
 objNameSpace.Brush = Brush;
 objNameSpace.Spray = Spray;
@@ -834,6 +878,6 @@ function RectOn() {
   curStyle = "Rect";
 }
 
-///function SqreOn() {
-///  curStyle = "Sqre";
-///}
+function SqreOn() {
+  curStyle = "Sqre";
+}
