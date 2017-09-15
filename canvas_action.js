@@ -235,6 +235,39 @@ class Sqre extends Form {
     }
 }
 
+class Tgle extends Form {
+
+    constructor(pos1x, pos1y, pos2x, pos2y) {
+        super(pos1x, pos1y, pos2x, pos2y);
+    }
+
+    drawTop() {
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
+		var xx = this.pos1x + (this.pos2x - this.pos1x) / 2;
+        ctx.moveTo(xx, this.pos1y);
+		ctx.lineTo(this.pos1x, this.pos2y);
+        ctx.lineTo(this.pos2x, this.pos2y);
+		ctx.lineTo(xx, this.pos1y);
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    drawBottom() {
+        bottom_ctx.strokeStyle = this.color;
+        bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
+        var xx = this.pos1x + (this.pos2x - this.pos1x) / 2;
+        bottom_ctx.moveTo(xx, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, this.pos2y);
+        bottom_ctx.lineTo(this.pos2x, this.pos2y);
+		bottom_ctx.lineTo(xx, this.pos1y);
+        bottom_ctx.stroke();
+        bottom_ctx.closePath();
+    }
+}
+
 
 class Img extends Form {
 	constructor( pos1x, pos1y, pos2x, pos2y , image ) {
@@ -503,6 +536,7 @@ function getDist( pos1x, pos1y, pos2x, pos2y ) {
 objNameSpace.Line = Line;
 objNameSpace.Rect = Rect;
 objNameSpace.Sqre = Sqre;
+objNameSpace.Tgle = Tgle;
 objNameSpace.Pensil = Pensil;
 objNameSpace.Brush = Brush;
 objNameSpace.Spray = Spray;
@@ -880,4 +914,8 @@ function RectOn() {
 
 function SqreOn() {
   curStyle = "Sqre";
+}
+
+function TgleOn() {
+  curStyle = "Tgle";
 }
