@@ -159,6 +159,150 @@ class Line extends Form {
     }
 }
 
+class Rect extends Form {
+
+    constructor(pos1x, pos1y, pos2x, pos2y) {
+        super(pos1x, pos1y, pos2x, pos2y);
+    }
+
+    drawTop() {
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
+        ctx.moveTo(this.pos1x, this.pos1y);
+		ctx.lineTo(this.pos1x, this.pos2y);
+        ctx.lineTo(this.pos2x, this.pos2y);
+		ctx.lineTo(this.pos2x, this.pos1y);
+		ctx.lineTo(this.pos1x, this.pos1y);
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    drawBottom() {
+        bottom_ctx.strokeStyle = this.color;
+        bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
+        bottom_ctx.moveTo(this.pos1x, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, this.pos2y);
+        bottom_ctx.lineTo(this.pos2x, this.pos2y);
+		bottom_ctx.lineTo(this.pos2x, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, this.pos1y);
+        bottom_ctx.stroke();
+        bottom_ctx.closePath();
+    }
+}
+
+class Sqre extends Form {
+
+    constructor(pos1x, pos1y, pos2x, pos2y) {
+        super(pos1x, pos1y, pos2x, pos2y);
+    }
+
+    drawTop() {
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
+		var xx = Math.abs(this.pos1x - this.pos2x);
+		var yy = Math.abs(this.pos1y - this.pos2y);
+		var p2x = xx < yy ? this.pos2x : this.pos1x < this.pos2x ? this.pos1x + yy : this.pos1x - yy;
+		var xxx = Math.abs(p2x - this.pos1x);
+		var p2y = this.pos1y < this.pos2y ? this.pos1y + xxx : this.pos1y - xxx;
+        ctx.moveTo(this.pos1x, this.pos1y);
+		ctx.lineTo(this.pos1x, p2y);
+        ctx.lineTo(p2x, p2y);
+		ctx.lineTo(p2x, this.pos1y);
+		ctx.lineTo(this.pos1x, this.pos1y);
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    drawBottom() {
+        bottom_ctx.strokeStyle = this.color;
+        bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
+        var xx = Math.abs(this.pos1x - this.pos2x);
+		var yy = Math.abs(this.pos1y - this.pos2y);
+		var p2x = xx < yy ? this.pos2x : this.pos1x < this.pos2x ? this.pos1x + yy : this.pos1x - yy;
+		var xxx = Math.abs(p2x - this.pos1x);
+		var p2y = this.pos1y < this.pos2y ? this.pos1y + xxx : this.pos1y - xxx;
+        bottom_ctx.moveTo(this.pos1x, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, p2y);
+        bottom_ctx.lineTo(p2x, p2y);
+		bottom_ctx.lineTo(p2x, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, this.pos1y);
+        bottom_ctx.stroke();
+        bottom_ctx.closePath();
+    }
+}
+
+class Tgle extends Form {
+
+    constructor(pos1x, pos1y, pos2x, pos2y) {
+        super(pos1x, pos1y, pos2x, pos2y);
+    }
+
+    drawTop() {
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
+		var xx = this.pos1x + (this.pos2x - this.pos1x) / 2;
+        ctx.moveTo(xx, this.pos1y);
+		ctx.lineTo(this.pos1x, this.pos2y);
+        ctx.lineTo(this.pos2x, this.pos2y);
+		ctx.lineTo(xx, this.pos1y);
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    drawBottom() {
+        bottom_ctx.strokeStyle = this.color;
+        bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
+        var xx = this.pos1x + (this.pos2x - this.pos1x) / 2;
+        bottom_ctx.moveTo(xx, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, this.pos2y);
+        bottom_ctx.lineTo(this.pos2x, this.pos2y);
+		bottom_ctx.lineTo(xx, this.pos1y);
+        bottom_ctx.stroke();
+        bottom_ctx.closePath();
+    }
+}
+
+class Circ extends Form {
+
+    constructor(pos1x, pos1y, pos2x, pos2y) {
+        super(pos1x, pos1y, pos2x, pos2y);
+    }
+
+    drawTop() {
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
+		var xx = Math.abs(this.pos1x - this.pos2x);
+		var yy = Math.abs(this.pos1y - this.pos2y);
+		var r = (xx < yy ? xx : yy) / 2;
+		var xxx = this.pos1x < this.pos2x ? this.pos1x + r : this.pos1x - r;
+		var yyy = this.pos1y < this.pos2y ? this.pos1y + r : this.pos1y - r;
+		ctx.arc(xxx, yyy, r, 0, Math.PI*2, false);
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    drawBottom() {
+        bottom_ctx.strokeStyle = this.color;
+        bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
+		var xx = Math.abs(this.pos1x - this.pos2x);
+		var yy = Math.abs(this.pos1y - this.pos2y);
+		var r = (xx < yy ? xx : yy) / 2;
+		var xxx = this.pos1x < this.pos2x ? this.pos1x + r : this.pos1x - r;
+		var yyy = this.pos1y < this.pos2y ? this.pos1y + r : this.pos1y - r;
+		bottom_ctx.arc(xxx, yyy, r, 0, Math.PI*2, false);
+        bottom_ctx.stroke();
+        bottom_ctx.closePath();
+    }
+}
+
 class Img extends Form {
 	constructor( pos1x, pos1y, pos2x, pos2y , image ) {
         super( pos1x, pos1y, pos2x, pos2y );
@@ -308,6 +452,7 @@ class Fill {
                   pixelPos+=4*width;
               }
           }
+
           bottom_ctx.putImageData(ImD,0,0);
       }
       
@@ -410,6 +555,10 @@ class Text {
 	
 }
 
+function qwer() {
+	ctx.fillRect(40, 40, 40, 40);
+}
+
 function getRandomFloat(min, max) {
   return Math.random() * (max - min) + min;
 }
@@ -419,12 +568,15 @@ function getDist( pos1x, pos1y, pos2x, pos2y ) {
 }
 
 objNameSpace.Line = Line;
+objNameSpace.Rect = Rect;
+objNameSpace.Sqre = Sqre;
+objNameSpace.Tgle = Tgle;
+objNameSpace.Circ = Circ;
 objNameSpace.Pensil = Pensil;
 objNameSpace.Brush = Brush;
 objNameSpace.Spray = Spray;
 objNameSpace.Eraser = Eraser;
 objNameSpace.Fill=Fill;                  
-
 
 var pos;
 
@@ -784,14 +936,24 @@ function clickOnFill() {
 
 function clickOnText() {
   curStyle = "text";
-  
 }
 
+function LineOn() {
+  curStyle = "Line";
+}
 
+function RectOn() {
+  curStyle = "Rect";
+}
 
+function SqreOn() {
+  curStyle = "Sqre";
+}
 
+function TgleOn() {
+  curStyle = "Tgle";
+}
 
-
-
-
-
+function CircOn() {
+  curStyle = "Circ";
+}
