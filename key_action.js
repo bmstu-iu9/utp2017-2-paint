@@ -14,29 +14,40 @@ var col = new Array();
 var fnt = new Array();
 var posx = new Array();
 var posy = new Array();
-var lastarr = new Array();
-var lastcol = new Array();
-var lastfnt = new Array();
-var lastposx = new Array();
-var lastposy = new Array();
 var curpos = 0;
 var flag3 = false;
+var flag4 = false;
 var curpos1 = 0;
 var x1 = 0;
 var y1 = 0;
 var curfont1 = f.value;
 var cursize1 = s.value;
 
+var img = new Image(); 
+img.src = "http://www.picshare.ru/uploads/170915/r4BTH6t31V.png";
 
 addt.addEventListener("click", function(event) { 
 	c.addEventListener("click", function(event) {
-		x1 = event.clientX - 125;
-		y1 = event.clientY - 8;		
-		flag2 = true;
+		if (!flag4 && document.body.style.cursor == 'text') {
+			x1 = event.clientX - 125;
+			y1 = event.clientY - 8;		
+			flag2 = true; 
+			bottom_ctx.clearRect( 0, 0, bottomCanvas.width, bottomCanvas.height );
+			for( let i = 0; i < curPos; i++ ) {
+				objects[i].drawBottom();
+			}
+			for (let i = 0; i < curpos; i++) {	
+				bottom_ctx.font = fnt[i];
+				bottom_ctx.fillStyle = col[i];
+				bottom_ctx.fillText(arr[i], posx[i], posy[i]);
+			}
+			bottom_ctx.drawImage(img, x1 - s.value/2 - 1, y1-s.value/2-4.25, s.value, s.value);
+		}
 	});
+
 });
 
-t.addEventListener("change", function() {
+t.addEventListener("blur", function() {
 	if (flag2) {
 		arr[curpos] = ttt.value;
 		col[curpos] = localStorage.getItem('savedColor');
@@ -45,11 +56,12 @@ t.addEventListener("change", function() {
 		posy[curpos] = y1;
 		curpos++;
 		flag2 = false;
+		flag4 = false;
 	}
  });
  
- s.addEventListener("change", function () { cursize1 = s.value});
- f.addEventListener("change", function () { curfont1 = f.value});
+s.addEventListener("change", function () { cursize1 = s.value});
+f.addEventListener("change", function () { curfont1 = f.value});
 
 document.onkeydown = handleKeyDown;
 
@@ -75,6 +87,11 @@ function handleKeyDown( evt ) {
     }
 };
 
+var lastarr = new Array();
+var lastcol = new Array();
+var lastfnt = new Array();
+var lastposx = new Array();
+var lastposy = new Array();
 
 function undo() {
     bottom_ctx.clearRect( 0, 0, bottomCanvas.width, bottomCanvas.height );
@@ -125,9 +142,23 @@ function redo() {
 	}
 }
 
-function changeCursor(e){
+function allundo() { 
+	bottom_ctx.clearRect( 0, 0, bottomCanvas.width, bottomCanvas.height );
+	for( let i = 0; i < curPos; i++ ) {
+		objects[i].drawBottom();
+	}
+	for (let i = 0; i < curpos; i++) {	
+		bottom_ctx.font = fnt[i];
+		bottom_ctx.fillStyle = col[i];
+		bottom_ctx.fillText(arr[i], posx[i], posy[i]);
+	}
+}
 
+function changeCursor(e){
     if(e.type === 'click') {
+		if (document.body.style.cursor != addText) {
+			allundo();
+		}
         if(this.id === 'pencil') {
             document.body.style.cursor = "url('data:image/x-icon;base64,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'), auto";
         }
