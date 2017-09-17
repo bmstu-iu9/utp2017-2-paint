@@ -94,6 +94,8 @@ addt.addEventListener("click", clickOnText);
 var objNameSpace = {};
 var im_is = false;
 var img_move = false;
+var curSolid = true;
+var sForm = "RectS";
 var vector = { x_0:0 ,x_1:0 ,y_0:0 ,y_1:0};
 var img_cur;
 var img_size = false;
@@ -192,6 +194,43 @@ class Rect extends Form {
     }
 }
 
+class RectS extends Form {
+
+    constructor(pos1x, pos1y, pos2x, pos2y) {
+        super(pos1x, pos1y, pos2x, pos2y);
+    }
+
+    drawTop() {
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
+        ctx.moveTo(this.pos1x, this.pos1y);
+		ctx.lineTo(this.pos1x, this.pos2y);
+        ctx.lineTo(this.pos2x, this.pos2y);
+		ctx.lineTo(this.pos2x, this.pos1y);
+		ctx.lineTo(this.pos1x, this.pos1y);
+        ctx.stroke();
+        ctx.closePath();
+		ctx.fillStyle = this.color;
+		ctx.fill();
+    }
+
+    drawBottom() {
+        bottom_ctx.strokeStyle = this.color;
+        bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
+        bottom_ctx.moveTo(this.pos1x, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, this.pos2y);
+        bottom_ctx.lineTo(this.pos2x, this.pos2y);
+		bottom_ctx.lineTo(this.pos2x, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, this.pos1y);
+        bottom_ctx.stroke();
+        bottom_ctx.closePath();
+		bottom_ctx.fillStyle = this.color;
+		bottom_ctx.fill();
+    }
+}
+
 class Sqre extends Form {
 
     constructor(pos1x, pos1y, pos2x, pos2y) {
@@ -235,6 +274,53 @@ class Sqre extends Form {
     }
 }
 
+class SqreS extends Form {
+
+    constructor(pos1x, pos1y, pos2x, pos2y) {
+        super(pos1x, pos1y, pos2x, pos2y);
+    }
+
+    drawTop() {
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
+		var xx = Math.abs(this.pos1x - this.pos2x);
+		var yy = Math.abs(this.pos1y - this.pos2y);
+		var p2x = xx < yy ? this.pos2x : this.pos1x < this.pos2x ? this.pos1x + yy : this.pos1x - yy;
+		var xxx = Math.abs(p2x - this.pos1x);
+		var p2y = this.pos1y < this.pos2y ? this.pos1y + xxx : this.pos1y - xxx;
+        ctx.moveTo(this.pos1x, this.pos1y);
+		ctx.lineTo(this.pos1x, p2y);
+        ctx.lineTo(p2x, p2y);
+		ctx.lineTo(p2x, this.pos1y);
+		ctx.lineTo(this.pos1x, this.pos1y);
+        ctx.stroke();
+        ctx.closePath();
+		ctx.fillStyle = this.color;
+		ctx.fill();
+    }
+
+    drawBottom() {
+        bottom_ctx.strokeStyle = this.color;
+        bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
+        var xx = Math.abs(this.pos1x - this.pos2x);
+		var yy = Math.abs(this.pos1y - this.pos2y);
+		var p2x = xx < yy ? this.pos2x : this.pos1x < this.pos2x ? this.pos1x + yy : this.pos1x - yy;
+		var xxx = Math.abs(p2x - this.pos1x);
+		var p2y = this.pos1y < this.pos2y ? this.pos1y + xxx : this.pos1y - xxx;
+        bottom_ctx.moveTo(this.pos1x, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, p2y);
+        bottom_ctx.lineTo(p2x, p2y);
+		bottom_ctx.lineTo(p2x, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, this.pos1y);
+        bottom_ctx.stroke();
+        bottom_ctx.closePath();
+		bottom_ctx.fillStyle = this.color;
+		bottom_ctx.fill();
+    }
+}
+
 class Tgle extends Form {
 
     constructor(pos1x, pos1y, pos2x, pos2y) {
@@ -265,6 +351,43 @@ class Tgle extends Form {
 		bottom_ctx.lineTo(xx, this.pos1y);
         bottom_ctx.stroke();
         bottom_ctx.closePath();
+    }
+}
+
+class TgleS extends Form {
+
+    constructor(pos1x, pos1y, pos2x, pos2y) {
+        super(pos1x, pos1y, pos2x, pos2y);
+    }
+
+    drawTop() {
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
+		var xx = this.pos1x + (this.pos2x - this.pos1x) / 2;
+        ctx.moveTo(xx, this.pos1y);
+		ctx.lineTo(this.pos1x, this.pos2y);
+        ctx.lineTo(this.pos2x, this.pos2y);
+		ctx.lineTo(xx, this.pos1y);
+        ctx.stroke();
+        ctx.closePath();
+		ctx.fillStyle = this.color;
+		ctx.fill();
+    }
+
+    drawBottom() {
+        bottom_ctx.strokeStyle = this.color;
+        bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
+        var xx = this.pos1x + (this.pos2x - this.pos1x) / 2;
+        bottom_ctx.moveTo(xx, this.pos1y);
+		bottom_ctx.lineTo(this.pos1x, this.pos2y);
+        bottom_ctx.lineTo(this.pos2x, this.pos2y);
+		bottom_ctx.lineTo(xx, this.pos1y);
+        bottom_ctx.stroke();
+        bottom_ctx.closePath();
+		bottom_ctx.fillStyle = this.color;
+		bottom_ctx.fill();
     }
 }
 
@@ -300,6 +423,45 @@ class Circ extends Form {
 		bottom_ctx.arc(xxx, yyy, r, 0, Math.PI*2, false);
         bottom_ctx.stroke();
         bottom_ctx.closePath();
+    }
+}
+
+class CircS extends Form {
+
+    constructor(pos1x, pos1y, pos2x, pos2y) {
+        super(pos1x, pos1y, pos2x, pos2y);
+    }
+
+    drawTop() {
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.globalAlpha = this.visibility;
+		var xx = Math.abs(this.pos1x - this.pos2x);
+		var yy = Math.abs(this.pos1y - this.pos2y);
+		var r = (xx < yy ? xx : yy) / 2;
+		var xxx = this.pos1x < this.pos2x ? this.pos1x + r : this.pos1x - r;
+		var yyy = this.pos1y < this.pos2y ? this.pos1y + r : this.pos1y - r;
+		ctx.arc(xxx, yyy, r, 0, Math.PI*2, false);
+        ctx.stroke();
+        ctx.closePath();
+		ctx.fillStyle = this.color;
+		ctx.fill();
+    }
+
+    drawBottom() {
+        bottom_ctx.strokeStyle = this.color;
+        bottom_ctx.beginPath();
+        bottom_ctx.globalAlpha = this.visibility;
+		var xx = Math.abs(this.pos1x - this.pos2x);
+		var yy = Math.abs(this.pos1y - this.pos2y);
+		var r = (xx < yy ? xx : yy) / 2;
+		var xxx = this.pos1x < this.pos2x ? this.pos1x + r : this.pos1x - r;
+		var yyy = this.pos1y < this.pos2y ? this.pos1y + r : this.pos1y - r;
+		bottom_ctx.arc(xxx, yyy, r, 0, Math.PI*2, false);
+        bottom_ctx.stroke();
+        bottom_ctx.closePath();
+		bottom_ctx.fillStyle = this.color;
+		bottom_ctx.fill();
     }
 }
 
@@ -555,10 +717,6 @@ class Text {
 	
 }
 
-function qwer() {
-	ctx.fillRect(40, 40, 40, 40);
-}
-
 function getRandomFloat(min, max) {
   return Math.random() * (max - min) + min;
 }
@@ -569,9 +727,13 @@ function getDist( pos1x, pos1y, pos2x, pos2y ) {
 
 objNameSpace.Line = Line;
 objNameSpace.Rect = Rect;
+objNameSpace.RectS = RectS;
 objNameSpace.Sqre = Sqre;
+objNameSpace.SqreS = SqreS;
 objNameSpace.Tgle = Tgle;
+objNameSpace.TgleS = TgleS;
 objNameSpace.Circ = Circ;
+objNameSpace.CircS = CircS;
 objNameSpace.Pensil = Pensil;
 objNameSpace.Brush = Brush;
 objNameSpace.Spray = Spray;
@@ -887,7 +1049,7 @@ function settings() {
 }
 
 function clickOnPensil() {
-  curStyle = "Pensil";
+  curStyle = sForm = "Pensil";
   try {
       localStorage.setItem('curStyle', curStyle);
   } catch (e) {
@@ -898,7 +1060,7 @@ function clickOnPensil() {
 }
 
 function clickOnBrush() {
-  curStyle = "Brush";
+  curStyle = sForm = "Brush";
     try {
         localStorage.setItem('curStyle', curStyle);
     } catch (e) {
@@ -909,7 +1071,7 @@ function clickOnBrush() {
 }
 
 function clickOnEraser() {
-  curStyle = "Eraser";
+  curStyle = sForm = "Eraser";
     try {
         localStorage.setItem('curStyle', curStyle);
     } catch (e) {
@@ -920,7 +1082,7 @@ function clickOnEraser() {
 }
 
 function clickOnSpray() {
-  curStyle = "Spray";
+  curStyle = sForm = "Spray";
     try {
         localStorage.setItem('curStyle', curStyle);
     } catch (e) {
@@ -931,29 +1093,66 @@ function clickOnSpray() {
 }
 
 function clickOnFill() {
-  curStyle = "Fill";
+  curStyle = sForm = "Fill";
 }
 
 function clickOnText() {
-  curStyle = "text";
+  curStyle = sForm = "text";
 }
 
 function LineOn() {
-  curStyle = "Line";
+  curStyle = sForm = "Line";
 }
 
 function RectOn() {
-  curStyle = "Rect";
+  if (solid.value == "true") {
+	  curStyle = "RectS";
+	  sForm = "Rect";
+  }
+  else {
+	  curStyle = "Rect";
+	  sForm = "RectS";
+  }
 }
 
 function SqreOn() {
-  curStyle = "Sqre";
+  if (solid.value == "true") {
+	  curStyle = "SqreS";
+	  sForm = "Sqre";
+  }
+  else {
+	  curStyle = "Sqre";
+	  sForm = "SqreS";
+  }
 }
 
 function TgleOn() {
-  curStyle = "Tgle";
+  if (solid.value == "true") {
+	  curStyle = "TgleS";
+	  sForm = "Tgle";
+  }
+  else {
+	  curStyle = "Tgle";
+	  sForm = "TgleS";
+  }
 }
 
 function CircOn() {
-  curStyle = "Circ";
+  if (solid.value == "true") {
+	  curStyle = "CircS";
+	  sForm = "Circ";
+  }
+  else {
+	  curStyle = "Circ";
+	  sForm = "CircS";
+  }
+}
+
+function solidCheck() {
+	if (curSolid != solid.value && curStyle != sForm) {
+		var kk = curStyle;
+		curStyle = sForm;
+		sForm = kk;
+	}
+	curSolid = solid.value;
 }
