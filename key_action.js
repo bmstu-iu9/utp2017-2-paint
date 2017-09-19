@@ -47,6 +47,8 @@ addt.addEventListener("click", function(event) {
 
 });
 
+
+
 t.addEventListener("blur", function() {
 	if (flag2) {
 		arr[curpos] = ttt.value;
@@ -64,6 +66,7 @@ s.addEventListener("change", function () { cursize1 = s.value});
 f.addEventListener("change", function () { curfont1 = f.value});
 
 document.onkeydown = handleKeyDown;
+
 
 function handleKeyDown( evt ) {
     if ( evt.keyCode === 90 && evt.ctrlKey ) {

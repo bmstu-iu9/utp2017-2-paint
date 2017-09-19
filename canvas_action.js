@@ -704,17 +704,15 @@ class Eraser extends Pensil {
 }
 
 class Text {
-	constructor (pos1x, pos1y, pos2x, pos2y, color, t ) { 
-			this.color = color;
+	constructor (pos1x, pos1y, pos2x, pos2y, t ) { 
+			this.color = Color;
+			this.color = Color;
 			this.pos1x = pos1x;
 			this.pos2x = pos2x;
 			this.pos1y = pos1y;
 			this.pos2y = pos2y;
 			this.t = t;
 	}
-	
-	
-	
 }
 
 function getRandomFloat(min, max) {
@@ -1103,6 +1101,19 @@ function clickOnText() {
 function LineOn() {
   curStyle = sForm = "Line";
 }
+
+function LineOn() {
+  curStyle = sForm = "Line";
+}
+
+function clickOnIncrease() {
+  curStyle = sForm = "Increase";
+}
+
+function clickOnDecrease() {
+  curStyle = sForm = "Decrease";
+}
+
 
 function RectOn() {
   if (solid.value == "true") {
