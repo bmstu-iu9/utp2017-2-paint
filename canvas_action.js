@@ -107,6 +107,7 @@ class Form {
     constructor( pos1x, pos1y, pos2x, pos2y ) {
         this.color = Color;
         this.visibility = Visibility;
+		this.width = width.value;
         this.pos1x = pos1x;
         this.pos1y = pos1y;
         this.pos2x = pos2x;
@@ -139,6 +140,7 @@ class Line extends Form {
         ctx.beginPath();
         ctx.globalAlpha = this.visibility;
         ctx.moveTo( this.pos1x, this.pos1y );
+		ctx.lineWidth = this.width;
         ctx.lineTo( this.pos2x, this.pos2y );
         ctx.stroke();
         ctx.closePath();
@@ -148,6 +150,7 @@ class Line extends Form {
         bottom_ctx.strokeStyle = this.color;
         bottom_ctx.beginPath();
         bottom_ctx.globalAlpha = this.visibility;
+		bottom_ctx.lineWidth = this.width;
         bottom_ctx.moveTo( this.pos1x, this.pos1y );
         bottom_ctx.lineTo( this.pos2x, this.pos2y );
         bottom_ctx.stroke();
@@ -165,6 +168,7 @@ class Rect extends Form {
         ctx.strokeStyle = this.color;
         ctx.beginPath();
         ctx.globalAlpha = this.visibility;
+		ctx.lineWidth = this.width;
         ctx.moveTo(this.pos1x, this.pos1y);
 		ctx.lineTo(this.pos1x, this.pos2y);
         ctx.lineTo(this.pos2x, this.pos2y);
@@ -178,6 +182,7 @@ class Rect extends Form {
         bottom_ctx.strokeStyle = this.color;
         bottom_ctx.beginPath();
         bottom_ctx.globalAlpha = this.visibility;
+		bottom_ctx.lineWidth = this.width;
         bottom_ctx.moveTo(this.pos1x, this.pos1y);
 		bottom_ctx.lineTo(this.pos1x, this.pos2y);
         bottom_ctx.lineTo(this.pos2x, this.pos2y);
@@ -192,12 +197,14 @@ class RectS extends Form {
 
     constructor(pos1x, pos1y, pos2x, pos2y) {
         super(pos1x, pos1y, pos2x, pos2y);
+		this.scolor = colorS.value;
     }
 
     drawTop() {
         ctx.strokeStyle = this.color;
         ctx.beginPath();
         ctx.globalAlpha = this.visibility;
+		ctx.lineWidth = this.width;
         ctx.moveTo(this.pos1x, this.pos1y);
 		ctx.lineTo(this.pos1x, this.pos2y);
         ctx.lineTo(this.pos2x, this.pos2y);
@@ -213,6 +220,7 @@ class RectS extends Form {
         bottom_ctx.strokeStyle = this.color;
         bottom_ctx.beginPath();
         bottom_ctx.globalAlpha = this.visibility;
+		bottom_ctx.lineWidth = this.width;
         bottom_ctx.moveTo(this.pos1x, this.pos1y);
 		bottom_ctx.lineTo(this.pos1x, this.pos2y);
         bottom_ctx.lineTo(this.pos2x, this.pos2y);
@@ -240,6 +248,7 @@ class Sqre extends Form {
 		var p2x = xx < yy ? this.pos2x : this.pos1x < this.pos2x ? this.pos1x + yy : this.pos1x - yy;
 		var xxx = Math.abs(p2x - this.pos1x);
 		var p2y = this.pos1y < this.pos2y ? this.pos1y + xxx : this.pos1y - xxx;
+		ctx.lineWidth = this.width;
         ctx.moveTo(this.pos1x, this.pos1y);
 		ctx.lineTo(this.pos1x, p2y);
         ctx.lineTo(p2x, p2y);
@@ -258,6 +267,7 @@ class Sqre extends Form {
 		var p2x = xx < yy ? this.pos2x : this.pos1x < this.pos2x ? this.pos1x + yy : this.pos1x - yy;
 		var xxx = Math.abs(p2x - this.pos1x);
 		var p2y = this.pos1y < this.pos2y ? this.pos1y + xxx : this.pos1y - xxx;
+		bottom_ctx.lineWidth = this.width;
         bottom_ctx.moveTo(this.pos1x, this.pos1y);
 		bottom_ctx.lineTo(this.pos1x, p2y);
         bottom_ctx.lineTo(p2x, p2y);
@@ -272,6 +282,7 @@ class SqreS extends Form {
 
     constructor(pos1x, pos1y, pos2x, pos2y) {
         super(pos1x, pos1y, pos2x, pos2y);
+		this.scolor = colorS.value;
     }
 
     drawTop() {
@@ -283,6 +294,7 @@ class SqreS extends Form {
 		var p2x = xx < yy ? this.pos2x : this.pos1x < this.pos2x ? this.pos1x + yy : this.pos1x - yy;
 		var xxx = Math.abs(p2x - this.pos1x);
 		var p2y = this.pos1y < this.pos2y ? this.pos1y + xxx : this.pos1y - xxx;
+		ctx.lineWidth = this.width;
         ctx.moveTo(this.pos1x, this.pos1y);
 		ctx.lineTo(this.pos1x, p2y);
         ctx.lineTo(p2x, p2y);
@@ -290,7 +302,7 @@ class SqreS extends Form {
 		ctx.lineTo(this.pos1x, this.pos1y);
         ctx.stroke();
         ctx.closePath();
-		ctx.fillStyle = this.color;
+		ctx.fillStyle = this.scolor;
 		ctx.fill();
     }
 
@@ -303,6 +315,7 @@ class SqreS extends Form {
 		var p2x = xx < yy ? this.pos2x : this.pos1x < this.pos2x ? this.pos1x + yy : this.pos1x - yy;
 		var xxx = Math.abs(p2x - this.pos1x);
 		var p2y = this.pos1y < this.pos2y ? this.pos1y + xxx : this.pos1y - xxx;
+		bottom_ctx.lineWidth = this.width;
         bottom_ctx.moveTo(this.pos1x, this.pos1y);
 		bottom_ctx.lineTo(this.pos1x, p2y);
         bottom_ctx.lineTo(p2x, p2y);
@@ -310,7 +323,7 @@ class SqreS extends Form {
 		bottom_ctx.lineTo(this.pos1x, this.pos1y);
         bottom_ctx.stroke();
         bottom_ctx.closePath();
-		bottom_ctx.fillStyle = this.color;
+		bottom_ctx.fillStyle = this.scolor;
 		bottom_ctx.fill();
     }
 }
@@ -326,6 +339,7 @@ class Tgle extends Form {
         ctx.beginPath();
         ctx.globalAlpha = this.visibility;
 		var xx = this.pos1x + (this.pos2x - this.pos1x) / 2;
+		ctx.lineWidth = this.width;
         ctx.moveTo(xx, this.pos1y);
 		ctx.lineTo(this.pos1x, this.pos2y);
         ctx.lineTo(this.pos2x, this.pos2y);
@@ -339,6 +353,7 @@ class Tgle extends Form {
         bottom_ctx.beginPath();
         bottom_ctx.globalAlpha = this.visibility;
         var xx = this.pos1x + (this.pos2x - this.pos1x) / 2;
+		bottom_ctx.lineWidth = this.width;
         bottom_ctx.moveTo(xx, this.pos1y);
 		bottom_ctx.lineTo(this.pos1x, this.pos2y);
         bottom_ctx.lineTo(this.pos2x, this.pos2y);
@@ -352,6 +367,7 @@ class TgleS extends Form {
 
     constructor(pos1x, pos1y, pos2x, pos2y) {
         super(pos1x, pos1y, pos2x, pos2y);
+		this.scolor = colorS.value;
     }
 
     drawTop() {
@@ -359,13 +375,14 @@ class TgleS extends Form {
         ctx.beginPath();
         ctx.globalAlpha = this.visibility;
 		var xx = this.pos1x + (this.pos2x - this.pos1x) / 2;
+		ctx.lineWidth = this.width;
         ctx.moveTo(xx, this.pos1y);
 		ctx.lineTo(this.pos1x, this.pos2y);
         ctx.lineTo(this.pos2x, this.pos2y);
 		ctx.lineTo(xx, this.pos1y);
         ctx.stroke();
         ctx.closePath();
-		ctx.fillStyle = this.color;
+		ctx.fillStyle = this.scolor;
 		ctx.fill();
     }
 
@@ -374,13 +391,14 @@ class TgleS extends Form {
         bottom_ctx.beginPath();
         bottom_ctx.globalAlpha = this.visibility;
         var xx = this.pos1x + (this.pos2x - this.pos1x) / 2;
+		bottom_ctx.lineWidth = this.width;
         bottom_ctx.moveTo(xx, this.pos1y);
 		bottom_ctx.lineTo(this.pos1x, this.pos2y);
         bottom_ctx.lineTo(this.pos2x, this.pos2y);
 		bottom_ctx.lineTo(xx, this.pos1y);
         bottom_ctx.stroke();
         bottom_ctx.closePath();
-		bottom_ctx.fillStyle = this.color;
+		bottom_ctx.fillStyle = this.scolor;
 		bottom_ctx.fill();
     }
 }
@@ -400,6 +418,7 @@ class Circ extends Form {
 		var r = (xx < yy ? xx : yy) / 2;
 		var xxx = this.pos1x < this.pos2x ? this.pos1x + r : this.pos1x - r;
 		var yyy = this.pos1y < this.pos2y ? this.pos1y + r : this.pos1y - r;
+		ctx.lineWidth = this.width;
 		ctx.arc(xxx, yyy, r, 0, Math.PI*2, false);
         ctx.stroke();
         ctx.closePath();
@@ -414,6 +433,7 @@ class Circ extends Form {
 		var r = (xx < yy ? xx : yy) / 2;
 		var xxx = this.pos1x < this.pos2x ? this.pos1x + r : this.pos1x - r;
 		var yyy = this.pos1y < this.pos2y ? this.pos1y + r : this.pos1y - r;
+		bottom_ctx.lineWidth = this.width;
 		bottom_ctx.arc(xxx, yyy, r, 0, Math.PI*2, false);
         bottom_ctx.stroke();
         bottom_ctx.closePath();
@@ -424,6 +444,7 @@ class CircS extends Form {
 
     constructor(pos1x, pos1y, pos2x, pos2y) {
         super(pos1x, pos1y, pos2x, pos2y);
+		this.scolor = colorS.value;
     }
 
     drawTop() {
@@ -435,10 +456,11 @@ class CircS extends Form {
 		var r = (xx < yy ? xx : yy) / 2;
 		var xxx = this.pos1x < this.pos2x ? this.pos1x + r : this.pos1x - r;
 		var yyy = this.pos1y < this.pos2y ? this.pos1y + r : this.pos1y - r;
+		ctx.lineWidth = this.width;
 		ctx.arc(xxx, yyy, r, 0, Math.PI*2, false);
         ctx.stroke();
         ctx.closePath();
-		ctx.fillStyle = this.color;
+		ctx.fillStyle = this.scolor;
 		ctx.fill();
     }
 
@@ -451,10 +473,11 @@ class CircS extends Form {
 		var r = (xx < yy ? xx : yy) / 2;
 		var xxx = this.pos1x < this.pos2x ? this.pos1x + r : this.pos1x - r;
 		var yyy = this.pos1y < this.pos2y ? this.pos1y + r : this.pos1y - r;
+		bottom_ctx.lineWidth = this.width;
 		bottom_ctx.arc(xxx, yyy, r, 0, Math.PI*2, false);
         bottom_ctx.stroke();
         bottom_ctx.closePath();
-		bottom_ctx.fillStyle = this.color;
+		bottom_ctx.fillStyle = this.scolor;
 		bottom_ctx.fill();
     }
 }
@@ -511,6 +534,7 @@ class Pensil {
         this.pos2y = pos2y;
         this.type = "brush";
         this.points = [ { x : pos1x, y : pos1y } ];
+		this.width = width.value;
     }
 
     set2( pos2x, pos2y ) {
@@ -522,6 +546,7 @@ class Pensil {
     }
 
     drawBottom() {
+		bottom_ctx.lineWidth = this.width;
         for ( let i = 0; i < this.points.length - 1 ; i++ ) {
             this.drawElement( this.points[ i ].x, this.points[ i ].y,
                               this.points[ i + 1 ].x, this.points[ i + 1 ].y,
@@ -530,6 +555,7 @@ class Pensil {
     }
 
     drawTop() {
+		ctx.lineWidth = this.width;
         this.drawElement( this.pos1x, this.pos1y, this.pos2x, this.pos2y, ctx );
     }
 
@@ -537,6 +563,7 @@ class Pensil {
         ctx.strokeStyle = this.color;
 		ctx.globalAlpha = this.visibility;
         ctx.beginPath();
+		ctx.lineWidth = this.width;
         if ( getDist( pos1x, pos1y, pos2x, pos2y ) > 0.5 ) {
           ctx.moveTo( pos1x, pos1y );
           ctx.lineTo( pos2x, pos2y );
@@ -634,8 +661,10 @@ class Brush extends Pensil {
 	
   constructor( pos1x, pos1y, pos2x, pos2y, color ) {
       super( pos1x, pos1y, pos2x, pos2y, color );
+	  this.width = width.value;
   }
   drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
+	ctx.lineWidth = this.width;
     var width=ctx.lineWidth;
     ctx.strokeStyle = this.color;
     ctx.lineWidth=width*2;
@@ -664,8 +693,10 @@ class Spray extends Pensil {
 	
   constructor( pos1x, pos1y, pos2x, pos2y, color ) {
       super( pos1x, pos1y, pos2x, pos2y, color );
+	  this.width = width.value;
   }
   drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
+	  ctx.lineWidth = this.width;
       ctx.globalAlpha = this.visibility;
       var angle =getRandomFloat(0.1, Math.PI*2);
       var radius = getRandomFloat(0.1, ctx.lineWidth);
@@ -684,11 +715,13 @@ class Eraser extends Pensil {
 	
   constructor( pos1x, pos1y, pos2x, pos2y, color ) {
       super( pos1x, pos1y, pos2x, pos2y, color );
+	  this.width = width.value;
   }
 
   drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
+	    ctx.lineWidth = this.width;
         ctx.strokeStyle = "rgb(255, 255, 255)";
-	ctx.globalAlpha = 100;
+		ctx.globalAlpha = 100;
         ctx.beginPath();
         if ( getDist( pos1x, pos1y, pos2x, pos2y ) > 0.5 ) {
           ctx.moveTo( pos1x, pos1y );
