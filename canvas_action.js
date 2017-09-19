@@ -145,8 +145,8 @@ class Line extends Form {
         ctx.strokeStyle = this.color;
         ctx.beginPath();
         ctx.globalAlpha = this.visibility;
-		ctx.lineWidth = this.width;
         ctx.moveTo( this.pos1x, this.pos1y );
+		ctx.lineWidth = this.width;
         ctx.lineTo( this.pos2x, this.pos2y );
         ctx.stroke();
         ctx.closePath();
@@ -218,7 +218,7 @@ class RectS extends Form {
 		ctx.lineTo(this.pos1x, this.pos1y);
         ctx.stroke();
         ctx.closePath();
-		ctx.fillStyle = this.scolor;
+		ctx.fillStyle = this.color;
 		ctx.fill();
     }
 
@@ -234,7 +234,7 @@ class RectS extends Form {
 		bottom_ctx.lineTo(this.pos1x, this.pos1y);
         bottom_ctx.stroke();
         bottom_ctx.closePath();
-		bottom_ctx.fillStyle = this.scolor;
+		bottom_ctx.fillStyle = this.color;
 		bottom_ctx.fill();
     }
 }
@@ -720,7 +720,7 @@ class Eraser extends Pensil {
   }
 
   drawElement( pos1x, pos1y, pos2x, pos2y, ctx ) {
-	  	ctx.lineWidth = this.width;
+	    ctx.lineWidth = this.width;
         ctx.strokeStyle = "rgb(255, 255, 255)";
 		ctx.globalAlpha = 100;
         ctx.beginPath();
