@@ -1,7 +1,4 @@
 "use strict";
-
-
-
 var c = document.getElementById( "topCanvas" );
 var ctx = c.getContext( "2d" );
 ctx.lineWidth = 2;
@@ -11,7 +8,6 @@ var bottomCanvas = document.getElementById( "bottomCanvas" );
 var bottom_ctx = bottomCanvas.getContext( "2d" );
 bottom_ctx.lineWidth = 2;
 bottom_ctx.lineJoin = bottom_ctx.lineCap = 'round';
-
 
 /**
  * Default color is black.
@@ -88,8 +84,6 @@ function clearCanvas () {
 
 var addt = document.getElementById("addText");
 addt.addEventListener("click", clickOnText);
-
-
 
 var objNameSpace = {};
 var im_is = false;
@@ -466,6 +460,7 @@ class CircS extends Form {
 }
 
 class Img extends Form {
+	
 	constructor( pos1x, pos1y, pos2x, pos2y , image ) {
         super( pos1x, pos1y, pos2x, pos2y );
         this.image = image;
@@ -555,6 +550,7 @@ class Pensil {
 }
 
 class Fill {
+	
     constructor( pos1x, pos1y, pos2x, pos2y ){
       this.x = Math.floor(pos1x);
       this.y = Math.floor(pos1y);
@@ -635,6 +631,7 @@ class Fill {
 }
 
 class Brush extends Pensil {
+	
   constructor( pos1x, pos1y, pos2x, pos2y, color ) {
       super( pos1x, pos1y, pos2x, pos2y, color );
   }
@@ -664,6 +661,7 @@ class Brush extends Pensil {
 }
 
 class Spray extends Pensil {
+	
   constructor( pos1x, pos1y, pos2x, pos2y, color ) {
       super( pos1x, pos1y, pos2x, pos2y, color );
   }
@@ -683,6 +681,7 @@ class Spray extends Pensil {
 }
 
 class Eraser extends Pensil {
+	
   constructor( pos1x, pos1y, pos2x, pos2y, color ) {
       super( pos1x, pos1y, pos2x, pos2y, color );
   }
@@ -704,14 +703,20 @@ class Eraser extends Pensil {
 }
 
 class Text {
-	constructor (pos1x, pos1y, pos2x, pos2y, t ) { 
-			this.color = Color;
-			this.color = Color;
-			this.pos1x = pos1x;
-			this.pos2x = pos2x;
-			this.pos1y = pos1y;
-			this.pos2y = pos2y;
-			this.t = t;
+	
+	constructor (posx, posy , t ,size, font, color) { 
+		this.color = color;
+		this.posx = posx;
+		this.posy = posy;
+		this.t = t;
+		this.size = size;
+		this.t = t;
+	}
+	
+	drawBottom() {
+		bottom_ctx.font = this.size + "px " + this.font;
+		bottom_ctx.fillStyle = this.color;
+		bottom_ctx.fillText(this.t,this.posx,this.posy);
 	}
 }
 
@@ -724,6 +729,7 @@ function getDist( pos1x, pos1y, pos2x, pos2y ) {
 }
 
 objNameSpace.Line = Line;
+objNameSpace.Text = Text;
 objNameSpace.Rect = Rect;
 objNameSpace.RectS = RectS;
 objNameSpace.Sqre = Sqre;
@@ -848,9 +854,8 @@ function startDrawing( event ) {
 	} else {
     	curObject = new objNameSpace[ curStyle ]( pos.x, pos.y, pos.x, pos.y );
     curDrawing = setInterval( changeAndDraw, 1 );
-	}
 }
-
+}
 
 function changeAndDraw() {
     curObject.set2( pos.x, pos.y );
@@ -898,7 +903,6 @@ function endDrawing( event ) {
 		img_size_corner = false;
 	}
 }
-
 
 function getPos( event ) {
     let rect = c.getBoundingClientRect();

@@ -1,3 +1,4 @@
+"use strict";
 var c = document.getElementById( "topCanvas" );
 var ctx = c.getContext( "2d" );
 var bottomCanvas = document.getElementById( "bottomCanvas" );
@@ -8,46 +9,52 @@ var f = document.getElementById("font");
 var addt = document.getElementById("addText");
 var x = 0;
 var y = 0;
-flag = false;
-var curfont = f.value;
-var cursize = s.value;
-var sc = 1;
+var flag = false;
 
 addt.addEventListener("click", function(event) { 
 	c.addEventListener("click", function(event) { 
-		x = event.clientX - 125;
-		y = event.clientY - 8;
+		x = pos.x;
+		y = pos.y;
 		flag = true;
 	});
 });
 
  t.addEventListener("blur", function(event) {
 	if (flag) {
-		bottom_ctx.font = cursize + "px " + curfont;
-		bottom_ctx.fillStyle = localStorage.getItem('savedColor');
-		bottom_ctx.fillText(t.value,x,y);
+		curObject = new Text(x, y, t.value, s.value, f.value, localStorage.getItem('savedColor'));
+		curPos = curPos > 0 ? curPos : 0;
+        objects = objects.slice( 0, curPos );
+        objects.push( curObject );
+		bottom_ctx.clearRect( 0, 0, bottomCanvas.width, bottomCanvas.height );
+		for( let i = 0; i < curPos; i++ ) {
+			objects[i].drawBottom();
+		}
+		curPos = objects.length;
+		curObject.drawBottom();
 		flag = false;
-		allundo();
+		curObject = null;
 	}
  });
  
-s.addEventListener("change", function () { cursize = s.value});
-f.addEventListener("change", function () { curfont = f.value});
+var sc = 1;
 var f1 = false;
 var f2 = false;
-var xx = 1;
-var yy = 1;
+var xx = -5000;
+var yy = -5000;
+
 c.addEventListener("wheel", function(event) {
 	if (curStyle == "Increase" && (event.wheelDelta == 120 || event.wheelDelta == -3)) {
 		if (f2) {
 			sc = 1;
 		}
-		if (xx != pos.x || yy != pos.y) { 
+		if (Math.abs(xx - pos.x) > 3 || Math.abs(yy - pos.y) > 3) { 
 			sc = 1;
 			xx = pos.x;
 			yy = pos.y;
 			bottom_ctx.clearRect( 0, 0, bottomCanvas.width, bottomCanvas.height );
-			allundo();
+			for( let i = 0; i < curPos; i++ ) {
+				objects[i].drawBottom();
+			}
 		}
 		else if (sc < 3){
 			f1 = true;
@@ -56,7 +63,9 @@ c.addEventListener("wheel", function(event) {
 			bottom_ctx.clearRect( 0, 0, bottomCanvas.width, bottomCanvas.height );
 			bottom_ctx.translate(-(pos.x*(sc.toFixed(1)-1)).toFixed(0), -(pos.y*(sc.toFixed(1)-1)).toFixed(0));
 			bottom_ctx.scale(sc.toFixed(1),sc.toFixed(1));
-			allundo();
+			for( let i = 0; i < curPos; i++ ) {
+				objects[i].drawBottom();
+			}
 			bottom_ctx.scale(1/sc.toFixed(1),1/sc.toFixed(1));
 			bottom_ctx.translate((pos.x*(sc.toFixed(1)-1)).toFixed(0), (pos.y*(sc.toFixed(1)-1)).toFixed(0));
 		}
@@ -66,12 +75,14 @@ c.addEventListener("wheel", function(event) {
 		if (f1) {
 			sc = 1;
 		}
-		if (xx != pos.x || yy != pos.y) { 
+		if (Math.abs(xx - pos.x) > 3 || Math.abs(yy - pos.y) > 3) { 
 			sc = 1;
 			xx = pos.x;
 			yy = pos.y;
 			bottom_ctx.clearRect( 0, 0, bottomCanvas.width, bottomCanvas.height );
-			allundo();
+			for( let i = 0; i < curPos; i++ ) {
+				objects[i].drawBottom();
+			}
 		}
 		else if (sc > 0.2) {
 			f2 = true;
@@ -80,7 +91,9 @@ c.addEventListener("wheel", function(event) {
 			bottom_ctx.clearRect( 0, 0, bottomCanvas.width, bottomCanvas.height );
 			bottom_ctx.translate(pos.x*(1 - sc.toFixed(1)).toFixed(1), pos.y*(1 - sc.toFixed(1)).toFixed(1));
 			bottom_ctx.scale(sc.toFixed(1),sc.toFixed(1));
-			allundo();
+			for( let i = 0; i < curPos; i++ ) {
+				objects[i].drawBottom();
+			}
 			bottom_ctx.scale(1/sc.toFixed(1),1/sc.toFixed(1));
 			bottom_ctx.translate(-pos.x*(1 - sc.toFixed(1)).toFixed(1), -pos.y*(1 - sc.toFixed(1)).toFixed(1));
 		}
