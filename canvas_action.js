@@ -82,10 +82,7 @@ document.getElementById('visible-text').oninput = function () {
  * @Clear Canvas {@code}
  * @type {string}
  */
-function clearCanvas () {
-    bottom_ctx.clearRect(0, 0, bottomCanvas.width, bottomCanvas.height)
-}
-
+ 
 var addt = document.getElementById("addText");
 addt.addEventListener("click", clickOnText);
 
@@ -876,9 +873,16 @@ c.addEventListener("mouseup", endDrawing);
 document.addEventListener("mousemove", trackPosition);
 /// Необходимо, тк были проблемы с выходом курсора с canvas
 c.addEventListener("mouseleave", function(event) {
-	c.addEventListener("mouseenter", function (event) {
-	window.getSelection().removeAllRanges();});
+	if ( im_is ) {
+		ctx.clearRect( 0, 0, c.width, c.height );
+		img_cur.drawBottom();
+		im_is = false;
+		img_move = false;
+	}
+	endDrawing( event );
 });	
+c.addEventListener("mouseenter", function (event) {
+	window.getSelection().removeAllRanges();});
 
 /// Когда появятся другие элементы(круг и тд) должно быть изменено
 function startDrawing( event ) {
@@ -1036,6 +1040,12 @@ function img_place() {
 		im_is = false;
 		startDrawing();
 	}
+}
+
+function clearCanvas () {
+    bottom_ctx.clearRect(0, 0, bottomCanvas.width, bottomCanvas.height);
+	curPos = 0 ;
+	objects = objects.slice( 0, curPos );
 }
 
 if ( document.documentElement.clientHeight != 970) {
