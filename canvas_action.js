@@ -236,6 +236,16 @@ class RectS extends Form {
     }
 }
 
+class ClearRect {
+
+	drawBottom() {
+        var bottomC = bottom_ctx.getImageData(0, 0, bottomCanvas.width, bottomCanvas.height);
+		var k = 4 * bottomCanvas.width * bottomCanvas.height;
+        for(var i = 0; i < k; i++) bottomC.data[i] = 255;
+        bottom_ctx.putImageData(bottomC, 0, 0);
+    }
+}
+
 class Sqre extends Form {
 
     constructor(pos1x, pos1y, pos2x, pos2y) {
@@ -1043,9 +1053,10 @@ function img_place() {
 }
 
 function clearCanvas () {
-    bottom_ctx.clearRect(0, 0, bottomCanvas.width, bottomCanvas.height);
-	curPos = 0 ;
-	objects = objects.slice( 0, curPos );
+    var whiteRect = new ClearRect();
+	whiteRect.drawBottom();
+	objects.push(whiteRect);
+	curPos++;
 }
 
 if ( document.documentElement.clientHeight != 970) {
