@@ -94,8 +94,8 @@ addt.addEventListener("click", clickOnText);
 var objNameSpace = {};
 var im_is = false;
 var img_move = false;
-var curSolid = true;
-var sForm = "RectS";
+var curSolid = "true";
+var sForm = "Pensil";
 var vector = { x_0:0 ,x_1:0 ,y_0:0 ,y_1:0};
 var img_cur;
 var img_size = false;
@@ -1193,10 +1193,12 @@ function CircOn() {
 }
 
 function solidCheck() {
-	if (curSolid != solid.value && curStyle != sForm) {
-		var kk = curStyle;
-		curStyle = sForm;
-		sForm = kk;
+	if (curSolid != solid.value) { 
+		if (curStyle != sForm) {
+			var kk = curStyle;
+			curStyle = sForm;
+			sForm = kk;
+		}
+		curSolid = solid.value;
 	}
-	curSolid = solid.value;
 }
