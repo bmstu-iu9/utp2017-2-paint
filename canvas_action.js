@@ -218,7 +218,7 @@ class RectS extends Form {
 		ctx.lineTo(this.pos1x, this.pos1y);
         ctx.stroke();
         ctx.closePath();
-		ctx.fillStyle = this.color;
+		ctx.fillStyle = this.scolor;
 		ctx.fill();
     }
 
@@ -234,7 +234,7 @@ class RectS extends Form {
 		bottom_ctx.lineTo(this.pos1x, this.pos1y);
         bottom_ctx.stroke();
         bottom_ctx.closePath();
-		bottom_ctx.fillStyle = this.color;
+		bottom_ctx.fillStyle = this.scolor;
 		bottom_ctx.fill();
     }
 }
