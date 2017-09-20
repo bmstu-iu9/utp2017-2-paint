@@ -82,10 +82,7 @@ document.getElementById('visible-text').oninput = function () {
  * @Clear Canvas {@code}
  * @type {string}
  */
-function clearCanvas () {
-    bottom_ctx.clearRect(0, 0, bottomCanvas.width, bottomCanvas.height)
-}
-
+ 
 var addt = document.getElementById("addText");
 addt.addEventListener("click", clickOnText);
 
@@ -94,8 +91,8 @@ addt.addEventListener("click", clickOnText);
 var objNameSpace = {};
 var im_is = false;
 var img_move = false;
-var curSolid = true;
-var sForm = "RectS";
+var curSolid = "true";
+var sForm = "Pensil";
 var vector = { x_0:0 ,x_1:0 ,y_0:0 ,y_1:0};
 var img_cur;
 var img_size = false;
@@ -218,7 +215,7 @@ class RectS extends Form {
 		ctx.lineTo(this.pos1x, this.pos1y);
         ctx.stroke();
         ctx.closePath();
-		ctx.fillStyle = this.color;
+		ctx.fillStyle = this.scolor;
 		ctx.fill();
     }
 
@@ -234,7 +231,7 @@ class RectS extends Form {
 		bottom_ctx.lineTo(this.pos1x, this.pos1y);
         bottom_ctx.stroke();
         bottom_ctx.closePath();
-		bottom_ctx.fillStyle = this.color;
+		bottom_ctx.fillStyle = this.scolor;
 		bottom_ctx.fill();
     }
 }
@@ -876,9 +873,16 @@ c.addEventListener("mouseup", endDrawing);
 document.addEventListener("mousemove", trackPosition);
 /// Необходимо, тк были проблемы с выходом курсора с canvas
 c.addEventListener("mouseleave", function(event) {
-	c.addEventListener("mouseenter", function (event) {
-	window.getSelection().removeAllRanges();});
+	if ( im_is ) {
+		ctx.clearRect( 0, 0, c.width, c.height );
+		img_cur.drawBottom();
+		im_is = false;
+		img_move = false;
+	}
+	endDrawing( event );
 });	
+c.addEventListener("mouseenter", function (event) {
+	window.getSelection().removeAllRanges();});
 
 /// Когда появятся другие элементы(круг и тд) должно быть изменено
 function startDrawing( event ) {
@@ -1038,6 +1042,12 @@ function img_place() {
 	}
 }
 
+function clearCanvas () {
+    bottom_ctx.clearRect(0, 0, bottomCanvas.width, bottomCanvas.height);
+	curPos = 0 ;
+	objects = objects.slice( 0, curPos );
+}
+
 if ( document.documentElement.clientHeight != 970) {
 	reSize();
 }
@@ -1193,10 +1203,12 @@ function CircOn() {
 }
 
 function solidCheck() {
-	if (curSolid != solid.value && curStyle != sForm) {
-		var kk = curStyle;
-		curStyle = sForm;
-		sForm = kk;
+	if (curSolid != solid.value) { 
+		if (curStyle != sForm) {
+			var kk = curStyle;
+			curStyle = sForm;
+			sForm = kk;
+		}
+		curSolid = solid.value;
 	}
-	curSolid = solid.value;
 }
