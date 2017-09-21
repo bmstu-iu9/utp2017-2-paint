@@ -239,10 +239,7 @@ class RectS extends Form {
 class ClearRect {
 
 	drawBottom() {
-        var bottomC = bottom_ctx.getImageData(0, 0, bottomCanvas.width, bottomCanvas.height);
-		var k = 4 * bottomCanvas.width * bottomCanvas.height;
-        for(var i = 0; i < k; i++) bottomC.data[i] = 255;
-        bottom_ctx.putImageData(bottomC, 0, 0);
+		bottom_ctx.clearRect(0, 0, bottomCanvas.width, bottomCanvas.height);
     }
 }
 
