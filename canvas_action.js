@@ -1158,7 +1158,7 @@ function clickOnText() {
   curStyle = sForm = "text";
 }
 
-function LineOn() {
+function clickOnLine() {
   curStyle = sForm = "Line";
 }
 function clickOnIncrease() {
@@ -1169,7 +1169,7 @@ function clickOnDecrease() {
 curStyle = sForm = "Decrease";
 }
 
-function RectOn() {
+function clickOnRect() {
   if (solid.value == "true") {
 	  curStyle = "RectS";
 	  sForm = "Rect";
@@ -1180,7 +1180,7 @@ function RectOn() {
   }
 }
 
-function SqreOn() {
+function clickOnSqre() {
   if (solid.value == "true") {
 	  curStyle = "SqreS";
 	  sForm = "Sqre";
@@ -1191,7 +1191,7 @@ function SqreOn() {
   }
 }
 
-function TgleOn() {
+function clickOnTgle() {
   if (solid.value == "true") {
 	  curStyle = "TgleS";
 	  sForm = "Tgle";
@@ -1202,7 +1202,7 @@ function TgleOn() {
   }
 }
 
-function CircOn() {
+function clickOnCirc() {
   if (solid.value == "true") {
 	  curStyle = "CircS";
 	  sForm = "Circ";
