@@ -1,7 +1,5 @@
 "use strict";
 
-
-
 var c = document.getElementById( "topCanvas" );
 var ctx = c.getContext( "2d" );
 ctx.lineWidth = 2;
@@ -11,7 +9,6 @@ var bottomCanvas = document.getElementById( "bottomCanvas" );
 var bottom_ctx = bottomCanvas.getContext( "2d" );
 bottom_ctx.lineWidth = 2;
 bottom_ctx.lineJoin = bottom_ctx.lineCap = 'round';
-
 
 /**
  * Default color is black.
@@ -159,6 +156,21 @@ class Line extends Form {
         bottom_ctx.stroke();
         bottom_ctx.closePath();
     }
+}
+
+class BaseRectangle extends Form {
+
+    constructor( pos1x, pos1y, pos2x, pos2y ) {
+        super( pos1x, pos1y, pos2x, pos2y );
+    }
+
+        drawTop() {
+            ctx.strokeStyle = "blue";
+            ctx.globalAlpha = 0.7;
+            ctx.strokeRect(this.pos1x,this.pos1y,this.pos2x - this.pos1x,this.pos2y - this.pos1y);
+        }
+
+	drawBottom(){}
 }
 
 class Rect extends Form {
@@ -588,6 +600,51 @@ class Pensil {
     }
 }
 
+class Crop extends Form {
+    constructor(pos1x, pos1y, pos2x, pos2y){
+	super( pos1x, pos1y, pos2x, pos2y );
+	this.a = Math.floor(pos2x - pos1x);
+	this.b = Math.floor(pos2y - pos1y);
+	this.picture = [];
+	this.n = Math.abs(this.a*this.b*4);
+
+	this.x0 = Math.floor(Math.min(pos1x,pos2x));
+	this.y0 = Math.floor(Math.min(pos1y,pos2y));
+	this.picture.length = this.n;
+	//alert(this.x0 + " " + this.y0 + " " + this.a + " " + this.b);
+	var ImD = bottom_ctx.getImageData(this.x0,this.y0,Math.abs(this.a),Math.abs(this.b));
+	for(var i=0; i<this.n; i++){
+	    this.picture[i]=ImD.data[i];
+	    ImD.data[i] = 255;
+	}
+	bottom_ctx.putImageData(ImD,this.x0,this.y0);
+         
+    }
+    
+    drawTop() {
+	var x1 = Math.floor(Math.min(this.pos2x-this.a,this.pos2x));
+	var y1 = Math.floor(Math.min(this.pos2y-this.b,this.pos2y));
+	//alert(x1 + " " + y1 + " " + this.a + " " + this.b);
+	var ImD = ctx.getImageData(x1,y1,Math.abs(this.a),Math.abs(this.b));
+	for(var i=0; i<this.n; i++) ImD.data[i] = this.picture[i];
+	ctx.putImageData(ImD,x1,y1);
+    }
+	
+    drawBottom() {
+	var x1 = Math.floor(Math.min(this.pos2x-this.a,this.pos2x));
+	var y1 = Math.floor(Math.min(this.pos2y-this.b,this.pos2y));
+	var oldImD = bottom_ctx.getImageData(this.x0,this.y0,Math.abs(this.a),Math.abs(this.b));
+	var ImD = bottom_ctx.getImageData(x1,y1,Math.abs(this.a),Math.abs(this.b));
+	for(var i=0; i<this.n; i++){
+            ImD.data[i] = this.picture[i];
+	    oldImD.data[i] = 255;
+	}
+	bottom_ctx.putImageData(oldImD,this.x0,this.y0);
+	bottom_ctx.putImageData(ImD,x1,y1);
+	
+    }
+}
+
 class Fill {
     constructor( pos1x, pos1y, pos2x, pos2y ){
       this.x = Math.floor(pos1x);
@@ -782,7 +839,9 @@ objNameSpace.Pensil = Pensil;
 objNameSpace.Brush = Brush;
 objNameSpace.Spray = Spray;
 objNameSpace.Eraser = Eraser;
-objNameSpace.Fill=Fill;                  
+objNameSpace.Fill=Fill;
+objNameSpace.BaseRectangle = BaseRectangle;  
+objNameSpace.Crop = Crop;                
 
 var pos;
 
@@ -861,6 +920,8 @@ var curPos = 0;
 var curStyle = "None";
 var curStyles = [];
 
+var test = 0; //////////////////
+
 /// Изначально было задуманно для передачи данных межу файлами, но вроде
 /// и без этого работает
 try {
@@ -899,7 +960,8 @@ function startDrawing( event ) {
 	if ( im_is ) {
 		img_place();
 	} else {
-    	curObject = new objNameSpace[ curStyle ]( pos.x, pos.y, pos.x, pos.y );
+	test++;
+    	if(curStyle != "Crop") curObject = new objNameSpace[ curStyle ]( pos.x, pos.y, pos.x, pos.y );
     curDrawing = setInterval( changeAndDraw, 1 );
 	}
 }
@@ -909,6 +971,11 @@ function changeAndDraw() {
     curObject.set2( pos.x, pos.y );
     if ( curObject.type === "figure" ) {
         ctx.clearRect( 0, 0, c.width, c.height );
+	/*var clearImD = ctx.getImageData(0, 0, c.width, c.height);
+var n = c.width * c.height * 4;
+for(var i=0; i<n; i++) clearImD.data[i] = 255;
+ctx.putImageData(clearImD, 0, 0);*/
+	
     }
     curObject.drawTop();
 }
@@ -917,29 +984,38 @@ function changeAndDraw() {
 function endDrawing( event ) {
 	img_move = false;
     if ( !im_is && curObject ) {
-        curObject.drawBottom();
-       	ctx.clearRect( 0, 0, c.width, c.height );
-       	curPos = curPos > 0 ? curPos : 0;
-        objects = objects.slice( 0, curPos );
-        objects.push( curObject );
-	curStyles = curStyles.slice( 0, curPos );                                  
-        curStyles.push( curStyle );
-        clearInterval( curDrawing );
+       if(curStyle == "BaseRectangle"){
+            ctx.clearRect( 0, 0, c.width, c.height );
+            curStyle = "Crop";
+            var p = new Crop(curObject.pos1x, curObject.pos1y, curObject.pos2x, curObject.pos2y);
+	    //alert("tut");
+            curObject = p;
+        }
+	else {
+            curObject.drawBottom();
+	    if(curStyle == "Crop") curStyle = "BaseRectangle";
+       	    ctx.clearRect( 0, 0, c.width, c.height );
+       	    curPos = curPos > 0 ? curPos : 0;
+            objects = objects.slice( 0, curPos );
+            objects.push( curObject );
+	    curStyles = curStyles.slice( 0, curPos );                                  
+            curStyles.push( curStyle );
+            clearInterval( curDrawing );
 
-        curPos = objects.length;
-        curObject = null;
-        curDrawing = null;
+            curPos = objects.length;
+            curObject = null;
+            curDrawing = null;
 
-        try {
-            localStorage.setItem( "objects", objects );
-            localStorage.setItem( "curPos", curPos );
-            localStorage.setItem( "curStyles", curStyles );
-        } catch (e) {
-            if (e == QUOTA_EXCEEDED_ERR) {
-                alert('Превышен лимит хранилища!');
+            try {
+                localStorage.setItem( "objects", objects );
+                localStorage.setItem( "curPos", curPos );
+                localStorage.setItem( "curStyles", curStyles );
+            } catch (e) {
+                if (e == QUOTA_EXCEEDED_ERR) {
+                    alert('Превышен лимит хранилища!');
+                }
             }
         }
-
     }
 
 	if ( img_size ) {
@@ -1085,6 +1161,7 @@ function reSize() {
 }
 
 function settings() {
+    clearCanvas();
     if (localStorage.length != 0) {
         document.getElementById('color').value = localStorage.getItem('savedColor');
         Color = localStorage.getItem('savedColor');
@@ -1163,6 +1240,10 @@ function LineOn() {
 }
 function clickOnIncrease() {
   curStyle = sForm = "Increase";
+}
+
+function clickOnCrop() {
+  curStyle = "BaseRectangle";
 }
 
 function clickOnDecrease() {
